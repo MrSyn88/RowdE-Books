@@ -3,20 +3,9 @@ import Container from "react-bootstrap/Container";
 
 const Login = () => {
     const navigate = useNavigate();
-    const handleViewBooks = () => {
-        navigate("/EbookListingPage");
-    };
     return (
         <Container id="login">
-            <h1>RowdE-Books Login!</h1>
-            <div>
-            <button
-                    className="btn btn-sm btn-success"
-                    onClick={handleViewBooks}
-                >
-                    View Books
-                </button>
-            </div>
+            <h1>Login</h1>
         </Container>
     );
 }

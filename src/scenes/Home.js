@@ -34,7 +34,7 @@ const Home = () => {
     
     return (
         <Container id="home">
-            <h1>RowdE-Books Home!</h1>
+            <h1>Home</h1>
             <div>
                 <button
                     className="btn btn-sm btn-warning"
