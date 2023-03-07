@@ -18,3 +18,5 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ROWDE_BOOKS }}'
           channelId: live
           projectId: rowde-books
+env:
+  CI: false
