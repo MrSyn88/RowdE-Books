@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Container, Form, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import Routes from './RowdeRoutes';
+import { LinkContainer } from 'react-router-bootstrap'
 
 class RowdeNav extends Component {
     render() {
@@ -9,16 +10,19 @@ class RowdeNav extends Component {
             <React.Fragment>
                 <Navbar bg="light" expand="lg">
                     <Container fluid>
-                        <Navbar.Brand as={Link} to="/home">RowdyE-Books</Navbar.Brand>
+                        <LinkContainer to='/home'>
+                            <Navbar.Brand>RowdyE-Books</Navbar.Brand>   
+                        </LinkContainer>
                         <Navbar.Toggle aria-controls="navbarScroll" />
                         <Navbar.Collapse id="navbarScroll">
                             <Nav
                                 className="me-auto my-2 my-lg-0"
                                 style={{ maxHeight: '100px' }}
                                 navbarScroll
-                            >
-                                <Nav.Link as={Link} to="/login">Login</Nav.Link>
-
+                            >   
+                                <LinkContainer to='/login'>
+                                    <Nav.Link>Login</Nav.Link>
+                                </LinkContainer>
                                 <NavDropdown title="Resources" id="navbarScrollingDropdown">
                                     <NavDropdown.Item href="https://react-bootstrap.github.io/">React Bootstrap</NavDropdown.Item>
                                     <NavDropdown.Item href="https://firebase.google.com/">
@@ -29,9 +33,11 @@ class RowdeNav extends Component {
                                         Our GitHub
                                     </NavDropdown.Item>
                                 </NavDropdown>
-                                <Nav.Link as={Link} to="/home" disabled>
-                                    Books
-                                </Nav.Link>
+                                <LinkContainer to='/home'>
+                                    <Nav.Link disabled>
+                                        Books
+                                    </Nav.Link>
+                                </LinkContainer>
                             </Nav>
                             <Form className="d-flex">
                                 <Form.Control
