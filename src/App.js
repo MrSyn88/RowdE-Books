@@ -1,6 +1,6 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, Link} from "react-router-dom";
 import Login from './scenes/Login';
 import Home from './scenes/Home';
 import Button from 'react-bootstrap/Button';
@@ -13,10 +13,11 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 function App() {
   return (
+    <BrowserRouter>
     <div className="App">
       <Navbar bg="light" expand="lg">
         <Container fluid>
-          <Navbar.Brand href="/Home">RowdyE-Books</Navbar.Brand>
+          <Navbar.Brand as={Link} to="/Home">RowdyE-Books</Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
@@ -24,7 +25,7 @@ function App() {
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              <Nav.Link href="/Login">Login</Nav.Link>
+              <Nav.Link as={Link} to="/Login">Login</Nav.Link>
               
               <NavDropdown title="Resources" id="navbarScrollingDropdown">
                 <NavDropdown.Item href="https://react-bootstrap.github.io/">React Bootstrap</NavDropdown.Item>
@@ -36,7 +37,7 @@ function App() {
                   Our GitHub
                 </NavDropdown.Item>
               </NavDropdown> 
-              <Nav.Link href="/Home" disabled>
+              <Nav.Link as={Link} to="/Home" disabled>
                 Books
               </Nav.Link>
             </Nav>
@@ -52,15 +53,14 @@ function App() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Navigate to="/Home" />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Home" element={<Home />} />
           <Route path="/books" element={<books />} />
         </Routes>
-      </BrowserRouter>
     </div>
+      </BrowserRouter>
   );
 }
 
