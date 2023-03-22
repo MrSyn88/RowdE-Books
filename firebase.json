@@ -2,7 +2,7 @@
   "hosting": {
     "rewrites": [ {
       "source": "**",
-      "destination": "/Home"
+      "destination": "/"
     }],
     "public": "build",
     "ignore": [
