@@ -3,6 +3,7 @@ import './App.css';
 import { BrowserRouter, Routes, Route, Navigate, Link} from "react-router-dom";
 import Login from './scenes/Login';
 import Home from './scenes/Home';
+import Cart from './scenes/Cart';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -40,6 +41,7 @@ function App() {
               <Nav.Link as={Link} to="/Home" disabled>
                 Books
               </Nav.Link>
+              <Nav.Link as={Link} to="/Cart">Cart</Nav.Link>
             </Nav>
             <Form className="d-flex">
               <Form.Control
@@ -57,6 +59,7 @@ function App() {
           <Route exact path="/" element={<Navigate to="/Home" />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Home" element={<Home />} />
+          <Route path="/Cart" element={<Cart />} />
           <Route path="/books" element={<books />} />
         </Routes>
     </div>
