@@ -1,15 +1,15 @@
 
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from 'react-bootstrap/Card';
-import CardGroup from 'react-bootstrap/CardGroup';
-import Button from 'react-bootstrap/Button';
-import ThemeProvider from 'react-bootstrap/ThemeProvider'
+// import CardGroup from 'react-bootstrap/CardGroup';
+// import Button from 'react-bootstrap/Button';
+// import ThemeProvider from 'react-bootstrap/ThemeProvider'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Stack from 'react-bootstrap/Stack';
+// import Stack from 'react-bootstrap/Stack';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
+// import Form from 'react-bootstrap/Form';
 import Image from 'react-bootstrap/Image'
 import book1 from '../images/bookPhoto-1.jpg'
 import book2 from '../images/bookPhoto-2.jpg'
@@ -26,10 +26,10 @@ const H1style = {
 
 
 const Home = () => {
-    const navigate = useNavigate();
-    const handleViewBooks = () => {
-        navigate("/EbookListingPage");
-    };
+    // const navigate = useNavigate();
+    // const handleViewBooks = () => {
+    //     navigate("/EbookListingPage");
+    // };
     
     return (
         <Container id="home">
