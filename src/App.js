@@ -17,7 +17,7 @@ function App() {
     <div className="App">
       <Navbar bg="light" expand="lg">
         <Container fluid>
-          <Navbar.Brand as={Link} to="/Home">RowdyE-Books</Navbar.Brand>
+          <Navbar.Brand as={Link} to="/Home">RowdE-Books</Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
