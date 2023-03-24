@@ -5,6 +5,7 @@ import Login from './scenes/Login';
 import Home from './scenes/Home';
 import Cart from './scenes/Cart';
 import NavBar from './NavBar/NavBar';
+import NotFound from './NotFound/NotFound';
 //import books from './scenes./books'
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/Home" element={<Home />} />
           <Route path="/Cart" element={<Cart />} />
           <Route path="/books" element={<books />} />
+          <Route path='*' element={<NotFound />} />
         </Routes>
       </div>
     </BrowserRouter>
