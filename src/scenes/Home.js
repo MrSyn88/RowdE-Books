@@ -1,5 +1,4 @@
 
-// import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from 'react-bootstrap/Card';
 // import CardGroup from 'react-bootstrap/CardGroup';
@@ -26,11 +25,6 @@ const H1style = {
 
 
 const Home = () => {
-    // const navigate = useNavigate();
-    // const handleViewBooks = () => {
-    //     navigate("/EbookListingPage");
-    // };
-    
     return (
         <Container id="home">
                                             {/* //placeholder for our logo can be removed, changed or whatever.*/}
