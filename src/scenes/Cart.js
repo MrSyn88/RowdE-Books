@@ -5,7 +5,7 @@ const Cart = () => {
   return (
     <div className='container'>
       <h1>Cart</h1>
-      <Table striped bordered condensed hover>
+      <Table striped bordered condensed hover variant='dark'>
         <thead>
           <th> # </th>
           <th> Title </th>
