@@ -58,7 +58,7 @@ const Books = () => {
                 <Card.Subtitle className="mb-2 text-muted">
                   {ebook.author}
                 </Card.Subtitle>
-                <OverlayTrigger trigger='focus' placement='top' overlay={popover(ebook)}>
+                <OverlayTrigger trigger='focus' placement='bottom' overlay={popover(ebook)}>
                   <Button variant="info"> View Details </Button>
                 </OverlayTrigger>
               </Card.Body>
