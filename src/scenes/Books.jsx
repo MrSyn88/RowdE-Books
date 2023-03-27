@@ -1,29 +1,40 @@
 /*
 * This page shows all eBooks with their images
-* upon redirection from login -> home -> (EbookListingPage).
-* TO-DO: Should this page be accessed from a menu within the home page
-* i.e. selecting "Books" from a menu or auto loaded as the home page itself
+* upon redirection from login -> home -> (Books).
 */
 
 import { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import Popover from 'react-bootstrap/Popover'
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
-
+import book1 from '../images/bookPhoto-1.jpg'
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
 const Books = () => {
   const [ebooks, setEbooks] = useState([]);
 
+
+  const popover = (ebook) => (
+    <Popover id="popover-basic">
+      <Popover.Header as="h3">About</Popover.Header>
+      <Popover.Body>
+        {ebook.title} by {ebook.auth} <br />
+        ISBN: {ebook.isbn} <br />
+      </Popover.Body>
+    </Popover>
+  )
+
   const fetchBooks = async () => {
     await getDocs(collection(db, 'Books'))
-    .then((querySnapshot) => {
-      const data = querySnapshot.docs
-          .map((doc) => ({...doc.data(), id:doc.id}))
-          setEbooks(data)
-          // console.log(data, ebooks)
-    })
+      .then((querySnapshot) => {
+        const data = querySnapshot.docs
+          .map((doc) => ({ ...doc.data(), id: doc.id }))
+        setEbooks(data)
+        // console.log(data, ebooks)
+      })
   }
 
   useEffect(() => {
@@ -39,16 +50,16 @@ const Books = () => {
       <div className="row">
         {ebooks.map((ebook) => (
           <div key={ebook.id} className="col-md-4 mb-3">
-            <Card>
-              <Card.Img variant="top" src={ebook.imageUrl} />
+            <Card text="dark">
+              <Card.Img variant="top" src={book1} />
               <Card.Body>
                 <Card.Title>{ebook.title}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">
                   {ebook.author}
                 </Card.Subtitle>
-                <Button variant="primary" href={`/ebook/${ebook.id}`} disabled>
-                  View Details
-                </Button>
+                <OverlayTrigger trigger='click' placement='top' overlay={popover(ebook)}>
+                  <Button variant="info"> View Details </Button>
+                </OverlayTrigger>
               </Card.Body>
             </Card>
           </div>
