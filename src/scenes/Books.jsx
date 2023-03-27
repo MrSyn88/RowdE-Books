@@ -21,8 +21,9 @@ const Books = () => {
     <Popover id="popover-basic">
       <Popover.Header as="h3">About</Popover.Header>
       <Popover.Body>
-        {ebook.title} by {ebook.auth} <br />
-        ISBN: {ebook.isbn} <br />
+        <strong>Author:</strong> {ebook.auth} <br />
+        <strong>ISBN:</strong> {ebook.isbn} <br />
+        <strong>Publication:</strong> {ebook.pub} <br />
       </Popover.Body>
     </Popover>
   )
@@ -57,7 +58,7 @@ const Books = () => {
                 <Card.Subtitle className="mb-2 text-muted">
                   {ebook.author}
                 </Card.Subtitle>
-                <OverlayTrigger trigger='click' placement='top' overlay={popover(ebook)}>
+                <OverlayTrigger trigger='focus' placement='top' overlay={popover(ebook)}>
                   <Button variant="info"> View Details </Button>
                 </OverlayTrigger>
               </Card.Body>
