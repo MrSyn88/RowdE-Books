@@ -6,7 +6,7 @@ import Home from './scenes/Home';
 import Cart from './scenes/Cart';
 import NavBar from './NavBar/NavBar';
 import NotFound from './NotFound/NotFound';
-import Books from './scenes/Books';
+import Books from './Books/Books';
 //import books from './scenes./books'
 
 function App() {
