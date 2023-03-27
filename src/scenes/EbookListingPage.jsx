@@ -9,21 +9,33 @@ import { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { getEbooks } from "../firebase.js"
+import { db } from "../firebase";
+import { collection, getDocs } from "firebase/firestore";
+
 
 const EbookListingPage = () => {
   const [ebooks, setEbooks] = useState([]);
 
-  // Fetch the ebooks from Firebase on component mount
+  const fetchBooks = async () => {
+    await getDocs(collection(db, 'Books'))
+    .then((querySnapshot) => {
+      const data = querySnapshot.docs
+          .map((doc) => ({...doc.data(), id:doc.id}))
+          setEbooks(data)
+          // console.log(data, ebooks)
+    })
+  }
+
   useEffect(() => {
-    getEbooks().then((ebooks) => {
-      setEbooks(ebooks);
-    });
-  }, []);
+    fetchBooks()
+  }, [])
+
+  //console.log(ebooks[1].title)
+
 
   return (
     <Container>
-      <h1>All eBooks Available for Purchase</h1>
+      <h1 className='pt-5'>All eBooks Available for Purchase</h1>
       <div className="row">
         {ebooks.map((ebook) => (
           <div key={ebook.id} className="col-md-4 mb-3">
@@ -34,7 +46,7 @@ const EbookListingPage = () => {
                 <Card.Subtitle className="mb-2 text-muted">
                   {ebook.author}
                 </Card.Subtitle>
-                <Button variant="primary" href={`/ebook/${ebook.id}`}>
+                <Button variant="primary" href={`/ebook/${ebook.id}`} disabled>
                   View Details
                 </Button>
               </Card.Body>
@@ -47,4 +59,3 @@ const EbookListingPage = () => {
 };
 
 export default EbookListingPage;
-
