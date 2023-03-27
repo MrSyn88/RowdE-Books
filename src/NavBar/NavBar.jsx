@@ -8,7 +8,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 export default function NavBar({ Link }) {
   return (<Navbar bg="dark" expand="lg" variant='dark'>
     <Container fluid>
-      <Navbar.Brand as={Link} to="/Home">RowdyE-Books</Navbar.Brand>
+      <Navbar.Brand as={Link} to="/Home">RowdE-Books</Navbar.Brand>
       <Navbar.Toggle aria-controls="navbarScroll" />
       <Navbar.Collapse id="navbarScroll">
         <Nav className="me-auto my-2 my-lg-0" style={{
@@ -26,7 +26,7 @@ export default function NavBar({ Link }) {
               Our GitHub
             </NavDropdown.Item>
           </NavDropdown>
-          <Nav.Link as={Link} to="/Home" disabled>
+          <Nav.Link as={Link} to="/Books" >
             Books
           </Nav.Link>
           <Nav.Link as={Link} to="/Cart">Cart</Nav.Link>

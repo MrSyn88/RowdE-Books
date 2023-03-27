@@ -13,6 +13,7 @@ import Image from 'react-bootstrap/Image'
 import book1 from '../images/bookPhoto-1.jpg'
 import book2 from '../images/bookPhoto-2.jpg'
 import book3 from '../images/bookPhoto-3.jpg'
+import book4 from '../images/books4.jpg'
 import utsa from '../images/utsa-logo.png'
 
 
@@ -28,6 +29,12 @@ const Home = () => {
     return (
         <Container id="home">
                                             {/* //placeholder for our logo can be removed, changed or whatever.*/}
+
+        <Row>
+            <Col>
+                <br></br>
+            </Col>
+        </Row>
         <Row>
            <Col> <Image src={utsa}  style={{ width: 325, height: 300 }} roundedCircle></Image></Col> 
            </Row>
@@ -53,10 +60,21 @@ const Home = () => {
 
             </Row>
 
-            <Row className='pt-5 px-5'>
+            <Row className='pt-5'>
                 <Col>
-                    <Card style={{ width: '18rem' }}>               {/*this is one of three cards advertising why they should move to e-books*/}
-                    <Card.Img variant="top" src={book1} />
+                <Card style={{ width: '18rem', height: '20rem' }}>               {/*this is one of three cards advertising why they should move to e-books*/}
+                    <Card.Img variant="top" style={{ width: '17.9rem', height: '11.5rem'  }} src={book4} />
+                    <Card.Body>
+                    <Card.Title>Environmentally Friendly</Card.Title>
+                    <Card.Text>
+                        Save trees and carbon emissions by switching to electronic.
+                    </Card.Text>
+                    </Card.Body>
+                    </Card> 
+                </Col>
+                <Col>
+                    <Card style={{ width: '18rem', height: '20rem'  }}>               {/*this is one of three cards advertising why they should move to e-books*/}
+                    <Card.Img variant="top" style={{ width: '17.9rem', height: '14rem'  }} src={book1} />
                     <Card.Body>
                     <Card.Title>Save Space</Card.Title>
                     <Card.Text>
@@ -67,8 +85,8 @@ const Home = () => {
                 </Col>
 
                 <Col>
-                <Card style={{ width: '18rem' }}>
-                    <Card.Img variant="top" src={book2} /> {/*this is one of three cards advertising why they should move to e-books*/}
+                <Card style={{ width: '18rem', height: '20rem'  }}>
+                    <Card.Img variant="top" style={{ width: '17.9rem', height: '11.5rem'  }} src={book2} /> {/*this is one of three cards advertising why they should move to e-books*/}
                     <Card.Body>
                     <Card.Title>Fast Search</Card.Title>
                     <Card.Text>
@@ -79,8 +97,8 @@ const Home = () => {
                 </Col>
 
                 <Col>
-                <Card style={{ width: '18rem' }}>
-                    <Card.Img variant="top" src={book3} /> {/*this is one of three cards advertising why they should move to e-books*/}
+                <Card style={{ width: '18rem', height: '20rem'  }}>
+                    <Card.Img variant="top" style={{ width: '17.9rem', height: '11.5rem'  }} src={book3} /> {/*this is one of three cards advertising why they should move to e-books*/}
                     <Card.Body>
                     <Card.Title>Cheaper than physical</Card.Title>
                     <Card.Text>
@@ -88,6 +106,12 @@ const Home = () => {
                     </Card.Text>
                     </Card.Body>
                     </Card>
+                </Col>
+            </Row>
+
+            <Row>
+                <Col>
+                <br></br>
                 </Col>
             </Row>
             
