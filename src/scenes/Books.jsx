@@ -13,7 +13,7 @@ import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 
 
-const EbookListingPage = () => {
+const Books = () => {
   const [ebooks, setEbooks] = useState([]);
 
   const fetchBooks = async () => {
@@ -58,4 +58,4 @@ const EbookListingPage = () => {
   );
 };
 
-export default EbookListingPage;
+export default Books;
