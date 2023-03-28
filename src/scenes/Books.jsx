@@ -50,8 +50,8 @@ const Books = () => {
       <div className="row">
         {ebooks.map((ebook) => (
           <div key={ebook.id} className="col-md-4 mb-3">
-            <Card text="dark">
-              <Card.Img variant="top" src={book1} />
+            <Card  style={{ width: '18rem', height: '20rem'  }} text="dark">
+              <Card.Img style={{ width: '17.9rem', height: '11.5rem'  }} variant="top" src={book1} />
               <Card.Body>
                 <Card.Title>{ebook.title}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">
