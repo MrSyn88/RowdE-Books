@@ -26,7 +26,7 @@ export default function NavBar({ Link }) {
               Our GitHub
             </NavDropdown.Item>
           </NavDropdown>
-          <Nav.Link as={Link} to="/Home" disabled>
+          <Nav.Link as={Link} to="/Books" >
             Books
           </Nav.Link>
           <Nav.Link as={Link} to="/Cart">Cart</Nav.Link>
