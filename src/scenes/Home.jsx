@@ -6,6 +6,8 @@ import Col from 'react-bootstrap/Col';
 import { useEffect, useState } from "react";
 import Container from 'react-bootstrap/Container';
 import Carousel from 'react-bootstrap/Carousel';
+import Popover from 'react-bootstrap/Popover';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Image from 'react-bootstrap/Image'
 import { db } from "../firebase";
 import book1 from '../images/bookPhoto-1.jpg'
@@ -26,45 +28,56 @@ function randomNumber(min, max) {
     return parseInt(Math.random() * (max - min) + min);
 }
 
+const popover = (ebook) => (
+    <Popover id="popover-basic">
+        <Popover.Header as="h3">About</Popover.Header>
+        <Popover.Body>
+            <strong>Author:</strong> {ebook.auth} <br />
+            <strong>ISBN:</strong> {ebook.isbn} <br />
+            <strong>Publication:</strong> {ebook.pub} <br />
+        </Popover.Body>
+    </Popover>
+)
+
 
 const Home = () => {
     const [ebooks, setEbooks] = useState([]);
     const [shouldRerender, setShouldRerender] = useState(false);
-    
+
     let num1 = randomNumber(1, 20);
     let num2 = randomNumber(1, 20);
     let num3 = randomNumber(1, 20);
-  
+
     const objs = [];
-  
+
     const addObjects = () => {
-      ebooks.map((ebook) => {
-        let book = {
-          "title": ebook.title,
-        }
-        objs.push(book);
-      });
+        ebooks.map((ebook) => {
+            let book = {
+                "title": ebook.title,
+            }
+            objs.push(book);
+        });
     };
-  
+
     addObjects();
-  
+
     const fetchBooks = async () => {
-      const booksCollection = collection(db, 'Books');
-      const querySnapshot = await getDocs(booksCollection);
-      const data = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-      setEbooks(data);
-      setShouldRerender(true);
+        const booksCollection = collection(db, 'Books');
+        const querySnapshot = await getDocs(booksCollection);
+        const data = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+        setEbooks(data);
+        setShouldRerender(true);
     };
-  
+
     useEffect(() => {
-      fetchBooks();
+        fetchBooks();
     }, []);
-  
+
     useEffect(() => {
-      if (shouldRerender) {
-        addObjects();
-        setShouldRerender(false);
-      }
+        if (shouldRerender) {
+            addObjects();
+            setShouldRerender(false);
+        }
     }, [shouldRerender]);
 
     return (
@@ -156,45 +169,46 @@ const Home = () => {
 
             </Row>
 
-             <Row>
-                    <Col>
-                        <br></br>
-                        <Carousel>
-                            {ebooks.length > 0 && Array.from({ length: 3 }, (_, index) => {
-                                const randomIndex = Math.floor(Math.random() * ebooks.length);
-                                const ebook = ebooks[randomIndex];
-                                
-                                return (
-                                
+            <Row>
+                <Col>
+                    <br></br>
+                    <Carousel>
+                        {ebooks.length > 0 && Array.from({ length: 3 }, (_, index) => {
+                            const randomIndex = Math.floor(Math.random() * ebooks.length);
+                            const ebook = ebooks[randomIndex];
+
+                            return (
+
                                 <Carousel.Item key={index}>
                                     <img
-                                    className="d-block w-100"
-                                    src={index === 0 ? firstSlide : index === 1 ? secondSlide : thirdSlide}
-                                    alt={`Slide ${index}`}
+                                        className="d-block w-100"
+                                        src={index === 0 ? firstSlide : index === 1 ? secondSlide : thirdSlide}
+                                        alt={`Slide ${index}`}
                                     />
                                     <Carousel.Caption>
                                         <h3>{ebook.title}</h3>
                                         <p>{ebook.author}</p>
-                                        <Button variant="primary">Learn More</Button>
-                                        </Carousel.Caption>
-                                        </Carousel.Item>
-                                        );
-                                    })}
-                        </Carousel>
-                        
+                                        <OverlayTrigger trigger="focus" placement="top" overlay={popover(ebook)}>
+                                            <Button variant="primary">Learn More</Button>
+                                        </OverlayTrigger>
+                                    </Carousel.Caption>
+                                </Carousel.Item>
+                            );
+                        })}
+                    </Carousel>
 
-                    </Col>
-                </Row><Row>
-                        <Col>
-                            <br></br>
-                        </Col>
-                    </Row> 
-        
+
+                </Col>
+            </Row><Row>
+                <Col>
+                    <br></br>
+                </Col>
+            </Row>
+
         </Container>
-            
-            
+
+
     );
 }
 
 export default Home;
-  
