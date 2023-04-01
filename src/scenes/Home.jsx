@@ -26,41 +26,46 @@ function randomNumber(min, max) {
     return parseInt(Math.random() * (max - min) + min);
 }
 
+
 const Home = () => {
     const [ebooks, setEbooks] = useState([]);
-
+    const [shouldRerender, setShouldRerender] = useState(false);
+    
     let num1 = randomNumber(1, 20);
-    let num2 = randomNumber(1, 20);  // NEED TO ADD A CHECK SO WE NEVER DISPLAY THE SAME BOOKS IN THE CAROUSEL SOMETHING LIKE AND IF STATEMENT THAT RECALLS THE FUNCTION UNTIL ITS A DIFF NUM
+    let num2 = randomNumber(1, 20);
     let num3 = randomNumber(1, 20);
-
+  
     const objs = [];
-
+  
     const addObjects = () => {
-        ebooks.map((ebook) => {
-            let book = {
-                "title": ebook.title,
-            }
-            objs.push(book);
+      ebooks.map((ebook) => {
+        let book = {
+          "title": ebook.title,
         }
-        )
-    }
-
+        objs.push(book);
+      });
+    };
+  
     addObjects();
-
+  
     const fetchBooks = async () => {
-        await getDocs(collection(db, 'Books'))
-            .then((querySnapshot) => {
-                const data = querySnapshot.docs
-                    .map((doc) => ({ ...doc.data(), id: doc.id }))
-                setEbooks(data)
-                //console.log(data, ebooks)
-            })
-    }
-
+      const booksCollection = collection(db, 'Books');
+      const querySnapshot = await getDocs(booksCollection);
+      const data = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+      setEbooks(data);
+      setShouldRerender(true);
+    };
+  
     useEffect(() => {
-        fetchBooks()
-    }, [])
-
+      fetchBooks();
+    }, []);
+  
+    useEffect(() => {
+      if (shouldRerender) {
+        addObjects();
+        setShouldRerender(false);
+      }
+    }, [shouldRerender]);
 
     return (
         <Container id="home">
@@ -151,58 +156,45 @@ const Home = () => {
 
             </Row>
 
-            <Row>
-                <Col>
-                    <br></br>
-                    <Carousel indicators={false} interval={3000} pause={'hover'}>
-                        <Carousel.Item >
-                            <img
-                                className="d-block w-100"
-                                src={firstSlide}
-                                alt="First slide"
-                                style={{ height: '33rem' }}
+             <Row>
+                    <Col>
+                        <br></br>
+                        <Carousel>
+                            {ebooks.length > 0 && Array.from({ length: 3 }, (_, index) => {
+                                const randomIndex = Math.floor(Math.random() * ebooks.length);
+                                const ebook = ebooks[randomIndex];
+                                
+                                return (
+                                
+                                <Carousel.Item key={index}>
+                                    <img
+                                    className="d-block w-100"
+                                    src={index === 0 ? firstSlide : index === 1 ? secondSlide : thirdSlide}
+                                    alt={`Slide ${index}`}
+                                    />
+                                    <Carousel.Caption>
+                                        <h3>{ebook.title}</h3>
+                                        <p>{ebook.author}</p>
+                                        <Button variant="primary">Learn More</Button>
+                                        </Carousel.Caption>
+                                        </Carousel.Item>
+                                        );
+                                    })}
+                        </Carousel>
+                        
 
-                            />
-                            <Carousel.Caption>
-                            </Carousel.Caption>
-                        </Carousel.Item>
-
-                        <Carousel.Item>
-                            <img
-                                className="d-block w-100"
-                                src={secondSlide}
-                                alt="First slide"
-                                style={{ height: '33rem' }}
-                            />
-                            <Carousel.Caption id='secondSlide'>
-                            </Carousel.Caption>
-                        </Carousel.Item>
-
-                        <Carousel.Item>
-                            <img
-                                className="d-block w-100"
-                                src={thirdSlide}
-                                alt="First slide"
-                                style={{ height: '33rem' }}
-                            />
-                            <Carousel.Caption>
-                                <h3></h3>
-                            </Carousel.Caption>
-                        </Carousel.Item>
-                    </Carousel>
-                    {/* 
-        need to add some way to add to cart and get information for the books included in the carousel
-      */}
-                </Col>
-            </Row>
-
-            <Row>
-                <Col>
-                    <br></br>
-                </Col>
-            </Row>
+                    </Col>
+                </Row><Row>
+                        <Col>
+                            <br></br>
+                        </Col>
+                    </Row> 
+        
         </Container>
+            
+            
     );
 }
 
 export default Home;
+  
