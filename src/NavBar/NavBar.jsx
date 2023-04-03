@@ -4,9 +4,14 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { logout, signInWithGoogle } from '../firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../firebase';
 
 export default function NavBar({ Link }) {
-  return (<Navbar bg="dark" expand="lg" variant='dark'>
+  const [user] = useAuthState(auth);
+
+  return (<Navbar bg="dark" expand="lg" variant='dark' sticky="top">
     <Container fluid>
       <Navbar.Brand as={Link} to="/Home">RowdE-Books</Navbar.Brand>
       <Navbar.Toggle aria-controls="navbarScroll" />
@@ -14,7 +19,6 @@ export default function NavBar({ Link }) {
         <Nav className="me-auto my-2 my-lg-0" style={{
           maxHeight: '100px'
         }} navbarScroll>
-          <Nav.Link as={Link} to="/Login">Login</Nav.Link>
 
           <NavDropdown title="Resources" id="navbarScrollingDropdown">
             <NavDropdown.Item href="https://react-bootstrap.github.io/">React Bootstrap</NavDropdown.Item>
@@ -34,6 +38,25 @@ export default function NavBar({ Link }) {
         <Form className="d-flex">
           <Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search" />
           <Button variant="outline-success">Search</Button>
+        </Form>
+        <Form className="d-flex">
+          {!user ? (
+            <Button
+              variant="outline-primary"
+              onClick={signInWithGoogle}
+            >
+              Log in
+            </Button>
+          ) : (
+            <>
+              <Button
+                variant="outline-primary"
+                onClick={logout}
+              >
+                Log out
+              </Button>
+            </>
+          )}
         </Form>
       </Navbar.Collapse>
     </Container>

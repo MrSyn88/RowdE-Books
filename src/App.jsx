@@ -8,7 +8,6 @@ import NotFound from './NotFound/NotFound';
 
 // lazy loading these components, prevents users from downloading everything at once
 const Home = lazy(() => import('./scenes/Home'))
-const Login = lazy(() => import('./scenes/Login')) 
 const Cart = lazy(() => import('./scenes/Cart'))
 const Books = lazy(() => import('./Books/Books'))
 
@@ -21,7 +20,6 @@ function App() {
         <Suspense fallback={<h1>Loading...</h1>}>
           <Routes>
             <Route exact path="/" element={<Navigate to="/Home" />} />
-            <Route path="/Login" element={<Login />} />
             <Route path="/Home" element={<Home />} />
             <Route path="/Cart" element={<Cart />} />
             <Route path="/Books" element={<Books />} />
@@ -34,4 +32,3 @@ function App() {
 }
 
 export default App;
-
