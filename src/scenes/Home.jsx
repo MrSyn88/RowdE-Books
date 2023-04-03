@@ -24,6 +24,7 @@ const H1style = {
     color: '#F05A22'
 };
 
+
 function randomNumber(min, max) {
     return parseInt(Math.random() * (max - min) + min);
 }
@@ -100,7 +101,7 @@ const Home = () => {
 
             <Row>
                 <Col>       {/*mission statement*/}
-                    <h4 className='text-wrap'>We're an online store for books. Built by students for students
+                    <h4 className='text-wrap' style={{ color: 'white' }}>We're an online store for books. Built by students for students
                         <br></br>in order to help them get the books they need fast and cheap.
                     </h4>
                 </Col>
