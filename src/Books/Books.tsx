@@ -13,11 +13,11 @@ import { collection, getDocs } from "firebase/firestore";
 import book1 from '../images/bookPhoto-1.jpg'
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
-const Books = () => {
-  const [ebooks, setEbooks] = useState([]);
+const Books = (): JSX.Element => {
+  const [ebooks, setEbooks] = useState<Book[]>([]);
 
 
-  const popover = (ebook) => (
+  const popover = (ebook: Book) => (
     <Popover id="popover-basic">
       <Popover.Header as="h3">About</Popover.Header>
       <Popover.Body>
@@ -33,7 +33,7 @@ const Books = () => {
       .then((querySnapshot) => {
         const data = querySnapshot.docs
           .map((doc) => ({ ...doc.data(), id: doc.id }))
-        setEbooks(data)
+        setEbooks(data as Book[])
         // console.log(data, ebooks)
       })
   }
@@ -49,14 +49,14 @@ const Books = () => {
     <Container>
       <h1 className='pt-5'>All eBooks Available for Purchase</h1>
       <div className="row">
-        {ebooks.map((ebook) => (
+        {ebooks.map((ebook: Book) => (
           <div key={ebook.id} className="col-md-4 mb-3">
             <Card  style={{ width: '18rem', height: '20rem'  }} text="dark">
               <Card.Img style={{ width: '17.9rem', height: '11.5rem'  }} variant="top" src={book1} />
               <Card.Body>
                 <Card.Title>{ebook.title}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">
-                  {ebook.author}
+                  {ebook.auth}
                 </Card.Subtitle>
                 <OverlayTrigger trigger='focus' placement='bottom' overlay={popover(ebook)}>
                   <Button variant="info"> View Details </Button>
