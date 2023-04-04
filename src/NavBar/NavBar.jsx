@@ -40,7 +40,7 @@ export default function NavBar({ Link }) {
           Cart
           <div style={{width:"1.5rem", color: "white", height:"1.5rem", position: "absolute", bottom: 0, right:0, transform: "translate(25%, 25%)" }} className='rounded-circle bg-danger d-flex justify-content-center align-items-center'>3</div>
         </Button>
-        {/* <Form className="d-flex">
+         <Form className="d-flex">
           <Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search" />
           <Button variant="outline-success">Search</Button>
         </Form>

@@ -19,6 +19,7 @@ import secondSlide from '../images/carousel2.jpg'
 import thirdSlide from '../images/carousel3.jpg'
 import utsa from '../images/utsa-logo.png'
 import { collection, getDocs } from 'firebase/firestore';
+import { useShoppingCart } from '../context/shoppingCartContext';
 
 const H1style = {
     color: '#F05A22'
@@ -41,11 +42,12 @@ const popover = (ebook) => (
 )
 
 
-    let quantity = 1;
 
 const Home = () => {
     const [ebooks, setEbooks] = useState([]);
     const [shouldRerender, setShouldRerender] = useState(false);
+    const {getItemQuantity, increaseCartQuantity, decreaseCartQuantity, removeFromCart} = useShoppingCart();
+    let quantity = 0;
 
     let num1 = randomNumber(1, 20);
     let num2 = randomNumber(1, 20);
@@ -179,7 +181,7 @@ const Home = () => {
                         {ebooks.length > 0 && Array.from({ length: 3 }, (_, index) => {
                             const randomIndex = Math.floor(Math.random() * ebooks.length);
                             const ebook = ebooks[randomIndex];
-
+                            quantity =  getItemQuantity(ebook.isbn);
                             return (
 
                                 <Carousel.Item key={index}>
@@ -195,21 +197,21 @@ const Home = () => {
                                             <Button variant="primary">Learn More</Button>
                                         </OverlayTrigger>
                                         {quantity === 0 ? (
-                                            <Button className='m-3' style={{}} variant="primary">Add to Cart</Button>
+                                            <Button className='m-3' style={{}} variant="primary" onClick={() => increaseCartQuantity(ebook) }>Add to Cart</Button>
                                         ) : 
                                         <div className='d-flex align-items-center flex-column' style={{gap:".5rem"}}>
                                            
                                             <div className='d-flex align-items-center justify-content-center' style={{gap:".5rem"}}>
-                                            <Button>-</Button>
+                                            <Button onClick={() => decreaseCartQuantity(ebook) }>-</Button>
                                             <div className=''>
                                             <span className="fs-3">{quantity}</span>
                                                 in cart
                                                 
                                             </div>
-                                            <Button>+</Button>
+                                            <Button onClick={() => increaseCartQuantity(ebook)}>+</Button>
                                             
                                             </div>
-                                            <Button variant="danger" size="sm" >Remove</Button>
+                                            <Button variant="danger" size="sm" onClick={() => removeFromCart(ebook) }>Remove</Button>
                                             </div>
                                             }
                                     </Carousel.Caption>
