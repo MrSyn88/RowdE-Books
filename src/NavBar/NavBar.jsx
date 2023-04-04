@@ -21,12 +21,13 @@ export default function NavBar({ Link }) {
         }} navbarScroll>
 
           <NavDropdown title="Resources" id="navbarScrollingDropdown">
-            <NavDropdown.Item href="https://react-bootstrap.github.io/">React Bootstrap</NavDropdown.Item>
-            <NavDropdown.Item href="https://firebase.google.com/">
+            <NavDropdown.Item href="https://react.dev" target="_blank">React</NavDropdown.Item>
+            <NavDropdown.Item href="https://react-bootstrap.github.io/" target="_blank">React Bootstrap</NavDropdown.Item>
+            <NavDropdown.Item href="https://firebase.google.com/" target="_blank">
               Firebase
             </NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item href="https://github.com/MrSyn88/RowdE-Books">
+            <NavDropdown.Item href="https://github.com/MrSyn88/RowdE-Books" target="_blank">
               Our GitHub
             </NavDropdown.Item>
           </NavDropdown>
