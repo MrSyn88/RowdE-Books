@@ -20,7 +20,7 @@ export function ShoppingCartProvider({ children }){
                 return [...currItems, {isbn, quantity: 1}]
             }
             else {
-                return currItems.map(map => {
+                return currItems.map(item => {
                     if (item.isbn === isbn) {
                         return {...item, quantity: item.quantity + 1}
                     }
@@ -28,16 +28,20 @@ export function ShoppingCartProvider({ children }){
                         return item;
                     }
                 })
+
             }
+
         })
+        
     }
+
     function decreaseCartQuantity(isbn){
         setCartItems(currItems => {
             if(currItems.find(item => item.isbn === isbn)?.quantity === 1) {
                 return currItems.filter(item => item.isbn !== isbn)
             }
             else {
-                return currItems.map(map => {
+                return currItems.map(item => {
                     if (item.isbn === isbn) {
                         return {...item, quantity: item.quantity - 1}
                     }
