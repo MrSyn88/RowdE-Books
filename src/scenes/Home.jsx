@@ -41,6 +41,8 @@ const popover = (ebook) => (
 )
 
 
+    let quantity = 1;
+
 const Home = () => {
     const [ebooks, setEbooks] = useState([]);
     const [shouldRerender, setShouldRerender] = useState(false);
@@ -101,7 +103,7 @@ const Home = () => {
 
             <Row>
                 <Col>       {/*mission statement*/}
-                    <h4 className='text-wrap' style={{ color: 'white' }}>We're an online store for books. Built by students for students
+                    <h4 className='text-wrap' style={{color:"#FAFAFA"}}>We're an online store for books. Built by students for students
                         <br></br>in order to help them get the books they need fast and cheap.
                     </h4>
                 </Col>
@@ -192,6 +194,24 @@ const Home = () => {
                                         <OverlayTrigger trigger="focus" placement="top" overlay={popover(ebook)}>
                                             <Button variant="primary">Learn More</Button>
                                         </OverlayTrigger>
+                                        {quantity === 0 ? (
+                                            <Button className='m-3' style={{}} variant="primary">Add to Cart</Button>
+                                        ) : 
+                                        <div className='d-flex align-items-center flex-column' style={{gap:".5rem"}}>
+                                           
+                                            <div className='d-flex align-items-center justify-content-center' style={{gap:".5rem"}}>
+                                            <Button>-</Button>
+                                            <div className=''>
+                                            <span className="fs-3">{quantity}</span>
+                                                in cart
+                                                
+                                            </div>
+                                            <Button>+</Button>
+                                            
+                                            </div>
+                                            <Button variant="danger" size="sm" >Remove</Button>
+                                            </div>
+                                            }
                                     </Carousel.Caption>
                                 </Carousel.Item>
                             );

@@ -4,6 +4,7 @@ import './App.css';
 import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
 import NavBar from './NavBar/NavBar';
 import NotFound from './NotFound/NotFound';
+import { ShoppingCartProvider } from './context/shoppingCartContext';
 import Admin from './Admin/Admin';
 
 
@@ -15,6 +16,7 @@ const Books = lazy(() => import('./Books/Books'))
 
 function App() {
   return (
+    <ShoppingCartProvider>
     <BrowserRouter>
       <div className="App">
         <NavBar Link={Link} />
@@ -30,6 +32,7 @@ function App() {
         </Suspense>
       </div>
     </BrowserRouter>
+    </ShoppingCartProvider>
   );
 }
 
