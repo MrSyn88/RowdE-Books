@@ -4,6 +4,7 @@ import './App.css';
 import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
 import NavBar from './NavBar/NavBar';
 import NotFound from './NotFound/NotFound';
+import Admin from './Admin/Admin';
 
 
 // lazy loading these components, prevents users from downloading everything at once
@@ -23,6 +24,7 @@ function App() {
             <Route path="/Home" element={<Home />} />
             <Route path="/Cart" element={<Cart />} />
             <Route path="/Books" element={<Books />} />
+            <Route path="/Admin" element={<Admin />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
         </Suspense>

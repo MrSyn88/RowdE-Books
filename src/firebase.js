@@ -64,3 +64,19 @@ export const signInWithGoogle = async () => {
 export const logout = () => {
     signOut(auth);
 };
+
+export const isAdmin = async (uid) => {
+    // const claim = { admin: true }
+    // getAuth(app)
+        // .createCustomToken(uid, claim)
+        // .then((customToken) => {
+            // // Send token back to client
+            // console.log(customToken);
+        // }).catch((error) => {
+            // console.log("Error creating custom token:", error);
+        // });
+    const q = query(collection(db, 'users'), where('uid', '==', uid));
+    const docs = await getDocs(q);
+    const user = docs.docs[0].data();
+    return user.admin;
+}

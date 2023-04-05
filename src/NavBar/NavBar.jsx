@@ -4,13 +4,25 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { logout, signInWithGoogle } from '../firebase';
+import { isAdmin, logout, signInWithGoogle } from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
+import { useState } from 'react';
 
 export default function NavBar({ Link }) {
   const [user] = useAuthState(auth);
+  const [admin, setAdmin] = useState(false);
 
+
+  if (user) {
+    isAdmin(user.uid).then((value) => {
+      if (value === true) {
+        setAdmin(true);
+      }
+    })
+  }
+
+  
   return (<Navbar bg="dark" expand="lg" variant='dark' sticky="top">
     <Container fluid>
       <Navbar.Brand as={Link} to="/Home">RowdE-Books</Navbar.Brand>
@@ -35,6 +47,9 @@ export default function NavBar({ Link }) {
             Books
           </Nav.Link>
           <Nav.Link as={Link} to="/Cart">Cart</Nav.Link>
+          {user && admin === true ?
+            <Nav.Link as={Link} to="/Admin">Admin</Nav.Link>
+            : null}
         </Nav>
         <Form className="d-flex">
           <Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search" />
