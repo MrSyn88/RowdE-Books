@@ -86,6 +86,7 @@ const Home = () => {
     }, [shouldRerender]);
 
     return (
+        
         <Container id="home">
             {/* //placeholder for our logo can be removed, changed or whatever.*/}
             <Row>
@@ -181,8 +182,12 @@ const Home = () => {
                         {ebooks.length > 0 && Array.from({ length: 3 }, (_, index) => {
                             const randomIndex = Math.floor(Math.random() * ebooks.length);
                             const ebook = ebooks[randomIndex];
+                            //console.log(Object.keys(ebook))
+                            //console.log(JSON.stringify(ebooks));
+
                             quantity =  getItemQuantity(ebook.isbn);
                             return (
+                                
 
                                 <Carousel.Item key={index}>
                                     <img
@@ -197,21 +202,21 @@ const Home = () => {
                                             <Button variant="primary">Learn More</Button>
                                         </OverlayTrigger>
                                         {quantity === 0 ? (
-                                            <Button className='m-3' style={{}} variant="primary" onClick={() => increaseCartQuantity(ebook) }>Add to Cart</Button>
+                                            <Button className='m-3' style={{}} variant="primary" onClick={() => increaseCartQuantity(ebook.isbn, ebook) }>Add to Cart</Button>
                                         ) : 
                                         <div className='d-flex align-items-center flex-column' style={{gap:".5rem"}}>
                                            
                                             <div className='d-flex align-items-center justify-content-center' style={{gap:".5rem"}}>
-                                            <Button onClick={() => decreaseCartQuantity(ebook) }>-</Button>
+                                            <Button onClick={() => decreaseCartQuantity(ebook.isbn) }>-</Button>
                                             <div className=''>
                                             <span className="fs-3">{quantity}</span>
                                                 in cart
                                                 
                                             </div>
-                                            <Button onClick={() => increaseCartQuantity(ebook)}>+</Button>
+                                            <Button onClick={() => increaseCartQuantity(ebook.isbn, ebook)}>+</Button>
                                             
                                             </div>
-                                            <Button variant="danger" size="sm" onClick={() => removeFromCart(ebook) }>Remove</Button>
+                                            <Button variant="danger" size="sm" onClick={() => removeFromCart(ebook.isbn) }>Remove</Button>
                                             </div>
                                             }
                                     </Carousel.Caption>
