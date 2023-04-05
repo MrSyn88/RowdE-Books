@@ -17,3 +17,12 @@ declare interface Book {
     pub: string,
     title: string
 }
+
+declare interface User {
+    id: string,
+    authProvider: string,
+    email: string,
+    name: string,
+    uid: string,
+    admin?: boolean
+}
