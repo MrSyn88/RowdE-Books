@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { ShoppingCart } from "../component/ShoppingCart";
 
 
 const ShoppingCartContext = createContext({})
@@ -9,6 +10,10 @@ export function useShoppingCart(){
 
 export function ShoppingCartProvider({ children }){
     const [cartItems, setCartItems] = useState([])
+    const [isOpen, setIsOpen] = useState(false);
+
+   
+
 
     function getItemQuantity(isbn){
         //console.log(cartItems);
@@ -16,7 +21,6 @@ export function ShoppingCartProvider({ children }){
     }
 
     function increaseCartQuantity(isbn, ebook){
-        console.log(cartItems);
         let book = null;
         setCartItems(currItems => {
             
@@ -72,7 +76,13 @@ export function ShoppingCartProvider({ children }){
         })
     }
 
-    return <ShoppingCartContext.Provider value={{getItemQuantity, increaseCartQuantity,decreaseCartQuantity, removeFromCart}}>
+    const cartQuantity = cartItems.reduce((quantity, item) => item.quantity + quantity, 0)
+    const openCart = () => setIsOpen(true);
+    const closeCart = () => setIsOpen(false);
+
+
+    return <ShoppingCartContext.Provider value={{getItemQuantity, increaseCartQuantity,decreaseCartQuantity, removeFromCart, openCart, closeCart, cartItems, cartQuantity}}>
         {children}
+        <ShoppingCart isOpen={isOpen}/>
     </ShoppingCartContext.Provider> 
 }
