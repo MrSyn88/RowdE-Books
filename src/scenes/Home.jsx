@@ -46,7 +46,7 @@ const popover = (ebook) => (
 const Home = () => {
     const [ebooks, setEbooks] = useState([]);
     const [shouldRerender, setShouldRerender] = useState(false);
-    const {getItemQuantity, increaseCartQuantity, decreaseCartQuantity, removeFromCart} = useShoppingCart();
+    const {getItemQuantity, increaseCartQuantity, decreaseCartQuantity, removeFromCart, getEbooks} = useShoppingCart();
     let quantity = 0;
 
     let num1 = randomNumber(1, 20);
@@ -71,6 +71,9 @@ const Home = () => {
         const querySnapshot = await getDocs(booksCollection);
         const data = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
         setEbooks(data);
+        for(let i = 0; i < 1000; i++){
+
+        }
         setShouldRerender(true);
     };
 
@@ -184,7 +187,7 @@ const Home = () => {
                             const ebook = ebooks[randomIndex];
                             //console.log(Object.keys(ebook))
                             //console.log(JSON.stringify(ebooks));
-
+                            
                             quantity =  getItemQuantity(ebook.isbn);
                             return (
                                 

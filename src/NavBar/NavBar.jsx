@@ -9,9 +9,11 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom'
+import { useShoppingCart } from '../context/shoppingCartContext';
 
 export default function NavBar({ Link }) {
     const [user] = useAuthState(auth);
+  const {openCart, cartQuantity} = useShoppingCart();
     const [admin, setAdmin] = useState(false);
 
     const sendEmHome = () => {
@@ -57,7 +59,7 @@ export default function NavBar({ Link }) {
                 </Nav>
         <Button style={{width: "4rem", height: "3rem", position: "relative"}} variant="outline-primary" className=''>
           Cart
-          <div style={{width:"1.5rem", color: "white", height:"1.5rem", position: "absolute", bottom: 0, right:0, transform: "translate(25%, 25%)" }} className='rounded-circle bg-danger d-flex justify-content-center align-items-center'>3</div>
+          <div style={{width:"1.5rem", color: "white", height:"1.5rem", position: "absolute", bottom: 0, right:0, transform: "translate(25%, 25%)" }} className='rounded-circle bg-danger d-flex justify-content-center align-items-center'>{cartQuantity}</div>
         </Button>
                 <Form className="d-flex">
                     <Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search" />
