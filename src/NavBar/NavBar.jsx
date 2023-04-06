@@ -10,71 +10,72 @@ import { auth } from '../firebase';
 import { useState } from 'react';
 
 export default function NavBar({ Link }) {
-  const [user] = useAuthState(auth);
-  const [admin, setAdmin] = useState(false);
+    const [user] = useAuthState(auth);
+    const [admin, setAdmin] = useState(false);
 
 
-  if (user) {
-    isAdmin(user.uid).then((value) => {
-      if (value === true) {
-        setAdmin(true);
-      }
-    })
-  }
+    // Check if user is admin
+    if (user) {
+        isAdmin(user.uid).then((value) => {
+            if (value === true) {
+                setAdmin(true);
+            }
+        })
+    }
 
-  
-  return (<Navbar bg="dark" expand="lg" variant='dark' sticky="top">
-    <Container fluid>
-      <Navbar.Brand as={Link} to="/Home">RowdE-Books</Navbar.Brand>
-      <Navbar.Toggle aria-controls="navbarScroll" />
-      <Navbar.Collapse id="navbarScroll">
-        <Nav className="me-auto my-2 my-lg-0" style={{
-          maxHeight: '100px'
-        }} navbarScroll>
 
-          <NavDropdown title="Resources" id="navbarScrollingDropdown">
-            <NavDropdown.Item href="https://react.dev" target="_blank">React</NavDropdown.Item>
-            <NavDropdown.Item href="https://react-bootstrap.github.io/" target="_blank">React Bootstrap</NavDropdown.Item>
-            <NavDropdown.Item href="https://firebase.google.com/" target="_blank">
-              Firebase
-            </NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="https://github.com/MrSyn88/RowdE-Books" target="_blank">
-              Our GitHub
-            </NavDropdown.Item>
-          </NavDropdown>
-          <Nav.Link as={Link} to="/Books" >
-            Books
-          </Nav.Link>
-          <Nav.Link as={Link} to="/Cart">Cart</Nav.Link>
-          {user && admin === true ?
-            <Nav.Link as={Link} to="/Admin">Admin</Nav.Link>
-            : null}
-        </Nav>
-        <Form className="d-flex">
-          <Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search" />
-          <Button variant="outline-success">Search</Button>
-        </Form>
-        <Form className="d-flex">
-          {!user ? (
-            <Button
-              variant="outline-primary"
-              onClick={signInWithGoogle}
-            >
-              Log in
-            </Button>
-          ) : (
-            <>
-              <Button
-                variant="outline-primary"
-                onClick={logout}
-              >
-                Log out
-              </Button>
-            </>
-          )}
-        </Form>
-      </Navbar.Collapse>
-    </Container>
-  </Navbar>);
+    return (<Navbar bg="dark" expand="lg" variant='dark' sticky="top">
+        <Container fluid>
+            <Navbar.Brand as={Link} to="/Home">RowdE-Books</Navbar.Brand>
+            <Navbar.Toggle aria-controls="navbarScroll" />
+            <Navbar.Collapse id="navbarScroll">
+                <Nav className="me-auto my-2 my-lg-0" style={{
+                    maxHeight: '100px'
+                }} navbarScroll>
+
+                    <NavDropdown title="Resources" id="navbarScrollingDropdown">
+                        <NavDropdown.Item href="https://react.dev" target="_blank">React</NavDropdown.Item>
+                        <NavDropdown.Item href="https://react-bootstrap.github.io/" target="_blank">React Bootstrap</NavDropdown.Item>
+                        <NavDropdown.Item href="https://firebase.google.com/" target="_blank">
+                            Firebase
+                        </NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item href="https://github.com/MrSyn88/RowdE-Books" target="_blank">
+                            Our GitHub
+                        </NavDropdown.Item>
+                    </NavDropdown>
+                    <Nav.Link as={Link} to="/Books" >
+                        Books
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/Cart">Cart</Nav.Link>
+                    {user && admin === true ?
+                        <Nav.Link as={Link} to="/Admin">Admin</Nav.Link>
+                        : null}
+                </Nav>
+                <Form className="d-flex">
+                    <Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search" />
+                    <Button variant="outline-success">Search</Button>
+                </Form>
+                <Form className="d-flex">
+                    {!user ? (
+                        <Button
+                            variant="outline-primary"
+                            onClick={signInWithGoogle}
+                        >
+                            Log in
+                        </Button>
+                    ) : (
+                        <>
+                            <Button
+                                variant="outline-primary"
+                                onClick={logout}
+                            >
+                                Log out
+                            </Button>
+                        </>
+                    )}
+                </Form>
+            </Navbar.Collapse>
+        </Container>
+    </Navbar>);
 }
