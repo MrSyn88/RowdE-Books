@@ -7,10 +7,11 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { logout, signInWithGoogle } from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
+import { useShoppingCart } from '../context/shoppingCartContext';
 
 export default function NavBar({ Link }) {
   const [user] = useAuthState(auth);
-
+  const {openCart, cartQuantity} = useShoppingCart();
   return (<Navbar bg="dark" expand="lg" variant='dark' sticky="top">
     <Container fluid>
       <Navbar.Brand as={Link} to="/Home">RowdE-Books</Navbar.Brand>
@@ -36,7 +37,11 @@ export default function NavBar({ Link }) {
           </Nav.Link>
           <Nav.Link as={Link} to="/Cart">Cart</Nav.Link>
         </Nav>
-        <Form className="d-flex">
+        <Button style={{width: "4rem", height: "3rem", position: "relative"}} variant="outline-primary" className='' onClick={openCart}>
+          Cart
+          <div style={{width:"1.5rem", color: "white", height:"1.5rem", position: "absolute", bottom: 0, right:0, transform: "translate(25%, 25%)" }} className='rounded-circle bg-danger d-flex justify-content-center align-items-center'>{cartQuantity}</div>
+        </Button>
+         <Form className="d-flex">
           <Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search" />
           <Button variant="outline-success">Search</Button>
         </Form>

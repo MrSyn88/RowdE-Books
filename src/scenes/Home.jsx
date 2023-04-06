@@ -19,6 +19,7 @@ import secondSlide from '../images/carousel2.jpg'
 import thirdSlide from '../images/carousel3.jpg'
 import utsa from '../images/utsa-logo.png'
 import { collection, getDocs } from 'firebase/firestore';
+import { useShoppingCart } from '../context/shoppingCartContext';
 
 const H1style = {
     color: '#F05A22'
@@ -41,9 +42,12 @@ const popover = (ebook) => (
 )
 
 
+
 const Home = () => {
     const [ebooks, setEbooks] = useState([]);
     const [shouldRerender, setShouldRerender] = useState(false);
+    const {getItemQuantity, increaseCartQuantity, decreaseCartQuantity, removeFromCart, getEbooks} = useShoppingCart();
+    let quantity = 0;
 
     let num1 = randomNumber(1, 20);
     let num2 = randomNumber(1, 20);
@@ -67,6 +71,9 @@ const Home = () => {
         const querySnapshot = await getDocs(booksCollection);
         const data = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
         setEbooks(data);
+        for(let i = 0; i < 1000; i++){
+
+        }
         setShouldRerender(true);
     };
 
@@ -82,6 +89,7 @@ const Home = () => {
     }, [shouldRerender]);
 
     return (
+        
         <Container id="home">
             {/* //placeholder for our logo can be removed, changed or whatever.*/}
             <Row>
@@ -101,7 +109,7 @@ const Home = () => {
 
             <Row>
                 <Col>       {/*mission statement*/}
-                    <h4 className='text-wrap' style={{ color: 'white' }}>We're an online store for books. Built by students for students
+                    <h4 className='text-wrap' style={{color:"#FAFAFA"}}>We're an online store for books. Built by students for students
                         <br></br>in order to help them get the books they need fast and cheap.
                     </h4>
                 </Col>
@@ -177,8 +185,12 @@ const Home = () => {
                         {ebooks.length > 0 && Array.from({ length: 3 }, (_, index) => {
                             const randomIndex = Math.floor(Math.random() * ebooks.length);
                             const ebook = ebooks[randomIndex];
-
+                            //console.log(Object.keys(ebook))
+                            //console.log(JSON.stringify(ebooks));
+                            
+                            quantity =  getItemQuantity(ebook.isbn);
                             return (
+                                
 
                                 <Carousel.Item key={index}>
                                     <img
@@ -192,6 +204,24 @@ const Home = () => {
                                         <OverlayTrigger trigger="focus" placement="top" overlay={popover(ebook)}>
                                             <Button variant="primary">Learn More</Button>
                                         </OverlayTrigger>
+                                        {quantity === 0 ? (
+                                            <Button className='m-3' style={{}} variant="primary" onClick={() => increaseCartQuantity(ebook.isbn, ebook) }>Add to Cart</Button>
+                                        ) : 
+                                        <div className='d-flex align-items-center flex-column' style={{gap:".5rem"}}>
+                                           
+                                            <div className='d-flex align-items-center justify-content-center' style={{gap:".5rem"}}>
+                                            <Button onClick={() => decreaseCartQuantity(ebook.isbn) }>-</Button>
+                                            <div className=''>
+                                            <span className="fs-3">{quantity}</span>
+                                                in cart
+                                                
+                                            </div>
+                                            <Button onClick={() => increaseCartQuantity(ebook.isbn, ebook)}>+</Button>
+                                            
+                                            </div>
+                                            <Button variant="danger" size="sm" onClick={() => removeFromCart(ebook.isbn) }>Remove</Button>
+                                            </div>
+                                            }
                                     </Carousel.Caption>
                                 </Carousel.Item>
                             );
