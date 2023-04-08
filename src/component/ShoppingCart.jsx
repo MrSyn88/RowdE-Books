@@ -13,8 +13,8 @@ return <Offcanvas show={isOpen} onHide={closeCart} placement="end">
     </Offcanvas.Header>
     <Offcanvas.Body>
         <Stack gap={3}>
-            {cartItems.map(item => (
-                <CartItem key={item.book.id} {...item} /> // working cart screen
+            {cartItems.map(({ book, quantity}) => (
+                <CartItem key={book.isbn} isbn={book.isbn} quantity={quantity} /> // working cart screen
             ))}
         </Stack>
     </Offcanvas.Body>
