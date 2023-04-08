@@ -1,10 +1,13 @@
 import { createContext, useContext, useState } from "react";
 import { ShoppingCart } from "../component/ShoppingCart";
+//import { db } from "../firebase";
 
 
 const ShoppingCartContext = createContext({})
 
 export function useShoppingCart(){
+    //const [cartItems, setCartItems] = useState([]);
+    //const [cartCount, setCartCount] = useState(0);
     return useContext(ShoppingCartContext);
 }
 
