@@ -66,8 +66,6 @@ export const signInWithGoogle = async () => {
 
 export const logout = () => {
     signOut(auth);
-    // reload page to clear state
-    window.location.reload()
     localStorage.clear()
 };
 

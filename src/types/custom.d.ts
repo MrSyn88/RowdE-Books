@@ -15,7 +15,7 @@ declare interface Book {
     isbn: string,
     numP: string,
     pub: string,
-    price: number,
+    price: string,
     title: string
 }
 
@@ -25,5 +25,12 @@ declare interface User {
     email: string,
     name: string,
     uid: string,
-    admin?: boolean
+    admin: boolean
+}
+
+declare interface Discount {
+    id?: string,
+    code: string,
+    discount: number,
+    expire: string
 }

@@ -8,11 +8,15 @@ import { isAdmin, logout, signInWithGoogle } from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom'
 
 export default function NavBar({ Link }) {
     const [user] = useAuthState(auth);
     const [admin, setAdmin] = useState(false);
 
+    const sendEmHome = () => {
+        return <Navigate to="/Home" />
+    }
 
     // Check if user is admin
     if (user) {
@@ -54,7 +58,7 @@ export default function NavBar({ Link }) {
                 </Nav>
                 <Form className="d-flex">
                     <Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search" />
-                    <Button variant="outline-success">Search</Button>
+                    <Button className="me-2" variant="outline-success">Search</Button>
                 </Form>
                 <Form className="d-flex">
                     {!user ? (
@@ -66,12 +70,17 @@ export default function NavBar({ Link }) {
                         </Button>
                     ) : (
                         <>
-                            <Button
-                                variant="outline-primary"
-                                onClick={logout}
-                            >
-                                Log out
-                            </Button>
+                            <Link to="/Home">
+                                <Button
+                                    variant="outline-danger"
+                                    onClick={() => {
+                                        sendEmHome()
+                                        logout()
+                                    }}
+                                >
+                                    Log out
+                                </Button>
+                            </Link>
                         </>
                     )}
                 </Form>

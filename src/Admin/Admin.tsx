@@ -3,22 +3,17 @@ import { isAdmin, db } from '../firebase'
 import Container from 'react-bootstrap/Container'
 import { collection, getDocs } from "firebase/firestore"
 import { useEffect, useState } from 'react'
-import { Button, Table, Modal, Form, Row, Col } from 'react-bootstrap'
-import { addBook, deleteBook, makeAdmin, removeAdmin } from './AdminHelpers'
+import { Table } from 'react-bootstrap'
+import BookForm from './BookForm'
+import UserForm from './UserForm/UserForm'
+import EditBookForm from './EditBookForm'
+import EditDiscountForm from './EditDiscountForm'
+import DiscountForm from './DiscountForm'
 
 
 
 const Admin = (): JSX.Element => {
 
-    let newBook: Book = {
-        title: '',
-        auth: '',
-        price: 0,
-        isbn: '',
-        numP: '',
-        pub: '',
-        imageN: ''
-    }
 
     const [admin, setUserAdmin] = useState<boolean>(false)
 
@@ -26,17 +21,16 @@ const Admin = (): JSX.Element => {
 
     const [users, setUsers] = useState<User[]>([]);
     const [books, setBooks] = useState<Book[]>([]);
+    const [discounts, setDiscounts] = useState<Discount[]>([]);
 
-    const [show, setShow] = useState<boolean>(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
-    const submitted = () => {
-        console.log(newBook.title, ' was added.')
-        addBook(newBook).catch((error) => {
-            console.log(error)
-        })
-        handleClose()
+    const fetchDiscounts = async () => {
+        await getDocs(collection(db, 'Discounts'))
+            .then((querySnapshot) => {
+                const data = querySnapshot.docs
+                    .map((doc) => ({ ...doc.data(), id: doc.id }))
+                setDiscounts(data as Discount[])
+            })
     }
 
     const fetchBooks = async () => {
@@ -60,6 +54,7 @@ const Admin = (): JSX.Element => {
     useEffect(() => {
         fetchBooks()
         fetchUsers()
+        fetchDiscounts()
     }, [])
 
     if (userId) {
@@ -85,26 +80,21 @@ const Admin = (): JSX.Element => {
                                 <Table striped bordered hover variant="dark">
                                     <thead>
                                         <tr>
+                                            <th>Name</th>
                                             <th>Email</th>
                                             <th>UID</th>
-                                            <th>Edit Admin</th>
+                                            <th>Admin</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {users.map((user: User) => (
                                             <tr key={user.id}>
+                                                <td>{user.name}</td>
                                                 <td>{user.email}</td>
                                                 <td>{user.uid}</td>
-                                                <td>{user.admin ?
-                                                    <Button variant="danger" onClick={() => {
-
-                                                        removeAdmin(user)
-                                                    }}>Remove Admin</Button>
-                                                    : <Button variant="danger" onClick={() => {
-                                                        // call function to make user an admin
-                                                        makeAdmin(user)
-                                                    }}>Make Admin</Button>}
-                                                </td>
+                                                <td>{user.admin ? '✅' : '❌'}</td>
+                                                <td><UserForm {...user} /></td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -113,120 +103,59 @@ const Admin = (): JSX.Element => {
                         </div>
                         <div className='row'>
                             <h2 style={{ color: 'white' }}>Books</h2>
-                            <div className='col-12'>
+                            <div >
                                 <Table striped bordered hover variant="dark">
                                     <thead>
                                         <tr>
                                             <th>Title</th>
                                             <th>Author</th>
                                             <th>Price</th>
-                                            <th>Edit</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {books.map((book: Book) => ( <tr key={book.id}>
+                                        {books.map((book: Book) => (
+                                            <tr key={book.id}>
                                                 <td>{book.title}</td>
                                                 <td>{book.auth}</td>
                                                 <td>${book.price}</td>
-                                                <td><Button variant="danger" onClick={() =>
-                                                    deleteBook(book)}>
-                                                    Delete</Button></td>
+                                                <td><EditBookForm  {...book} /></td>
                                             </tr>
                                         ))}
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><BookForm /></td>
+                                        </tr>
                                     </tbody>
                                 </Table>
-                            </div>
-                            <div className='col-12'>
-                                <Modal size='lg' show={show} onHide={handleClose}>
-                                    <Modal.Header closeButton>
-                                        <Modal.Title>Add Book</Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>
-                                        <Form>
-                                            <Row>
-                                                <Col>
-                                                    <Form.Group className="mb-3" controlId="formBookName" onSubmit={submitted}>
-                                                        <Form.Label style={{ color: 'white' }}>Book Title</Form.Label>
-                                                        <Form.Control type="text" placeholder="Enter Book Title" autoFocus
-                                                            onChange={e => {
-                                                                newBook.title = e.target.value
-                                                            }} />
-                                                    </Form.Group>
-                                                </Col>
-                                                <Col>
-
-                                                    <Form.Group className="mb-3" controlId="formBookAuthor">
-                                                        <Form.Label style={{ color: 'white' }}>Book Author</Form.Label>
-                                                        <Form.Control type="text" placeholder="Enter Book Author" autoFocus
-                                                            onChange={e => {
-                                                                newBook.auth = e.target.value
-                                                            }} />
-                                                    </Form.Group>
-                                                </Col>
-                                                <Col>
-                                                    <Form.Group className="mb-3" controlId="formBookPrice">
-                                                        <Form.Label style={{ color: 'white' }}>Book Price</Form.Label>
-                                                        <Form.Control type="number" min={0} placeholder="Enter Book Price" autoFocus
-                                                            onChange={e => {
-                                                                newBook.price = parseFloat(e.target.value)
-                                                            }} />
-                                                    </Form.Group>
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col>
-                                                    <Form.Group className='mb-3' controlId='formBookIsbn'>
-                                                        <Form.Label style={{ color: 'white' }}>Book ISBN</Form.Label>
-                                                        <Form.Control type='number' placeholder='Enter Book ISBN' autoFocus
-                                                            onChange={e => {
-                                                                newBook.isbn = e.target.value
-                                                            }}
-                                                        />
-                                                    </Form.Group>
-                                                </Col>
-                                                <Col>
-                                                    <Form.Group className='mb-3' controlId='formBookNump'>
-                                                        <Form.Label style={{ color: 'white' }}>Book NUMP</Form.Label>
-                                                        <Form.Control type='text' placeholder='Enter Book numP' autoFocus
-                                                            onChange={e => {
-                                                                newBook.numP = e.target.value
-                                                            }}
-                                                        />
-                                                    </Form.Group>
-                                                </Col>
-                                                <Col>
-                                                    <Form.Group className='mb-3' controlId='formBookPub'>
-                                                        <Form.Label style={{ color: 'white' }}>Book Publisher</Form.Label>
-                                                        <Form.Control type='text' placeholder='Enter Book Publisher' autoFocus
-                                                            onChange={e => {
-                                                                newBook.pub = e.target.value
-                                                            }}
-                                                        />
-                                                    </Form.Group>
-                                                </Col>
-                                                <Col>
-                                                    <Form.Group className='mb-3' controlId='formBookImg'>
-                                                        <Form.Label style={{ color: 'white' }}>Book Image</Form.Label>
-                                                        <Form.Control type='text' placeholder='Enter Book Image' autoFocus
-                                                            onChange={e => {
-                                                                newBook.imageN = e.target.value
-                                                            }}
-                                                        />
-                                                    </Form.Group>
-                                                </Col>
-                                            </Row>
-                                        </Form>
-                                    </Modal.Body>
-                                    <Modal.Footer>
-                                        <Button variant="secondary" onClick={handleClose}>
-                                            Close
-                                        </Button>
-                                        <Button type='submit' variant="success" onClick={submitted}>
-                                            Submit
-                                        </Button>
-                                    </Modal.Footer>
-                                </Modal>
-                                <Button variant="success" onClick={handleShow}>Add Book</Button>
+                                <Table striped bordered hover variant="dark">
+                                    <thead>
+                                        <tr>
+                                            <th>Discount</th>
+                                            <th>Discount Code</th>
+                                            <th>Expires</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {discounts.map((discount: Discount) => (
+                                            <tr key={discount.id}>
+                                                <td>{discount.discount} %</td>
+                                                <td>{discount.code}</td>
+                                                <td>{discount.expire}</td>
+                                                <td><EditDiscountForm {...discount} /></td>
+                                            </tr>
+                                        ))}
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><DiscountForm /></td>
+                                        </tr>
+                                    </tbody>
+                                </Table>
                             </div>
                         </div>
                     </div>
