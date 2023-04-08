@@ -9,11 +9,28 @@ declare module '*.png' {
 }
 
 declare interface Book {
-    id: string,
+    id?: string,
     auth: string,
     imageN: string,
     isbn: string,
     numP: string,
     pub: string,
+    price: string,
     title: string
+}
+
+declare interface User {
+    id: string,
+    authProvider: string,
+    email: string,
+    name: string,
+    uid: string,
+    admin: boolean
+}
+
+declare interface Discount {
+    id?: string,
+    code: string,
+    discount: number,
+    expire: string
 }

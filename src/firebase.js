@@ -47,12 +47,15 @@ export const signInWithGoogle = async () => {
 
         if (docs.docs.length === 0) {
             await addDoc(collection(db, 'users'), {
+                admin: false,
                 uid: user.uid,
                 name: user.displayName,
                 authProvider: 'google',
                 email: user.email,
             });
         }
+        // save user id to local storage and catch any errors
+        localStorage.setItem('uuid', user.uid)
 
     } catch (err) {
         console.error(err);
@@ -63,4 +66,13 @@ export const signInWithGoogle = async () => {
 
 export const logout = () => {
     signOut(auth);
+    localStorage.clear()
 };
+
+// function to check if user is admin
+export const isAdmin = async (uid) => {
+    const q = query(collection(db, 'users'), where('uid', '==', uid));
+    const docs = await getDocs(q);
+    const user = docs.docs[0].data();
+    return user.admin;
+}
