@@ -1,20 +1,15 @@
 import '../App.css'
-import { auth, isAdmin, db } from '../firebase'
+import { isAdmin, db } from '../firebase'
 import Container from 'react-bootstrap/Container'
 import { collection, getDocs } from "firebase/firestore"
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { useEffect, useState } from 'react'
-import { Button, Table, Form, Col, Row } from 'react-bootstrap'
-import { deleteBook, makeAdmin, removeAdmin } from './AdminHelpers'
+import { Button, Table, Modal, Form, Row, Col } from 'react-bootstrap'
+import { addBook, deleteBook, makeAdmin, removeAdmin } from './AdminHelpers'
 
 
 
 const Admin = (): JSX.Element => {
 
-    const [admin, setUserAdmin] = useState<boolean>(false)
-    const [user] = useAuthState(auth);
-    const [users, setUsers] = useState<User[]>([]);
-    const [books, setBooks] = useState<Book[]>([]);
     let newBook: Book = {
         title: '',
         auth: '',
@@ -22,7 +17,26 @@ const Admin = (): JSX.Element => {
         isbn: '',
         numP: '',
         pub: '',
-        imageN: '',
+        imageN: ''
+    }
+
+    const [admin, setUserAdmin] = useState<boolean>(false)
+
+    const userId = localStorage.getItem('uuid');
+
+    const [users, setUsers] = useState<User[]>([]);
+    const [books, setBooks] = useState<Book[]>([]);
+
+    const [show, setShow] = useState<boolean>(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    const submitted = () => {
+        console.log(newBook.title, ' was added.')
+        addBook(newBook).catch((error) => {
+            console.log(error)
+        })
+        handleClose()
     }
 
     const fetchBooks = async () => {
@@ -31,7 +45,6 @@ const Admin = (): JSX.Element => {
                 const data = querySnapshot.docs
                     .map((doc) => ({ ...doc.data(), id: doc.id }))
                 setBooks(data as Book[])
-                // console.log(data, ebooks)
             })
     }
 
@@ -49,8 +62,8 @@ const Admin = (): JSX.Element => {
         fetchUsers()
     }, [])
 
-    if (user) {
-        isAdmin(user.uid).then((value) => {
+    if (userId) {
+        isAdmin(userId).then((value) => {
             if (value === true)
                 setUserAdmin(true)
         })
@@ -84,9 +97,9 @@ const Admin = (): JSX.Element => {
                                                 <td>{user.uid}</td>
                                                 <td>{user.admin ?
                                                     <Button variant="danger" onClick={() => {
-                                                        
+
                                                         removeAdmin(user)
-                                                        }}>Remove Admin</Button>
+                                                    }}>Remove Admin</Button>
                                                     : <Button variant="danger" onClick={() => {
                                                         // call function to make user an admin
                                                         makeAdmin(user)
@@ -111,8 +124,7 @@ const Admin = (): JSX.Element => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {books.map((book: Book) => (
-                                            <tr key={book.id}>
+                                        {books.map((book: Book) => ( <tr key={book.id}>
                                                 <td>{book.title}</td>
                                                 <td>{book.auth}</td>
                                                 <td>${book.price}</td>
@@ -125,84 +137,96 @@ const Admin = (): JSX.Element => {
                                 </Table>
                             </div>
                             <div className='col-12'>
-                                <h2 style={{ color: 'white' }}>Add Book</h2>
-                                <Form>
-                                    <Row>
-                                        <Col>
-                                            <Form.Group className="mb-3" controlId="formBookName">
-                                                <Form.Label style={{ color: 'white' }}>Book Title</Form.Label>
-                                                <Form.Control type="text" placeholder="Enter Book Title"
-                                                    onChange={e => {
-                                                        newBook.title = e.target.value
-                                                    }} />
-                                            </Form.Group>
-                                        </Col>
-                                        <Col>
+                                <Modal size='lg' show={show} onHide={handleClose}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Add Book</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <Form>
+                                            <Row>
+                                                <Col>
+                                                    <Form.Group className="mb-3" controlId="formBookName" onSubmit={submitted}>
+                                                        <Form.Label style={{ color: 'white' }}>Book Title</Form.Label>
+                                                        <Form.Control type="text" placeholder="Enter Book Title" autoFocus
+                                                            onChange={e => {
+                                                                newBook.title = e.target.value
+                                                            }} />
+                                                    </Form.Group>
+                                                </Col>
+                                                <Col>
 
-                                            <Form.Group className="mb-3" controlId="formBookAuthor">
-                                                <Form.Label style={{ color: 'white' }}>Book Author</Form.Label>
-                                                <Form.Control type="text" placeholder="Enter Book Author"
-                                                    onChange={e => {
-                                                        newBook.auth = e.target.value
-                                                    }} />
-                                            </Form.Group>
-                                        </Col>
-                                        <Col>
-                                            <Form.Group className="mb-3" controlId="formBookPrice">
-                                                <Form.Label style={{ color: 'white' }}>Book Price</Form.Label>
-                                                <Form.Control type="number" min={0} placeholder="Enter Book Price"
-                                                    onChange={e => {
-                                                        newBook.price = parseFloat(e.target.value)
-                                                    }} />
-                                            </Form.Group>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col>
-                                            <Form.Group className='mb-3' controlId='formBookIsbn'>
-                                                <Form.Label style={{ color: 'white' }}>Book ISBN</Form.Label>
-                                                <Form.Control type='number' placeholder='Enter Book ISBN'
-                                                    onChange={e => {
-                                                        newBook.isbn = e.target.value
-                                                    }}
-                                                />
-                                            </Form.Group>
-                                        </Col>
-                                        <Col>
-                                            <Form.Group className='mb-3' controlId='formBookNump'>
-                                                <Form.Label style={{ color: 'white' }}>Book NUMP</Form.Label>
-                                                <Form.Control type='text' placeholder='Enter Book numP'
-                                                    onChange={e => {
-                                                        newBook.numP = e.target.value
-                                                    }}
-                                                />
-                                            </Form.Group>
-                                        </Col>
-                                        <Col>
-                                            <Form.Group className='mb-3' controlId='formBookPub'>
-                                                <Form.Label style={{ color: 'white' }}>Book Publisher</Form.Label>
-                                                <Form.Control type='text' placeholder='Enter Book Publisher'
-                                                    onChange={e => {
-                                                        newBook.pub = e.target.value
-                                                    }}
-                                                />
-                                            </Form.Group>
-                                        </Col>
-                                        <Col>
-                                            <Form.Group className='mb-3' controlId='formBookImg'>
-                                                <Form.Label style={{ color: 'white' }}>Book Image</Form.Label>
-                                                <Form.Control type='text' placeholder='Enter Book Image'
-                                                    onChange={e => {
-
-                                                    }}
-                                                />
-                                            </Form.Group>
-                                        </Col>
-                                    </Row>
-
-                                    <Button id='form-btn' size='sm' variant="success" type="submit">Submit</Button>
-
-                                </Form>
+                                                    <Form.Group className="mb-3" controlId="formBookAuthor">
+                                                        <Form.Label style={{ color: 'white' }}>Book Author</Form.Label>
+                                                        <Form.Control type="text" placeholder="Enter Book Author" autoFocus
+                                                            onChange={e => {
+                                                                newBook.auth = e.target.value
+                                                            }} />
+                                                    </Form.Group>
+                                                </Col>
+                                                <Col>
+                                                    <Form.Group className="mb-3" controlId="formBookPrice">
+                                                        <Form.Label style={{ color: 'white' }}>Book Price</Form.Label>
+                                                        <Form.Control type="number" min={0} placeholder="Enter Book Price" autoFocus
+                                                            onChange={e => {
+                                                                newBook.price = parseFloat(e.target.value)
+                                                            }} />
+                                                    </Form.Group>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col>
+                                                    <Form.Group className='mb-3' controlId='formBookIsbn'>
+                                                        <Form.Label style={{ color: 'white' }}>Book ISBN</Form.Label>
+                                                        <Form.Control type='number' placeholder='Enter Book ISBN' autoFocus
+                                                            onChange={e => {
+                                                                newBook.isbn = e.target.value
+                                                            }}
+                                                        />
+                                                    </Form.Group>
+                                                </Col>
+                                                <Col>
+                                                    <Form.Group className='mb-3' controlId='formBookNump'>
+                                                        <Form.Label style={{ color: 'white' }}>Book NUMP</Form.Label>
+                                                        <Form.Control type='text' placeholder='Enter Book numP' autoFocus
+                                                            onChange={e => {
+                                                                newBook.numP = e.target.value
+                                                            }}
+                                                        />
+                                                    </Form.Group>
+                                                </Col>
+                                                <Col>
+                                                    <Form.Group className='mb-3' controlId='formBookPub'>
+                                                        <Form.Label style={{ color: 'white' }}>Book Publisher</Form.Label>
+                                                        <Form.Control type='text' placeholder='Enter Book Publisher' autoFocus
+                                                            onChange={e => {
+                                                                newBook.pub = e.target.value
+                                                            }}
+                                                        />
+                                                    </Form.Group>
+                                                </Col>
+                                                <Col>
+                                                    <Form.Group className='mb-3' controlId='formBookImg'>
+                                                        <Form.Label style={{ color: 'white' }}>Book Image</Form.Label>
+                                                        <Form.Control type='text' placeholder='Enter Book Image' autoFocus
+                                                            onChange={e => {
+                                                                newBook.imageN = e.target.value
+                                                            }}
+                                                        />
+                                                    </Form.Group>
+                                                </Col>
+                                            </Row>
+                                        </Form>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <Button variant="secondary" onClick={handleClose}>
+                                            Close
+                                        </Button>
+                                        <Button type='submit' variant="success" onClick={submitted}>
+                                            Submit
+                                        </Button>
+                                    </Modal.Footer>
+                                </Modal>
+                                <Button variant="success" onClick={handleShow}>Add Book</Button>
                             </div>
                         </div>
                     </div>

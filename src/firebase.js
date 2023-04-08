@@ -47,12 +47,15 @@ export const signInWithGoogle = async () => {
 
         if (docs.docs.length === 0) {
             await addDoc(collection(db, 'users'), {
+                admin: false,
                 uid: user.uid,
                 name: user.displayName,
                 authProvider: 'google',
                 email: user.email,
             });
         }
+        // save user id to local storage and catch any errors
+        localStorage.setItem('uuid', user.uid)
 
     } catch (err) {
         console.error(err);
@@ -63,6 +66,9 @@ export const signInWithGoogle = async () => {
 
 export const logout = () => {
     signOut(auth);
+    // reload page to clear state
+    window.location.reload()
+    localStorage.clear()
 };
 
 // function to check if user is admin
