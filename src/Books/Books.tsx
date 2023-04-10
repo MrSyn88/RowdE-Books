@@ -16,7 +16,7 @@ import { useShoppingCart } from "../context/shoppingCartContext";
 
 const Books = (): JSX.Element => {
     const [ebooks, setEbooks] = useState<Book[]>([]);
-    const { getItemQuantity, increaseCartQuantity, decreaseCartQuantity, removeFromCart } = useShoppingCart();
+    const { getItemQuantity, increaseCartQuantity, decreaseCartQuantity, removeFromCart } = useShoppingCart() as any;
 
 
     const popover = (ebook: Book) => (
