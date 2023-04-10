@@ -7,6 +7,7 @@ const BookForm = (): JSX.Element => {
     const [show, setShow] = useState<boolean>(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [sale, setSale] = useState<boolean>(false);
 
     const submitted = () => {
         console.log(newBook.title, ' was added.')
@@ -16,14 +17,15 @@ const BookForm = (): JSX.Element => {
         handleClose()
     }
 
-    const newBook = {
+    const newBook: Book = {
         title: '',
         auth: '',
         price: '',
         isbn: '',
         numP: '',
         pub: '',
-        imageN: ''
+        imageN: '',
+        sale: sale
     }
 
 
@@ -107,6 +109,20 @@ const BookForm = (): JSX.Element => {
                                 </Form.Group>
                             </Col>
                         </Row>
+                        <Row>
+                            <Col>
+                                <Form.Group className="" controlId="formBookSale">
+                                    <Form.Check
+                                        style={{ color: 'white' }}
+                                        type="switch"
+                                        label="On Sale?"
+                                        checked={newBook.sale}
+                                        onChange={() => {setSale(!newBook.sale)}}
+                                        isValid={newBook.sale} />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        
                     </Form>
 
                 </Modal.Body>

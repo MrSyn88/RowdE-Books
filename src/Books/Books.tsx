@@ -50,6 +50,7 @@ const Books = (): JSX.Element => {
     return (
         <Container>
             <h1 className='pt-5' style={{ color: 'white' }}>All eBooks Available for Purchase</h1>
+            <hr style={{color: 'white'}}/>
             <div className="row">
                 {ebooks.map((ebook: Book) => (
                     <div key={ebook.id} className="col-md-3 mb-5">
