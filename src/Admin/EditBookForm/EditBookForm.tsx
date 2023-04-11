@@ -12,6 +12,7 @@ const EditBookForm = (book: Book): JSX.Element => {
     const [numP, setNumP] = useState<string>(book.numP);
     const [pub, setPub] = useState<string>(book.pub);
     const [imageN, setImageN] = useState<string>(book.imageN);
+    const [sale, setSale] = useState<boolean>(book.sale);
 
 
     const handleClose = () => setShow(false);
@@ -25,7 +26,8 @@ const EditBookForm = (book: Book): JSX.Element => {
         isbn: isbn,
         numP: numP,
         pub: pub,
-        imageN: imageN
+        imageN: imageN,
+        sale: sale
     }
 
 
@@ -152,6 +154,19 @@ const EditBookForm = (book: Book): JSX.Element => {
                                             setImageN(e.target.value)
                                         }}
                                     />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Form.Group className="" controlId="formBookSale">
+                                    <Form.Check
+                                        style={{ color: 'white' }}
+                                        type="switch"
+                                        label="On Sale?"
+                                        checked={updatedBook.sale}
+                                        onChange={() => {setSale(!updatedBook.sale)}}
+                                        isValid={updatedBook.sale} />
                                 </Form.Group>
                             </Col>
                         </Row>

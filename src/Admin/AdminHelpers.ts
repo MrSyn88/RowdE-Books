@@ -15,7 +15,8 @@ export const editBook = async (book: Book) => {
         price: book.price,
         numP: book.numP,
         pub: book.pub,
-        title: book.title
+        title: book.title,
+        sale: book.sale
     });
     window.location.reload();
     return alert(`${book.title} has been edited`);
@@ -31,7 +32,8 @@ export const addBook = async (book: Book) => {
         price: book.price,
         numP: book.numP,
         pub: book.pub,
-        title: book.title
+        title: book.title,
+        sale: book.sale
     }).then(() => {
         console.log('Document successfully written to database!');
     }).catch((error) => {

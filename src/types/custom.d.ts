@@ -16,7 +16,8 @@ declare interface Book {
     numP: string,
     pub: string,
     price: string,
-    title: string
+    title: string,
+    sale: boolean
 }
 
 declare interface User {
