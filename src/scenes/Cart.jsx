@@ -1,4 +1,4 @@
-import React from 'react'
+{/* import React from 'react'
 import { Table } from 'react-bootstrap'
 
 const Cart = () => {
@@ -34,3 +34,4 @@ const Cart = () => {
 }
 
 export default Cart
+*/}
