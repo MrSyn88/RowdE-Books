@@ -47,6 +47,13 @@ export default function NavBar({ Link }) {
                 <Nav className="me-auto my-2 my-lg-0" style={{
                     maxHeight: '100px'
                 }} navbarScroll>
+                    <Nav.Link as={Link} to="/Books" >
+                        Books
+                    </Nav.Link>
+                    {/*<Nav.Link as={Link} to="/Cart">Cart</Nav.Link>*/}
+                    {user && admin === true ?
+                        <Nav.Link as={Link} to="/Admin">Admin</Nav.Link>
+                        : null}
                     <NavDropdown title="Resources" id="navbarScrollingDropdown">
                         <NavDropdown.Item href="https://react.dev" target="_blank">React</NavDropdown.Item>
                         <NavDropdown.Item href="https://react-bootstrap.github.io/" target="_blank">React Bootstrap</NavDropdown.Item>
@@ -58,13 +65,6 @@ export default function NavBar({ Link }) {
                             Our GitHub
                         </NavDropdown.Item>
                     </NavDropdown>
-                    <Nav.Link as={Link} to="/Books" >
-                        Books
-                    </Nav.Link>
-                    {/*<Nav.Link as={Link} to="/Cart">Cart</Nav.Link>*/}
-                    {user && admin === true ?
-                        <Nav.Link as={Link} to="/Admin">Admin</Nav.Link>
-                        : null}
                 </Nav>
                 <Button style={{ width: "4rem", height: "3rem", position: "relative" }} variant="outline-primary" className='' onClick={openCart}>
                     Cart
