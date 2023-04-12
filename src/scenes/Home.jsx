@@ -17,7 +17,7 @@ import book4 from '../images/books4.jpg'
 import firstSlide from '../images/Carousel1.jpg'
 import secondSlide from '../images/carousel2.jpg'
 import thirdSlide from '../images/carousel3.jpg'
-import utsa from '../images/utsa-logo.png'
+import wrapLogo from '../images/wrap-rowde-books-high-resolution-logo-color-on-transparent-background.png'
 import { collection, getDocs } from 'firebase/firestore';
 import { useShoppingCart } from '../context/shoppingCartContext';
 
@@ -98,7 +98,7 @@ const Home = () => {
                 </Col>
             </Row>
             <Row>
-                <Col> <Image src={utsa} style={{ width: 325, height: 300 }} roundedCircle></Image></Col>
+                <Col> <Image src={wrapLogo} style={{ width: 500, height: 311.75 }} ></Image></Col>
             </Row>
 
             <Row>
