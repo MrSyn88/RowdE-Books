@@ -1,0 +1,9 @@
+:root {
+    --cart-max-height: calc(100vh - 150px); /* adjust as needed */
+  }
+  
+  .cart-container {
+    max-height: var(--cart-max-height);
+    overflow-y: auto;
+    padding-right: 15px;
+  }
