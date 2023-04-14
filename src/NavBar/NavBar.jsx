@@ -52,6 +52,9 @@ export default function NavBar({ Link }) {
                     <Nav.Link as={Link} to="/Books" >
                         Books
                     </Nav.Link>
+                    <Nav.Link as={Link} to="/Buy">
+                        Buy
+                    </Nav.Link>
                     {/*<Nav.Link as={Link} to="/Cart">Cart</Nav.Link>*/}
                     {user && admin === true ?
                         <Nav.Link as={Link} to="/Admin">Admin</Nav.Link>

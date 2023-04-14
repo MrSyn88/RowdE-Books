@@ -28,7 +28,9 @@ return <Offcanvas show={isOpen} onHide={closeCart} placement="end">
                 <CartItem key={book.isbn} isbn={book.isbn} quantity={quantity} /> // working cart screen
             ))}
             <div>Subtotal: ${cartSubtotal}</div>
+            <a href="/Buy/#anchor" >
             <Button className="ms-3" style={{}} variant="primary">Pay Now</Button>
+            </a>
         </Stack>
     </Offcanvas.Body>
 </Offcanvas>
