@@ -20,6 +20,9 @@ import thirdSlide from '../images/carousel3.jpg'
 import utsa from '../images/utsa-logo.png'
 import { collection, getDocs } from 'firebase/firestore';
 import { useShoppingCart } from '../context/shoppingCartContext';
+import { Stack } from "react-bootstrap";
+import { CheckoutItem } from '../component/CheckoutItem';
+
 
 const Checkout = () => {
 
@@ -28,18 +31,39 @@ const {cartItems} = useShoppingCart();
 cartItems.map(({book,quantity}) => (
     console.log(book, quantity)
 ));
+const cartSubtotal = cartItems.reduce(
+    (acc, item) => acc + item.book.price * item.quantity,
+    0
+  );
+
+  const tax = cartSubtotal * 0.0825;
+  const total = cartSubtotal + tax;
 
 return (
-            <Container>
-            <Row>
-                <Col>
-                    <h1 className="pt-5" style={{color:"#FFFFFF"}}>Finalize Your Purchase</h1> {/* welcome message */}
-                </Col>
-            </Row>
+    <Container>
 
-    <Row>
+        <h1 style={{color:"#FFFFFF"}}>Finalize Your Purchase Now!</h1>
+    
+        <Row>
+            
+            {cartItems.map(({ book, quantity}) => (
+                //I want to calculate the running subtotal for each book and then add them all up to get the total
+                <CheckoutItem key={book.isbn} isbn={book.isbn} quantity={quantity} /> // working cart screen
+            ))}
             
     </Row>
+
+            <h3 style={{color:"#FFFFFF"}}>Subtotal: ${cartSubtotal.toFixed(2)}</h3>
+            <h3 style={{color:"#FFFFFF"}}>Tax: ${tax.toFixed(2)}</h3>
+            <h3 style={{color:"#FFFFFF"}}>Total: ${total.toFixed(2)}</h3>
+            
+            <Button
+                        className="ms-3 mt-1"
+                        style={{}}
+                        variant="primary"
+                    >
+                        Input Credit Card Info
+                    </Button>    
     </Container>
 );
 
