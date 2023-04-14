@@ -36,7 +36,6 @@ return (
                 <CartItem key={book.isbn} isbn={book.isbn} quantity={quantity} /> // working cart screen
             ))}
             
-            <div>Subtotal: ${cartSubtotal}</div>
             <div>Subtotal: ${cartSubtotal.toFixed(2)}</div>
             <div>Tax: ${tax.toFixed(2)}</div>
             <div>Total: ${total.toFixed(2)}</div>
