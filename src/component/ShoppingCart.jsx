@@ -2,9 +2,14 @@ import { Offcanvas, Stack } from "react-bootstrap";
 import { useShoppingCart } from "../context/shoppingCartContext";
 import { CartItem } from "./CartItem";
 import Button from "react-bootstrap/Button";
+import { Navigate, Link } from 'react-router-dom';
 //import "./ShoppingCart.css"; 
 
-export function ShoppingCart({isOpen}) {
+export function ShoppingCart({ isOpen }) {
+    
+const checkout = () => {
+    return <Navigate to="/Checkout" />
+}
 
 const {closeCart, cartItems} = useShoppingCart();
 
@@ -35,8 +40,19 @@ return (
             <div>Subtotal: ${cartSubtotal.toFixed(2)}</div>
             <div>Tax: ${tax.toFixed(2)}</div>
             <div>Total: ${total.toFixed(2)}</div>
-            <Button className="ms-3" style={{}} variant="primary">Pay Now</Button>
-            
+            <Link to="/Checkout">
+                    <Button
+                        className="ms-3"
+                        style={{}}
+                        variant="primary"
+                        onClick={() => {
+                            checkout()
+                            closeCart()
+                        }}
+                    >
+                        Check Out
+                    </Button>    
+            </Link> 
         </Stack>
     </Offcanvas.Body>
 </Offcanvas>

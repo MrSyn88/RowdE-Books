@@ -12,29 +12,29 @@ import Admin from './Admin/Admin';
 const Home = lazy(() => import('./scenes/Home'))
 const Cart = lazy(() => import('./scenes/Cart'))
 const Books = lazy(() => import('./Books/Books'))
-const Buy = lazy(() => import('./scenes/Buy'))
+const Checkout = lazy(() => import('./scenes/Checkout'))
 
 
 function App() {
   return (
-    <ShoppingCartProvider>
     <BrowserRouter>
-      <div className="App">
-        <NavBar Link={Link} />
-        <Suspense fallback={<h1>Loading...</h1>}>
-          <Routes>
-            <Route exact path="/" element={<Navigate to="/Home" />} />
-            <Route path="/Home" element={<Home />} />
-            <Route path="/Cart" element={<Cart />} />
-            <Route path="/Buy" element={<Buy />} />
-            <Route path="/Books" element={<Books />} />
-            <Route path="/Admin" element={<Admin />} />
-            <Route path='*' element={<NotFound />} />
-          </Routes>
-        </Suspense>
-      </div>
+      <ShoppingCartProvider>  
+        <div className="App">
+          <NavBar Link={Link} />
+          <Suspense fallback={<h1>Loading...</h1>}>
+            <Routes>
+              <Route exact path="/" element={<Navigate to="/Home" />} />
+              <Route path="/Home" element={<Home />} />
+              <Route path="/Cart" element={<Cart />} />
+              <Route path="/Checkout" element={<Checkout />} />
+              <Route path="/Books" element={<Books />} />
+              <Route path="/Admin" element={<Admin />} />
+              <Route path='*' element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </div>
+      </ShoppingCartProvider>    
     </BrowserRouter>
-    </ShoppingCartProvider>
   );
 }
 
