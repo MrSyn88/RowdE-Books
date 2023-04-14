@@ -21,7 +21,7 @@ import utsa from '../images/utsa-logo.png'
 import { collection, getDocs } from 'firebase/firestore';
 import { useShoppingCart } from '../context/shoppingCartContext';
 
-const Buy = () => {
+const Checkout = () => {
 
 const {cartItems} = useShoppingCart();
 
@@ -46,4 +46,4 @@ return (
 
 }
 
-export default Buy;
+export default Checkout;
