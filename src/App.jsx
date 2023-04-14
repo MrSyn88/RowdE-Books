@@ -12,6 +12,7 @@ import Admin from './Admin/Admin';
 const Home = lazy(() => import('./scenes/Home'))
 const Cart = lazy(() => import('./scenes/Cart'))
 const Books = lazy(() => import('./Books/Books'))
+const Buy = lazy(() => import('./scenes/Buy'))
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
             <Route exact path="/" element={<Navigate to="/Home" />} />
             <Route path="/Home" element={<Home />} />
             <Route path="/Cart" element={<Cart />} />
+            <Route path="/Buy" element={<Buy />} />
             <Route path="/Books" element={<Books />} />
             <Route path="/Admin" element={<Admin />} />
             <Route path='*' element={<NotFound />} />

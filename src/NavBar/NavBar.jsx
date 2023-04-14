@@ -65,6 +65,16 @@ export default function NavBar({ Link }) {
                             Our GitHub
                         </NavDropdown.Item>
                     </NavDropdown>
+                    <Nav.Link as={Link} to="/Books" >
+                        Books
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/Buy">
+                        Buy
+                    </Nav.Link>
+                    {/*<Nav.Link as={Link} to="/Cart">Cart</Nav.Link>*/}
+                    {user && admin === true ?
+                        <Nav.Link as={Link} to="/Admin">Admin</Nav.Link>
+                        : null}
                 </Nav>
                 <Button style={{ width: "4rem", height: "3rem", position: "relative" }} variant="outline-primary" className='' onClick={openCart}>
                     Cart

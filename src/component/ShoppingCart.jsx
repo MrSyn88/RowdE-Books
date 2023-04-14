@@ -30,10 +30,13 @@ return (
                 //I want to calculate the running subtotal for each book and then add them all up to get the total
                 <CartItem key={book.isbn} isbn={book.isbn} quantity={quantity} /> // working cart screen
             ))}
+            
+            <div>Subtotal: ${cartSubtotal}</div>
             <div>Subtotal: ${cartSubtotal.toFixed(2)}</div>
             <div>Tax: ${tax.toFixed(2)}</div>
             <div>Total: ${total.toFixed(2)}</div>
             <Button className="ms-3" style={{}} variant="primary">Pay Now</Button>
+            
         </Stack>
     </Offcanvas.Body>
 </Offcanvas>
