@@ -29,7 +29,9 @@ export function CartItem({ isbn, quantity }){ //isbn shows as undefined so we ne
             <img src={imageN} style= {{width: "125px", height: "75", objectFit: "cover"}}/>
             <div className="me-auto">
                 <div>{ title } - { auth }
-                {quantity > 1 && <span className="text-muted" style={{fontSize:".65rem"}}>{quantity}x</span>}
+                <div>
+                {quantity > 1 && <span className="text-muted" style={{fontSize:".69rem"}}>{quantity}x</span>}
+                </div>
                 </div>
                 <div>Price: ${subtotal}</div>
             </div>

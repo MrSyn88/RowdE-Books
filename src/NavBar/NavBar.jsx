@@ -10,6 +10,7 @@ import { auth } from '../firebase';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom'
 import { useShoppingCart } from '../context/shoppingCartContext';
+import logo from '../images/rowde-books-low-resolution-logo-white-on-transparent-background.png'
 
 export default function NavBar({ Link }) {
     const [user] = useAuthState(auth);
@@ -32,12 +33,27 @@ export default function NavBar({ Link }) {
 
     return (<Navbar bg="dark" expand="lg" variant='dark' sticky="top">
         <Container fluid>
-            <Navbar.Brand as={Link} to="/Home">RowdE-Books</Navbar.Brand>
+            <Navbar.Brand as={Link} to="/Home">
+                <img
+                    src={logo}
+                    width="234.375"
+                    height="30"
+                    className="d-inline-block align-top"
+                    alt="React Bootstrap logo"
+                />
+            </Navbar.Brand>
             <Navbar.Toggle aria-controls="navbarScroll" />
             <Navbar.Collapse id="navbarScroll">
                 <Nav className="me-auto my-2 my-lg-0" style={{
                     maxHeight: '100px'
                 }} navbarScroll>
+                    <Nav.Link as={Link} to="/Books" >
+                        Books
+                    </Nav.Link>
+                    {/*<Nav.Link as={Link} to="/Cart">Cart</Nav.Link>*/}
+                    {user && admin === true ?
+                        <Nav.Link as={Link} to="/Admin">Admin</Nav.Link>
+                        : null}
                     <NavDropdown title="Resources" id="navbarScrollingDropdown">
                         <NavDropdown.Item href="https://react.dev" target="_blank">React</NavDropdown.Item>
                         <NavDropdown.Item href="https://react-bootstrap.github.io/" target="_blank">React Bootstrap</NavDropdown.Item>

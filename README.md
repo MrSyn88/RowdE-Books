@@ -1,4 +1,10 @@
 # [RowdE-Books](https://rowde-books.web.app/)
+
+**We're an online store for books. Built by students for students in order to help them get the books they need fast and cheap**
+
+> Made as a group project for Software Engineering, CS 3773, at UTSA.  
+> Pete Acevedo, Nico Ruiz, Colton Mosier, Edison Felan, Joshua Kent, Christopher Torres
+
 ## Built with Vite
 This project utilizes [Vite](https://vitejs.dev/) to help improve development build times. Project was initially created with `create-react-app`, however, after some research it appears Meta/Facebook no longer is supporting this method of creating React applications.
 
