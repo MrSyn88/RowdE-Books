@@ -22,6 +22,20 @@ const Admin = (): JSX.Element => {
     const [users, setUsers] = useState<User[]>([]);
     const [books, setBooks] = useState<Book[]>([]);
     const [discounts, setDiscounts] = useState<Discount[]>([]);
+    const [orders, setOrders] = useState<Order[]>([]);
+
+
+    const ordersSorted = [...orders].sort((a, b) =>
+        (a.userName.toLowerCase < b.userName.toLowerCase) ? 1 : -1)
+
+    const fetchOrder = async () => {
+        await getDocs(collection(db, 'Order'))
+            .then((querySnapshot) => {
+                const data = querySnapshot.docs
+                    .map((doc) => ({ ...doc.data(), id: doc.id }))
+                setOrders(data as Order[])
+            })
+    }
 
 
     const fetchDiscounts = async () => {
@@ -55,6 +69,7 @@ const Admin = (): JSX.Element => {
         fetchBooks()
         fetchUsers()
         fetchDiscounts()
+        fetchOrder()
     }, [])
 
     if (userId) {
@@ -72,9 +87,11 @@ const Admin = (): JSX.Element => {
                 !admin ? <h1 style={{ color: 'white' }}>Loading...</h1> :
                     <div>
                         <h1 style={{ color: 'white' }}>Admin Panel </h1>
+                        <hr style={{ color: 'white' }} />
                         <br /><br /><br /><br />
 
                         <h2 style={{ color: 'white' }}>Users</h2>
+                        <hr style={{ color: 'white' }} />
                         <div className='row'>
                             <div className='col-12'>
                                 <Table striped bordered hover variant="dark">
@@ -103,6 +120,7 @@ const Admin = (): JSX.Element => {
                         </div>
                         <div className='row'>
                             <h2 style={{ color: 'white' }}>Books</h2>
+                            <hr style={{ color: 'white' }} />
                             <div >
                                 <Table striped bordered hover variant="dark">
                                     <thead>
@@ -130,6 +148,9 @@ const Admin = (): JSX.Element => {
                                         </tr>
                                     </tbody>
                                 </Table>
+
+                                <h2 style={{ color: 'white' }}>Discounts</h2>
+                                <hr style={{ color: 'white' }} />
                                 <Table striped bordered hover variant="dark">
                                     <thead>
                                         <tr>
@@ -154,6 +175,28 @@ const Admin = (): JSX.Element => {
                                             <td></td>
                                             <td><DiscountForm /></td>
                                         </tr>
+                                    </tbody>
+                                </Table>
+                                <h2 style={{ color: 'white' }}>Orders</h2>
+                                <hr style={{ color: 'white' }} />
+                                <Table striped bordered hover variant="dark">
+                                    <thead>
+                                        <tr>
+                                            <th>Customer Name</th>
+                                            <th>Order ID</th>
+                                            <th>Spent</th>
+                                            <th>Order Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {orders.map((order: Order) => (
+                                            <tr key={order.id}>
+                                                <td>{order.userName}</td>
+                                                <td>{order.id}</td>
+                                                <td>${order.TotalPay}</td>
+                                                <td>{order.orderDate}</td>
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </Table>
                             </div>
