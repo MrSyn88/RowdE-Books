@@ -43,3 +43,6 @@ This project is currently being hosted using [Google's Firebase](https://firebas
 ## Learn More
 * To learn React, check out the [React documentation](https://react.dev/).
 * To learn Vite, read through the [Vite guide](https://vitejs.dev/guide/)
+
+## Contact Us
+rowde-books@googlegroups.com
