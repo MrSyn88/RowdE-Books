@@ -30,6 +30,11 @@ return (
         </Offcanvas.Title>
     </Offcanvas.Header>
     <Offcanvas.Body>
+    {cartItems.length === 0 ? (
+        <>
+            <h1 style={{ color: "black" }}>Your cart is empty!</h1>
+        </>
+    ) : (
         <Stack gap={3}>
             {cartItems.map(({ book, quantity}) => (
                 //I want to calculate the running subtotal for each book and then add them all up to get the total
@@ -53,6 +58,7 @@ return (
                     </Button>    
             </Link> 
         </Stack>
+    )}
     </Offcanvas.Body>
 </Offcanvas>
 );

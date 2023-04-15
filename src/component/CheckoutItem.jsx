@@ -1,6 +1,7 @@
 import { useShoppingCart } from '../context/shoppingCartContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
@@ -23,15 +24,16 @@ export function CheckoutItem({ isbn, quantity }){
 
       return(
             <Col className='mt-3 mb-3'>
-            <Card style={{ width: '19rem', height: '23.5rem' }}>               
-                <Card.Img variant="top" style={{ width: '18.8rem', height: '13.5rem' }} src={imageN} />
+            <Card style={{ width: '18rem', height: 'auto' }}>               
+                <Card.Img variant="top" style={{ width: '17.9rem', height: '20rem' }} src={imageN} />
                 <Card.Body>
                     <Card.Title >{title} </Card.Title>
                     <Card.Text className='m-3'>
                         {auth}
                         <br></br>
-                        ${price} - X{quantity} 
+                        ${price} - x{quantity} 
                     </Card.Text>
+                    <Button variant="danger" onClick={() => removeFromCart(isbn)}>Remove</Button>
                 </Card.Body>
             </Card>
             </Col>
