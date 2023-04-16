@@ -13,10 +13,13 @@ import { collection, getDocs } from "firebase/firestore";
 import book1 from '../images/bookPhoto-1.jpg'
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { useShoppingCart } from "../context/shoppingCartContext";
+import DropdownItem from "react-bootstrap/esm/DropdownItem";
 
 const Books = (): JSX.Element => {
     const [ebooks, setEbooks] = useState<Book[]>([]);
     const { getItemQuantity, increaseCartQuantity, decreaseCartQuantity, removeFromCart } = useShoppingCart() as any;
+    const [selectedValue, setSelectedValue] = useState("");
+
 
 
     const popover = (ebook: Book) => (
@@ -44,13 +47,43 @@ const Books = (): JSX.Element => {
         fetchBooks()
     }, [])
 
+    const handleSelectChange = (choice: any) => {
+      let sortedEbooks;
+    
+      if (choice.target.value === "Title") {
+        // Sort by title from A-Z
+        sortedEbooks = [...ebooks].sort((a, b) => a.title.localeCompare(b.title));
+      } else if (choice.target.value === "Author") {
+        // Sort by Author from A-Z
+        sortedEbooks = [...ebooks].sort((a, b) => a.auth.localeCompare(b.auth));
+      } else if (choice.target.value === "Price") {
+        // Sort by Price Low to High
+        sortedEbooks = [...ebooks].sort((a, b) =>  parseFloat(a.price) - parseFloat(b.price));
+      } else {
+        // No Sorting is done
+        fetchBooks();
+        sortedEbooks = [...ebooks];
+      }
+    
+      setEbooks(sortedEbooks);
+    };
+    
     //console.log(ebooks[1].title)
-
-
     return (
         <Container>
             <h1 className='pt-5' style={{ color: 'white' }}>All eBooks Available for Purchase</h1>
             <hr style={{color: 'white'}}/>
+            
+            <label style={{color: 'white', fontWeight: 'bold', marginRight: '10px'}}>Sort-by: </label>
+            <select onChange={handleSelectChange}>
+              <option value="NoFilter">No Filter</option>
+              <option value="Title">Title (A-Z)</option>
+              <option value="Author">Author (A-Z)</option>
+              <option value="Price">Price</option>
+            </select>
+
+            <hr style={{color: 'white'}}/>
+
             <div className="row">
                 {ebooks.map((ebook: Book) => (
                     <div key={ebook.id} className="col-md-3 mb-5">
