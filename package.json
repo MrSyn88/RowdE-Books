@@ -12,6 +12,7 @@
     "firebase": "^9.16.0",
     "firebase-admin": "^11.5.0",
     "firebase-tools": "^11.26.0",
+    "mdb-react-ui-kit": "^6.0.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",

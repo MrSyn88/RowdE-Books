@@ -6,6 +6,7 @@ import NavBar from './NavBar/NavBar';
 import NotFound from './NotFound/NotFound';
 import { ShoppingCartProvider } from './context/shoppingCartContext';
 import Admin from './Admin/Admin';
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 
 
 // lazy loading these components, prevents users from downloading everything at once

@@ -35,3 +35,12 @@ declare interface Discount {
     discount: number,
     expire: string
 }
+
+declare interface Order {
+    id?: string,
+    TotalItems: number,
+    TotalPay: string,
+    UserId: string,
+    userName: string,
+    orderDate: string
+}
