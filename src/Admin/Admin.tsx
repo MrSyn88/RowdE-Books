@@ -25,8 +25,27 @@ const Admin = (): JSX.Element => {
     const [orders, setOrders] = useState<Order[]>([]);
 
 
-    const ordersSorted = [...orders].sort((a, b) =>
-        (a.userName.toLowerCase < b.userName.toLowerCase) ? 1 : -1)
+    const ordersSortedName = [...orders].sort((a, b) =>
+        (a.userName.toLowerCase > b.userName.toLowerCase) ? 1 : -1)
+
+
+    const setSortedName = () => {
+        setOrders(ordersSortedName)
+    }
+
+    const ordersSortedDate = [...orders].sort((a, b) =>
+        (a.orderDate > b.orderDate) ? 1 : -1)
+
+    const setSortedDate = () => {
+        setOrders(ordersSortedDate)
+    }
+
+    const orderSortedPrice = [...orders].sort((a, b) =>
+        (a.TotalPay > b.TotalPay) ? 1 : -1)
+
+    const setSortedPrice = () => {
+        setOrders(orderSortedPrice)
+    }
 
     const fetchOrder = async () => {
         await getDocs(collection(db, 'Order'))
@@ -182,10 +201,10 @@ const Admin = (): JSX.Element => {
                                 <Table striped bordered hover variant="dark">
                                     <thead>
                                         <tr>
-                                            <th>Customer Name</th>
+                                            <th onClick={setSortedName}>Customer Name</th>
                                             <th>Order ID</th>
-                                            <th>Spent</th>
-                                            <th>Order Date</th>
+                                            <th onClick={setSortedPrice}>Spent</th>
+                                            <th onClick={setSortedDate}>Order Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
