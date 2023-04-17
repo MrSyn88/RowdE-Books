@@ -4,7 +4,17 @@ import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import { useShoppingCart } from '../context/shoppingCartContext';
 import { CheckoutItem } from '../component/CheckoutItem';
+import { loadStripe } from '@stripe/stripe-js';
 
+let stripePromise
+
+const getStripe = () => {
+    if (!stripePromise) {
+        stripePromise = loadStripe(pk_test_51MxByNGcmZeE6fuhRrNqQrtVVSJmxKS6m9XLK243Sgn6veHAzs4LfEmbxbeeZ8J2oJNW1Z18C5uGaSX5dVz3uNfE00QCpldxKP);
+    }
+
+    return stripePromise;
+}
 
 const Checkout = () => {
 
