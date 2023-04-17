@@ -9,6 +9,7 @@ import UserForm from './UserForm/UserForm'
 import EditBookForm from './EditBookForm'
 import EditDiscountForm from './EditDiscountForm'
 import DiscountForm from './DiscountForm'
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 
 
 
@@ -26,22 +27,27 @@ const Admin = (): JSX.Element => {
 
 
     const ordersSortedName = [...orders].sort((a, b) =>
-        (a.userName.toLowerCase > b.userName.toLowerCase) ? 1 : -1)
+        (a.userName.localeCompare(b.userName)))
 
 
     const setSortedName = () => {
         setOrders(ordersSortedName)
     }
 
-    const ordersSortedDate = [...orders].sort((a, b) =>
-        (a.orderDate > b.orderDate) ? 1 : -1)
+    const ordersSortedDate = [...orders].sort((a, b) => {
+      let aCompare = a.orderDate.split('/')
+      let bCompare = b.orderDate.split('/')
+      let aDate = new Date(parseInt(aCompare[2]), parseInt(aCompare[0]), parseInt(aCompare[1]))
+      let bDate = new Date(parseInt(bCompare[2]), parseInt(bCompare[0]), parseInt(bCompare[1]))
+      return aDate.getTime() - bDate.getTime()
+    })
 
     const setSortedDate = () => {
         setOrders(ordersSortedDate)
     }
 
     const orderSortedPrice = [...orders].sort((a, b) =>
-        (a.TotalPay > b.TotalPay) ? 1 : -1)
+        (a.TotalPay.localeCompare(b.TotalPay)))
 
     const setSortedPrice = () => {
         setOrders(orderSortedPrice)
@@ -103,7 +109,7 @@ const Admin = (): JSX.Element => {
     return (
         <Container>
             {
-                !admin ? <h1 style={{ color: 'white' }}>Loading...</h1> :
+                !admin ? <LoadingSpinner /> :
                     <div>
                         <h1 style={{ color: 'white' }}>Admin Panel </h1>
                         <hr style={{ color: 'white' }} />
