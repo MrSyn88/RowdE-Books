@@ -15,12 +15,11 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { useShoppingCart } from "../context/shoppingCartContext";
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
 
+
 const Books = (): JSX.Element => {
     const [ebooks, setEbooks] = useState<Book[]>([]);
     const { getItemQuantity, increaseCartQuantity, decreaseCartQuantity, removeFromCart } = useShoppingCart() as any;
     const [selectedValue, setSelectedValue] = useState("");
-
-
 
     const popover = (ebook: Book) => (
         <Popover id="popover-basic">
@@ -52,23 +51,86 @@ const Books = (): JSX.Element => {
     
       if (choice.target.value === "Title") {
         // Sort by title from A-Z
-        sortedEbooks = [...ebooks].sort((a, b) => a.title.localeCompare(b.title));
+        sortedEbooks = [...ebooks].sort((a, b) => a.title.replace(/\s+/g, '').localeCompare(b.title));
+        setEbooks(sortedEbooks);
       } else if (choice.target.value === "Author") {
         // Sort by Author from A-Z
-        sortedEbooks = [...ebooks].sort((a, b) => a.auth.localeCompare(b.auth));
+        sortedEbooks = [...ebooks].sort((a, b) => a.auth.replace(/\s+/g, '').localeCompare(b.auth));
+        setEbooks(sortedEbooks);
       } else if (choice.target.value === "Price") {
         // Sort by Price Low to High
         sortedEbooks = [...ebooks].sort((a, b) =>  parseFloat(a.price) - parseFloat(b.price));
-      } else {
+        setEbooks(sortedEbooks);
+      } else if (choice.target.value === "NoFilter"){
         // No Sorting is done
         fetchBooks();
         sortedEbooks = [...ebooks];
+        setEbooks(sortedEbooks);
       }
-    
-      setEbooks(sortedEbooks);
     };
-    
-    //console.log(ebooks[1].title)
+
+    const filterEbooks = (searchString: string) => {
+        try{
+            let filteredEbooks;
+            let sortedfilteredEbooks;
+            const searchWords = searchString.toLowerCase().replace(/"/g, "").split(" ");
+
+            console.log(searchString);
+            console.log(searchWords);
+            console.log(ebooks);
+
+            filteredEbooks = [...ebooks].filter(ebook => {
+                const bookWords = [...ebook.auth.toLowerCase().replace(/"/g, "").split(" "), ...ebook.title.toLowerCase().replace(/"/g, "").split(" "),];
+                return bookWords.some(word => searchWords.includes(word));
+            });
+
+            console.log(filteredEbooks);
+
+            sortedfilteredEbooks = [...filteredEbooks].sort((a, b) => {
+                const aString = `${a.auth} ${a.title}`.toLowerCase();
+                const bString = `${b.auth} ${b.title}`.toLowerCase();
+                const aWords = aString.split(" ");
+                const bWords = bString.split(" ");
+                const aMatches = searchWords.filter(word => aWords.includes(word.toLowerCase())).length;
+                const bMatches = searchWords.filter(word => bWords.includes(word.toLowerCase())).length;
+                return bMatches - aMatches;
+            });
+
+            console.log(sortedfilteredEbooks);
+
+            setEbooks(sortedfilteredEbooks);
+        } catch(error){
+            console.error(error);
+        }
+    };
+
+    const handleSearch = () => {
+        const searchString = window.localStorage.getItem('searchbarSubmittedText');
+
+        if(searchString !== null){
+            filterEbooks(searchString);
+        }
+    };
+
+    // useEffect(() => {
+    //     console.log("Works?");
+    //     const handleStorageChange = (e: any) => {
+    //         console.log("handleStorageChange called");
+    //       if (e.key === 'searchbarSubmittedText') {
+    //         console.log("Works?");
+    //         const searchString = window.localStorage.getItem('searchbarSubmittedText');
+    //         if(searchString !== null){
+    //             console.log("Works?");
+    //             filterEbooks(searchString);
+    //             console.log("Works?");
+    //         }
+    //       }
+    //     };
+    //     console.log("rWorks?");
+    //     window.addEventListener("storage", handleStorageChange);
+    //     return () => window.removeEventListener("storage", handleStorageChange);
+    //   }, [ebooks, window.localStorage.getItem('searchbarSubmittedText')]);
+
     return (
         <Container>
             <h1 className='pt-5' style={{ color: 'white' }}>All eBooks Available for Purchase</h1>
@@ -81,7 +143,8 @@ const Books = (): JSX.Element => {
               <option value="Author">Author (A-Z)</option>
               <option value="Price">Price</option>
             </select>
-
+            
+            <button onClick={handleSearch}>Search!</button>
             <hr style={{color: 'white'}}/>
 
             <div className="row">
