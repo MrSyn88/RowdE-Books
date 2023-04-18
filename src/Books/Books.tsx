@@ -51,11 +51,11 @@ const Books = (): JSX.Element => {
     
       if (choice.target.value === "Title") {
         // Sort by title from A-Z
-        sortedEbooks = [...ebooks].sort((a, b) => a.title.replace(/\s+/g, '').localeCompare(b.title));
+        sortedEbooks = [...ebooks].sort((a, b) => a.title.toLowerCase().replace(/\s+/g, '').localeCompare(b.title.toLowerCase().replace(/\s+/g, '')));
         setEbooks(sortedEbooks);
       } else if (choice.target.value === "Author") {
         // Sort by Author from A-Z
-        sortedEbooks = [...ebooks].sort((a, b) => a.auth.replace(/\s+/g, '').localeCompare(b.auth));
+        sortedEbooks = [...ebooks].sort((a, b) => a.auth.toLowerCase().replace(/\s+/g, '').localeCompare(b.auth.toLowerCase().replace(/\s+/g, '')));
         setEbooks(sortedEbooks);
       } else if (choice.target.value === "Price") {
         // Sort by Price Low to High
@@ -63,7 +63,7 @@ const Books = (): JSX.Element => {
         setEbooks(sortedEbooks);
       } else if (choice.target.value === "NoFilter"){
         // No Sorting is done
-        fetchBooks();
+        //fetchBooks();
         sortedEbooks = [...ebooks];
         setEbooks(sortedEbooks);
       }
