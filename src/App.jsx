@@ -13,6 +13,8 @@ const Home = lazy(() => import('./scenes/Home'))
 const Books = lazy(() => import('./Books/Books'))
 const Checkout = lazy(() => import('./scenes/Checkout'))
 const Admin = lazy(() => import('./Admin/Admin'))
+const Cancelled = lazy(() => import('./scenes/Cancelled'))
+const Success = lazy(() => import('./scenes/Success'))
 
 
 function App() {
@@ -28,6 +30,8 @@ function App() {
               <Route path="/Checkout" element={<Checkout />} />
               <Route path="/Books" element={<Books />} />
               <Route path="/Admin" element={<Admin />} />
+              <Route path="/Cancelled" element={<Cancelled />} />
+              <Route path="/Success" element={<Success />} />
               <Route path='*' element={<NotFound />} />
             </Routes>
           </Suspense>
