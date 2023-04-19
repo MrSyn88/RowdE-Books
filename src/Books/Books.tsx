@@ -114,15 +114,16 @@ const Books = (): JSX.Element => {
             <h1 className='pt-5' style={{ color: 'white' }}>All eBooks Available for Purchase</h1>
             <hr style={{color: 'white'}}/>
             
-            <label style={{color: 'white', fontWeight: 'bold', marginRight: '10px'}}>Sort-by: </label>
-            <select onChange={handleSelectChange}>
+            <label style={{color: 'white', fontWeight: 'bold', marginRight: '10px', fontSize:"20px"}}>Sort-by: </label>
+            <select  className="me-3" style={{width:"120px", height: "30px", border:"1px solid #999", fontSize:"18px", color:"#FFFFFF", backgroundColor:"#282c34", borderRadius:"5px"}} onChange={handleSelectChange}>
               <option value="NoFilter">No Filter</option>
               <option value="Title">Title (A-Z)</option>
               <option value="Author">Author (A-Z)</option>
               <option value="Price">Price</option>
             </select>
             
-            <button onClick={handleRefresh}>Refresh Filter/Search</button>
+            <br></br>
+            <Button className='me-3 mt-3' variant="outline-light" onClick={handleRefresh}>Refresh Filter/Search</Button>
             
             <hr style={{color: 'white'}}/>
 
