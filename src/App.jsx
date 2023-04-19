@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
 import NavBar from './NavBar/NavBar';
 import NotFound from './NotFound/NotFound';
 import { ShoppingCartProvider } from './context/shoppingCartContext';
-import "@stripe/stripe-js"
+import "@stripe/stripe-js";
 import LoadingSpinner from './LoadingSpinner/LoadingSpinner';
 
 

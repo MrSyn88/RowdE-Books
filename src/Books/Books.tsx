@@ -15,12 +15,11 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { useShoppingCart } from "../context/shoppingCartContext";
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
 
+
 const Books = (): JSX.Element => {
     const [ebooks, setEbooks] = useState<Book[]>([]);
     const { getItemQuantity, increaseCartQuantity, decreaseCartQuantity, removeFromCart } = useShoppingCart() as any;
     const [selectedValue, setSelectedValue] = useState("");
-
-
 
     const popover = (ebook: Book) => (
         <Popover id="popover-basic">
@@ -39,36 +38,77 @@ const Books = (): JSX.Element => {
                 const data = querySnapshot.docs
                     .map((doc) => ({ ...doc.data(), id: doc.id }))
                 setEbooks(data as Book[])
-                // console.log(data, ebooks)
             })
+            console.log("Finished fetchBooks")
     }
 
     useEffect(() => {
-        fetchBooks()
-    }, [])
+        fetchBooks();
+    }, []);
+    
+    useEffect(() => {
+        if (ebooks.length > 0) {
+            const searchString = window.localStorage.getItem('searchbarSubmittedText');
+            if (searchString !== null) {
+                filterEbooks(searchString);
+            }
+        }
+    }, [ebooks]);
 
     const handleSelectChange = (choice: any) => {
       let sortedEbooks;
     
       if (choice.target.value === "Title") {
         // Sort by title from A-Z
-        sortedEbooks = [...ebooks].sort((a, b) => a.title.localeCompare(b.title));
+        sortedEbooks = [...ebooks].sort((a, b) => a.title.toLowerCase().replace(/\s+/g, '').localeCompare(b.title.toLowerCase().replace(/\s+/g, '')));
+        setEbooks(sortedEbooks);
       } else if (choice.target.value === "Author") {
         // Sort by Author from A-Z
-        sortedEbooks = [...ebooks].sort((a, b) => a.auth.localeCompare(b.auth));
+        sortedEbooks = [...ebooks].sort((a, b) => a.auth.toLowerCase().replace(/\s+/g, '').localeCompare(b.auth.toLowerCase().replace(/\s+/g, '')));
+        setEbooks(sortedEbooks);
       } else if (choice.target.value === "Price") {
         // Sort by Price Low to High
         sortedEbooks = [...ebooks].sort((a, b) =>  parseFloat(a.price) - parseFloat(b.price));
-      } else {
-        // No Sorting is done
-        fetchBooks();
+        setEbooks(sortedEbooks);
+      } else if (choice.target.value === "NoFilter"){
+        
         sortedEbooks = [...ebooks];
+        setEbooks(sortedEbooks);
       }
-    
-      setEbooks(sortedEbooks);
     };
-    
-    //console.log(ebooks[1].title)
+
+    const filterEbooks = (searchString: string) => {
+        try{
+            let filteredEbooks;
+            let sortedfilteredEbooks;
+            const searchWords = searchString.toLowerCase().replace(/"/g, "").split(" ");
+
+            filteredEbooks = [...ebooks].filter(ebook => {
+                const bookWords = [...ebook.auth.toLowerCase().replace(/"/g, "").split(" "), ...ebook.title.toLowerCase().replace(/"/g, "").split(" "),];
+                return bookWords.some(word => searchWords.includes(word));
+            });
+
+            sortedfilteredEbooks = [...filteredEbooks].sort((a, b) => {
+                const aString = `${a.auth} ${a.title}`.toLowerCase();
+                const bString = `${b.auth} ${b.title}`.toLowerCase();
+                const aWords = aString.split(" ");
+                const bWords = bString.split(" ");
+                const aMatches = searchWords.filter(word => aWords.includes(word.toLowerCase())).length;
+                const bMatches = searchWords.filter(word => bWords.includes(word.toLowerCase())).length;
+                return bMatches - aMatches;
+            });
+
+            window.localStorage.removeItem('searchbarSubmittedText');
+            setEbooks(sortedfilteredEbooks);
+        } catch(error){
+            console.error(error);
+        }
+    };
+
+    const handleRefresh = () => {
+        fetchBooks();
+    };
+
     return (
         <Container>
             <h1 className='pt-5' style={{ color: 'white' }}>All eBooks Available for Purchase</h1>
@@ -81,7 +121,9 @@ const Books = (): JSX.Element => {
               <option value="Author">Author (A-Z)</option>
               <option value="Price">Price</option>
             </select>
-
+            
+            <button onClick={handleRefresh}>Refresh Filter/Search</button>
+            
             <hr style={{color: 'white'}}/>
 
             <div className="row">
