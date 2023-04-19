@@ -71,8 +71,7 @@ const Books = (): JSX.Element => {
         sortedEbooks = [...ebooks].sort((a, b) =>  parseFloat(a.price) - parseFloat(b.price));
         setEbooks(sortedEbooks);
       } else if (choice.target.value === "NoFilter"){
-        // No Sorting is done
-        //fetchBooks();
+        
         sortedEbooks = [...ebooks];
         setEbooks(sortedEbooks);
       }
@@ -109,25 +108,6 @@ const Books = (): JSX.Element => {
     const handleRefresh = () => {
         fetchBooks();
     };
-
-    // useEffect(() => {
-    //     console.log("Works?");
-    //     const handleStorageChange = (e: any) => {
-    //         console.log("handleStorageChange called");
-    //       if (e.key === 'searchbarSubmittedText') {
-    //         console.log("Works?");
-    //         const searchString = window.localStorage.getItem('searchbarSubmittedText');
-    //         if(searchString !== null){
-    //             console.log("Works?");
-    //             filterEbooks(searchString);
-    //             console.log("Works?");
-    //         }
-    //       }
-    //     };
-    //     console.log("rWorks?");
-    //     window.addEventListener("storage", handleStorageChange);
-    //     return () => window.removeEventListener("storage", handleStorageChange);
-    //   }, [ebooks, window.localStorage.getItem('searchbarSubmittedText')]);
 
     return (
         <Container>

@@ -9,6 +9,7 @@ import UserForm from './UserForm/UserForm'
 import EditBookForm from './EditBookForm'
 import EditDiscountForm from './EditDiscountForm'
 import DiscountForm from './DiscountForm'
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 
 
 
@@ -22,6 +23,44 @@ const Admin = (): JSX.Element => {
     const [users, setUsers] = useState<User[]>([]);
     const [books, setBooks] = useState<Book[]>([]);
     const [discounts, setDiscounts] = useState<Discount[]>([]);
+    const [orders, setOrders] = useState<Order[]>([]);
+
+
+    const ordersSortedName = [...orders].sort((a, b) =>
+        (a.userName.localeCompare(b.userName)))
+
+
+    const setSortedName = () => {
+        setOrders(ordersSortedName)
+    }
+
+    const ordersSortedDate = [...orders].sort((a, b) => {
+      let aCompare = a.orderDate.split('/')
+      let bCompare = b.orderDate.split('/')
+      let aDate = new Date(parseInt(aCompare[2]), parseInt(aCompare[0]), parseInt(aCompare[1]))
+      let bDate = new Date(parseInt(bCompare[2]), parseInt(bCompare[0]), parseInt(bCompare[1]))
+      return aDate.getTime() - bDate.getTime()
+    })
+
+    const setSortedDate = () => {
+        setOrders(ordersSortedDate)
+    }
+
+    const orderSortedPrice = [...orders].sort((a, b) =>
+        (a.TotalPay.localeCompare(b.TotalPay)))
+
+    const setSortedPrice = () => {
+        setOrders(orderSortedPrice)
+    }
+
+    const fetchOrder = async () => {
+        await getDocs(collection(db, 'Order'))
+            .then((querySnapshot) => {
+                const data = querySnapshot.docs
+                    .map((doc) => ({ ...doc.data(), id: doc.id }))
+                setOrders(data as Order[])
+            })
+    }
 
 
     const fetchDiscounts = async () => {
@@ -55,6 +94,7 @@ const Admin = (): JSX.Element => {
         fetchBooks()
         fetchUsers()
         fetchDiscounts()
+        fetchOrder()
     }, [])
 
     if (userId) {
@@ -69,12 +109,14 @@ const Admin = (): JSX.Element => {
     return (
         <Container>
             {
-                !admin ? <h1 style={{ color: 'white' }}>Loading...</h1> :
+                !admin ? <LoadingSpinner /> :
                     <div>
                         <h1 style={{ color: 'white' }}>Admin Panel </h1>
+                        <hr style={{ color: 'white' }} />
                         <br /><br /><br /><br />
 
                         <h2 style={{ color: 'white' }}>Users</h2>
+                        <hr style={{ color: 'white' }} />
                         <div className='row'>
                             <div className='col-12'>
                                 <Table striped bordered hover variant="dark">
@@ -103,6 +145,7 @@ const Admin = (): JSX.Element => {
                         </div>
                         <div className='row'>
                             <h2 style={{ color: 'white' }}>Books</h2>
+                            <hr style={{ color: 'white' }} />
                             <div >
                                 <Table striped bordered hover variant="dark">
                                     <thead>
@@ -130,6 +173,9 @@ const Admin = (): JSX.Element => {
                                         </tr>
                                     </tbody>
                                 </Table>
+
+                                <h2 style={{ color: 'white' }}>Discounts</h2>
+                                <hr style={{ color: 'white' }} />
                                 <Table striped bordered hover variant="dark">
                                     <thead>
                                         <tr>
@@ -154,6 +200,28 @@ const Admin = (): JSX.Element => {
                                             <td></td>
                                             <td><DiscountForm /></td>
                                         </tr>
+                                    </tbody>
+                                </Table>
+                                <h2 style={{ color: 'white' }}>Orders</h2>
+                                <hr style={{ color: 'white' }} />
+                                <Table striped bordered hover variant="dark">
+                                    <thead>
+                                        <tr>
+                                            <th onClick={setSortedName}>Customer Name</th>
+                                            <th>Order ID</th>
+                                            <th onClick={setSortedPrice}>Spent</th>
+                                            <th onClick={setSortedDate}>Order Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {orders.map((order: Order) => (
+                                            <tr key={order.id}>
+                                                <td>{order.userName}</td>
+                                                <td>{order.id}</td>
+                                                <td>${order.TotalPay}</td>
+                                                <td>{order.orderDate}</td>
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </Table>
                             </div>
