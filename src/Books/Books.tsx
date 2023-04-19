@@ -38,13 +38,22 @@ const Books = (): JSX.Element => {
                 const data = querySnapshot.docs
                     .map((doc) => ({ ...doc.data(), id: doc.id }))
                 setEbooks(data as Book[])
-                // console.log(data, ebooks)
             })
+            console.log("Finished fetchBooks")
     }
 
     useEffect(() => {
-        fetchBooks()
-    }, [])
+        fetchBooks();
+    }, []);
+    
+    useEffect(() => {
+        if (ebooks.length > 0) {
+            const searchString = window.localStorage.getItem('searchbarSubmittedText');
+            if (searchString !== null) {
+                filterEbooks(searchString);
+            }
+        }
+    }, [ebooks]);
 
     const handleSelectChange = (choice: any) => {
       let sortedEbooks;
@@ -75,16 +84,10 @@ const Books = (): JSX.Element => {
             let sortedfilteredEbooks;
             const searchWords = searchString.toLowerCase().replace(/"/g, "").split(" ");
 
-            console.log(searchString);
-            console.log(searchWords);
-            console.log(ebooks);
-
             filteredEbooks = [...ebooks].filter(ebook => {
                 const bookWords = [...ebook.auth.toLowerCase().replace(/"/g, "").split(" "), ...ebook.title.toLowerCase().replace(/"/g, "").split(" "),];
                 return bookWords.some(word => searchWords.includes(word));
             });
-
-            console.log(filteredEbooks);
 
             sortedfilteredEbooks = [...filteredEbooks].sort((a, b) => {
                 const aString = `${a.auth} ${a.title}`.toLowerCase();
@@ -96,20 +99,15 @@ const Books = (): JSX.Element => {
                 return bMatches - aMatches;
             });
 
-            console.log(sortedfilteredEbooks);
-
+            window.localStorage.removeItem('searchbarSubmittedText');
             setEbooks(sortedfilteredEbooks);
         } catch(error){
             console.error(error);
         }
     };
 
-    const handleSearch = () => {
-        const searchString = window.localStorage.getItem('searchbarSubmittedText');
-
-        if(searchString !== null){
-            filterEbooks(searchString);
-        }
+    const handleRefresh = () => {
+        fetchBooks();
     };
 
     // useEffect(() => {
@@ -144,7 +142,8 @@ const Books = (): JSX.Element => {
               <option value="Price">Price</option>
             </select>
             
-            <button onClick={handleSearch}>Search!</button>
+            <button onClick={handleRefresh}>Refresh Filter/Search</button>
+            
             <hr style={{color: 'white'}}/>
 
             <div className="row">
