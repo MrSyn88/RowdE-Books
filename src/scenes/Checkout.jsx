@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import { useShoppingCart } from '../context/shoppingCartContext';
 import { CheckoutItem } from '../component/CheckoutItem';
-//import { loadStripe } from '@stripe/stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import { useState } from 'react';
 
 let stripePromise
