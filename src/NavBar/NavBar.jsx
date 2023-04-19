@@ -12,6 +12,8 @@ import { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom'
 import { useShoppingCart } from '../context/shoppingCartContext';
 import logo from '../images/rowde-books-low-resolution-logo-white-on-transparent-background.png'
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 
 export default function NavBar({ Link }) {
@@ -74,13 +76,13 @@ export default function NavBar({ Link }) {
             </NavDropdown.Item>
           </NavDropdown>
         </Nav>
-        <Button style={{ width: "4rem", height: "3rem", position: "relative" }} variant="outline-primary" className='' onClick={openCart}>
+        <Button className='me-3' style={{ width: "4rem", height: "3rem", position: "relative" }} variant="outline-primary" onClick={openCart}>
           Cart
           <div style={{ width: "1.5rem", color: "white", height: "1.5rem", position: "absolute", bottom: 0, right: 0, transform: "translate(25%, 25%)" }} className='rounded-circle bg-danger d-flex justify-content-center align-items-center'>{cartQuantity}</div>
         </Button>
         <Form className="d-flex" onSubmit={handleSearch} >
           <Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search" onChange={(event => setSearchValue(event.target.value))} />
-          <Button variant="outline-success" onClick={handleSearch} onChange={(event => setSearchValue(event.target.value))}>Search</Button>
+          <Button className='me-2' variant="outline-success" onClick={handleSearch} onChange={(event => setSearchValue(event.target.value))}>Search</Button>
         </Form>
         <Form className="d-flex">
           {!user ? (
