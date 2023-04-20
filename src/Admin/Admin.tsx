@@ -3,7 +3,7 @@ import { isAdmin, db } from '../firebase'
 import Container from 'react-bootstrap/Container'
 import { collection, getDocs } from "firebase/firestore"
 import { useEffect, useState } from 'react'
-import { Table } from 'react-bootstrap'
+import { Button, Table } from 'react-bootstrap'
 import BookForm from './BookForm'
 import UserForm from './UserForm/UserForm'
 import EditBookForm from './EditBookForm'
@@ -35,11 +35,11 @@ const Admin = (): JSX.Element => {
     }
 
     const ordersSortedDate = [...orders].sort((a, b) => {
-      let aCompare = a.orderDate.split('/')
-      let bCompare = b.orderDate.split('/')
-      let aDate = new Date(parseInt(aCompare[2]), parseInt(aCompare[0]), parseInt(aCompare[1]))
-      let bDate = new Date(parseInt(bCompare[2]), parseInt(bCompare[0]), parseInt(bCompare[1]))
-      return aDate.getTime() - bDate.getTime()
+        let aCompare = a.orderDate.split('/')
+        let bCompare = b.orderDate.split('/')
+        let aDate = new Date(parseInt(aCompare[2]), parseInt(aCompare[0]), parseInt(aCompare[1]))
+        let bDate = new Date(parseInt(bCompare[2]), parseInt(bCompare[0]), parseInt(bCompare[1]))
+        return aDate.getTime() - bDate.getTime()
     })
 
     const setSortedDate = () => {
@@ -90,6 +90,13 @@ const Admin = (): JSX.Element => {
             })
     }
 
+    const refresh = () => {
+        fetchBooks()
+        fetchUsers()
+        fetchDiscounts()
+        fetchOrder()
+    }
+
     useEffect(() => {
         fetchBooks()
         fetchUsers()
@@ -113,7 +120,11 @@ const Admin = (): JSX.Element => {
                     <div>
                         <h1 style={{ color: 'white' }}>Admin Panel </h1>
                         <hr style={{ color: 'white' }} />
+                        <div className='float-end ms-2'>
+                            <Button variant="outline-light" onClick={refresh} >Refresh Tables</Button>
+                        </div>
                         <br /><br /><br /><br />
+
 
                         <h2 style={{ color: 'white' }}>Users</h2>
                         <hr style={{ color: 'white' }} />
