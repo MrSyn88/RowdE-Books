@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { ShoppingCart } from "../component/ShoppingCart";
 //import { db } from "../firebase";
 
@@ -11,17 +11,28 @@ export function useShoppingCart(){
     return useContext(ShoppingCartContext);
 }
 
+
+
 export function ShoppingCartProvider({ children }){
+    
     const [cartItems, setCartItems] = useState([])
     const [isOpen, setIsOpen] = useState(false);
-
-   
+    const getLocalItems = JSON.parse(localStorage.getItem('cart') || '[]');
+    useEffect(() => {
+        setCartItems(getLocalItems);
+        console.log("SUCCESS");
+    }, [])
+    console.log(getLocalItems);
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cartItems))
+    }, [cartItems])
 
 
     function getItemQuantity(isbn){
         //console.log(cartItems);
         return cartItems.find(item => item.book.isbn === isbn)?.quantity || 0
     }
+    
 
     function increaseCartQuantity(isbn, ebook){
         let book = null;
