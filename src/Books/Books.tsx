@@ -18,6 +18,7 @@ import DropdownItem from "react-bootstrap/esm/DropdownItem";
 
 const Books = (): JSX.Element => {
     const [ebooks, setEbooks] = useState<Book[]>([]);
+    const [ebooksSecondary, setEbooksSecondary] = useState<Book[]>([]);
     const { getItemQuantity, increaseCartQuantity, decreaseCartQuantity, removeFromCart } = useShoppingCart() as any;
     const [selectedValue, setSelectedValue] = useState("");
 
@@ -38,6 +39,7 @@ const Books = (): JSX.Element => {
                 const data = querySnapshot.docs
                     .map((doc) => ({ ...doc.data(), id: doc.id }))
                 setEbooks(data as Book[])
+                setEbooksSecondary(data as Book[]);
             })
             console.log("Finished fetchBooks")
     }
@@ -58,21 +60,33 @@ const Books = (): JSX.Element => {
     const handleSelectChange = (choice: any) => {
       let sortedEbooks;
     
-      if (choice.target.value === "Title") {
+      if (choice.target.value === "TitleAZ") {
         // Sort by title from A-Z
         sortedEbooks = [...ebooks].sort((a, b) => a.title.toLowerCase().replace(/\s+/g, '').localeCompare(b.title.toLowerCase().replace(/\s+/g, '')));
         setEbooks(sortedEbooks);
-      } else if (choice.target.value === "Author") {
+      } else if (choice.target.value === "AuthorAZ") {
         // Sort by Author from A-Z
         sortedEbooks = [...ebooks].sort((a, b) => a.auth.toLowerCase().replace(/\s+/g, '').localeCompare(b.auth.toLowerCase().replace(/\s+/g, '')));
         setEbooks(sortedEbooks);
-      } else if (choice.target.value === "Price") {
+      } else if (choice.target.value === "PriceLH") {
         // Sort by Price Low to High
         sortedEbooks = [...ebooks].sort((a, b) =>  parseFloat(a.price) - parseFloat(b.price));
         setEbooks(sortedEbooks);
-      } else if (choice.target.value === "NoFilter"){
-        
-        sortedEbooks = [...ebooks];
+      } else if (choice.target.value === "TitleZA") {
+        // Sort by title from Z-A
+        sortedEbooks = [...ebooks].sort((a, b) => b.title.toLowerCase().replace(/\s+/g, '').localeCompare(a.title.toLowerCase().replace(/\s+/g, '')));
+        setEbooks(sortedEbooks);
+      } else if (choice.target.value === "AuthorZA") {
+        // Sort by Author from Z-A
+        sortedEbooks = [...ebooks].sort((a, b) => b.auth.toLowerCase().replace(/\s+/g, '').localeCompare(a.auth.toLowerCase().replace(/\s+/g, '')));
+        setEbooks(sortedEbooks);
+      } else if (choice.target.value === "PriceHL") {
+        // Sort by Price High to Low
+        sortedEbooks = [...ebooks].sort((a, b) =>  parseFloat(b.price) - parseFloat(a.price));
+        setEbooks(sortedEbooks);
+      }else if (choice.target.value === "NoFilter"){
+        // Removes Filter
+        sortedEbooks = [...ebooksSecondary];
         setEbooks(sortedEbooks);
       }
     };
@@ -100,6 +114,7 @@ const Books = (): JSX.Element => {
 
             window.localStorage.removeItem('searchbarSubmittedText');
             setEbooks(sortedfilteredEbooks);
+            setEbooksSecondary(sortedfilteredEbooks);
         } catch(error){
             console.error(error);
         }
@@ -115,11 +130,14 @@ const Books = (): JSX.Element => {
             <hr style={{color: 'white'}}/>
             
             <label style={{color: 'white', fontWeight: 'bold', marginRight: '10px', fontSize:"20px"}}>Sort-by: </label>
-            <select  className="me-3" style={{width:"120px", height: "30px", border:"1px solid #999", fontSize:"18px", color:"#FFFFFF", backgroundColor:"#282c34", borderRadius:"5px"}} onChange={handleSelectChange}>
+            <select  className="me-3" style={{width:"160px", height: "30px", border:"1px solid #999", fontSize:"18px", color:"#FFFFFF", backgroundColor:"#282c34", borderRadius:"5px"}} onChange={handleSelectChange}>
               <option value="NoFilter">No Filter</option>
-              <option value="Title">Title (A-Z)</option>
-              <option value="Author">Author (A-Z)</option>
-              <option value="Price">Price</option>
+              <option value="TitleAZ">Title (A-Z)</option>
+              <option value="AuthorAZ">Author (A-Z)</option>
+              <option value="PriceLH">Price (Low-High)</option>
+              <option value="TitleZA">Title (Z-A)</option>
+              <option value="AuthorZA">Author (Z-A)</option>
+              <option value="PriceHL">Price (High-Low)</option>
             </select>
             
             <br></br>
