@@ -14,13 +14,14 @@ import book1 from '../images/bookPhoto-1.jpg'
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { useShoppingCart } from "../context/shoppingCartContext";
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
-
+import stringSimilarity from "string-similarity";
 
 const Books = (): JSX.Element => {
     const [ebooks, setEbooks] = useState<Book[]>([]);
     const [ebooksSecondary, setEbooksSecondary] = useState<Book[]>([]);
     const { getItemQuantity, increaseCartQuantity, decreaseCartQuantity, removeFromCart } = useShoppingCart() as any;
     const [selectedValue, setSelectedValue] = useState("");
+    const SIMILARITY_THRESHOLD = 0.55;
 
     const popover = (ebook: Book) => (
         <Popover id="popover-basic">
@@ -99,7 +100,18 @@ const Books = (): JSX.Element => {
 
             filteredEbooks = [...ebooks].filter(ebook => {
                 const bookWords = [...ebook.auth.toLowerCase().replace(/"/g, "").split(" "), ...ebook.title.toLowerCase().replace(/"/g, "").split(" "),];
-                return bookWords.some(word => searchWords.includes(word));
+                if (searchWords.length === 1) {
+                    return bookWords.some(word => {
+                        const similarity = stringSimilarity.compareTwoStrings(word, searchWords[0]);
+                        return similarity >= SIMILARITY_THRESHOLD;
+                    });
+                } else {
+                    const matches = searchWords.filter(searchWord => bookWords.some(word => {
+                        const similarity = stringSimilarity.compareTwoStrings(word, searchWord);
+                        return similarity >= SIMILARITY_THRESHOLD;
+                    }));
+                    return matches.length >= 3;
+                }
             });
 
             sortedfilteredEbooks = [...filteredEbooks].sort((a, b) => {
@@ -109,7 +121,9 @@ const Books = (): JSX.Element => {
                 const bWords = bString.split(" ");
                 const aMatches = searchWords.filter(word => aWords.includes(word.toLowerCase())).length;
                 const bMatches = searchWords.filter(word => bWords.includes(word.toLowerCase())).length;
-                return bMatches - aMatches;
+                const aPartialMatches = searchWords.filter(word => aWords.some(aWord => aWord.startsWith(word.toLowerCase()))).length;
+                const bPartialMatches = searchWords.filter(word => bWords.some(bWord => bWord.startsWith(word.toLowerCase()))).length;
+                return (bMatches + bPartialMatches) - (aMatches + aPartialMatches);
             });
 
             window.localStorage.removeItem('searchbarSubmittedText');
