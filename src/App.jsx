@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import './App.css';
 import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
 import NavBar from './NavBar/NavBar';
+import Footer from './component/Footer'
 import NotFound from './NotFound/NotFound';
 import { ShoppingCartProvider } from './context/shoppingCartContext';
 import "@stripe/stripe-js";
@@ -35,6 +36,7 @@ function App() {
               <Route path='*' element={<NotFound />} />
             </Routes>
           </Suspense>
+          <Footer/>
         </div>
       </ShoppingCartProvider>    
     </BrowserRouter>
