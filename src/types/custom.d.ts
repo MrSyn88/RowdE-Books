@@ -17,6 +17,7 @@ declare interface Book {
     pub: string,
     price: string,
     title: string,
+    priceKey: string,
     sale: boolean
 }
 

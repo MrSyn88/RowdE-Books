@@ -204,33 +204,14 @@ const Home = () => {
                                         <OverlayTrigger trigger="focus" placement="top" overlay={popover(ebook)}>
                                             <Button variant="primary">Learn More</Button>
                                         </OverlayTrigger>
-                                        {quantity === 0 ? (
-                                            <Button className='m-3' style={{}} variant="primary" onClick={() => increaseCartQuantity(ebook.isbn, ebook) }>Add to Cart</Button>
-                                        ) : 
-                                        <div className='d-flex align-items-center flex-column' style={{gap:".5rem"}}>
-                                           
-                                            <div className='d-flex align-items-center justify-content-center' style={{gap:".5rem"}}>
-                                            <Button onClick={() => decreaseCartQuantity(ebook.isbn) }>-</Button>
-                                            <div className=''>
-                                            <span className="fs-3">{quantity}</span>
-                                                in cart
-                                                
-                                            </div>
-                                            <Button onClick={() => increaseCartQuantity(ebook.isbn, ebook)}>+</Button>
-                                            
-                                            </div>
-                                            <Button variant="danger" size="sm" onClick={() => removeFromCart(ebook.isbn) }>Remove</Button>
-                                            </div>
-                                            }
                                     </Carousel.Caption>
                                 </Carousel.Item>
                             );
                         })}
                     </Carousel>
-
-
                 </Col>
-            </Row><Row>
+            </Row>
+            <Row>
                 <Col>
                     <br></br>
                 </Col>
