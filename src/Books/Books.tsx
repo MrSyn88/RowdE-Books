@@ -42,7 +42,6 @@ const Books = (): JSX.Element => {
                 setEbooks(data as Book[])
                 setEbooksSecondary(data as Book[]);
             })
-            console.log("Finished fetchBooks")
     }
 
     useEffect(() => {
@@ -110,7 +109,7 @@ const Books = (): JSX.Element => {
                         const similarity = stringSimilarity.compareTwoStrings(word, searchWord);
                         return similarity >= SIMILARITY_THRESHOLD;
                     }));
-                    return matches.length >= 3;
+                    return matches.length >= 2;
                 }
             });
 
@@ -147,10 +146,10 @@ const Books = (): JSX.Element => {
             <select  className="me-3" style={{width:"160px", height: "30px", border:"1px solid #999", fontSize:"18px", color:"#FFFFFF", backgroundColor:"#282c34", borderRadius:"5px"}} onChange={handleSelectChange}>
               <option value="NoFilter">No Filter</option>
               <option value="TitleAZ">Title (A-Z)</option>
-              <option value="AuthorAZ">Author (A-Z)</option>
-              <option value="PriceLH">Price (Low-High)</option>
               <option value="TitleZA">Title (Z-A)</option>
+              <option value="AuthorAZ">Author (A-Z)</option>
               <option value="AuthorZA">Author (Z-A)</option>
+              <option value="PriceLH">Price (Low-High)</option>
               <option value="PriceHL">Price (High-Low)</option>
             </select>
             
