@@ -30,8 +30,25 @@ const Checkout = () => {
         quantity: 1,  
     }
 
+    let items = [];
+    let i = 0;
+    cartItems.map((item, idx) => {
+        let bookItem = {};
+        //console.log(item.book.priceKey);
+        bookItem.price = item.book.priceKey;
+        bookItem.quantity = 1;
+        items[idx] = bookItem;
+        //console.log(idx);
+        //console.log(items);
+    });
+
     const checkoutOptions = {
-        lineItems: [silmarillion],
+        lineItems: items.map((item) => {
+            return {
+                price: item.price,
+                quantity: 1,
+            };
+        }),
         mode: "payment",
         successUrl: `${window.location.origin}/Success`,
         cancelUrl: `${window.location.origin}/Cancelled`
