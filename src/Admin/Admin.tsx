@@ -48,11 +48,12 @@ const Admin = (): JSX.Element => {
         setOrders(ordersSortedDate)
     }
 
-    const orderSortedPrice = [...orders].sort((a, b) =>
-        (a.TotalPay.localeCompare(b.TotalPay)))
+    const sortedPrice = [...orders].sort((a,b) => 
+        parseFloat(b.TotalPay) - parseFloat(a.TotalPay))
+
 
     const setSortedPrice = () => {
-        setOrders(orderSortedPrice)
+        setOrders(sortedPrice)
     }
 
     const fetchOrder = async () => {
