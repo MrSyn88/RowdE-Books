@@ -36,7 +36,7 @@ const DiscountForm = () => {
         <div >
             <Modal size='lg' show={show} onHide={handleClose}>
                 <Modal.Header style={{ background: '#212529' }} closeButton>
-                    <Modal.Title style={{ color: 'white' }} >Edit Discount</Modal.Title>
+                    <Modal.Title style={{ color: 'white' }} >Add Discount</Modal.Title>
                 </Modal.Header>
                 <Modal.Body style={{ background: '#212529' }}>
                     <Form>
