@@ -165,7 +165,7 @@ const Checkout = () => {
                             <div className='mt3'
                                 style={{
                                     display: "block",
-                                    width: "55%",
+                                    width: "22%",
                                     marginLeft: "auto",
                                     marginRight: "auto"
                                 }}>
