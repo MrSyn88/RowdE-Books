@@ -25,13 +25,7 @@ const Checkout = () => {
     const [stripeLoading, setStripeLoading] = useState(false);
     const { cartItems } = useShoppingCart();
 
-    const silmarillion = {
-        price: "price_1MxIaKGcmZeE6fuhnLnSKSxE",
-        quantity: 1,  
-    }
-
     let items = [];
-    let i = 0;
     cartItems.map((item, idx) => {
         let bookItem = {};
         //console.log(item.book.priceKey);
