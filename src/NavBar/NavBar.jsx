@@ -18,7 +18,7 @@ import {
 
 export default function NavBar({ Link }) {
     const [user] = useAuthState(auth);
-    const { openCart, cartQuantity } = useShoppingCart();
+    const { openCart, cartQuantity, clearCart } = useShoppingCart();
     const [admin, setAdmin] = useState(false);
     const navigate = useNavigate();
     const [searchValue, setSearchValue] = useState("");
@@ -108,6 +108,7 @@ export default function NavBar({ Link }) {
                                     onClick={() => {
                                         sendEmHome()
                                         logout()
+                                        clearCart()
                                     }}
                                 >
                                     Log out
