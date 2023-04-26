@@ -112,9 +112,7 @@ const Admin = (): JSX.Element => {
             if (value === true)
                 setUserAdmin(true)
         })
-    } else {
-    }
-
+    } 
 
     return (
         <Container>
