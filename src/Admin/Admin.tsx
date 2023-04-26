@@ -41,7 +41,7 @@ const Admin = (): JSX.Element => {
         let bCompare = b.orderDate.split('/')
         let aDate = new Date(parseInt(aCompare[2]), parseInt(aCompare[0]), parseInt(aCompare[1]))
         let bDate = new Date(parseInt(bCompare[2]), parseInt(bCompare[0]), parseInt(bCompare[1]))
-        return aDate.getTime() - bDate.getTime()
+        return bDate.getTime() - aDate.getTime()
     })
 
     const setSortedDate = () => {

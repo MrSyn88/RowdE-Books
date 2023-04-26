@@ -10,11 +10,14 @@ const BookForm = (): JSX.Element => {
     const [sale, setSale] = useState<boolean>(false);
 
     const submitted = () => {
-        console.log(newBook.title, ' was added.')
-        addBook(newBook).catch((error) => {
-            console.log(error)
-        })
-        handleClose()
+        const didConfirm = confirm('Are you sure you want to create this book?')
+        if (didConfirm) {
+            console.log(newBook.title, ' was added.')
+            addBook(newBook).catch((error) => {
+                console.log(error)
+            })
+            handleClose()
+        }
     }
 
     const newBook: Book = {
@@ -34,7 +37,7 @@ const BookForm = (): JSX.Element => {
     return (
         <div className='clearfix'>
             <Modal size='lg' show={show} onHide={handleClose}>
-                <Modal.Header  style={{ background: '#212529' }} closeButton>
+                <Modal.Header style={{ background: '#212529' }} closeButton>
                     <Modal.Title style={{ color: 'white' }}>Add Book</Modal.Title>
                 </Modal.Header>
                 <Modal.Body style={{ background: '#212529' }} >
@@ -143,12 +146,12 @@ const BookForm = (): JSX.Element => {
                                         type="switch"
                                         label="On Sale?"
                                         checked={newBook.sale}
-                                        onChange={() => {setSale(!newBook.sale)}}
+                                        onChange={() => { setSale(!newBook.sale) }}
                                         isValid={newBook.sale} />
                                 </Form.Group>
                             </Col>
                         </Row>
-                        
+
                     </Form>
 
                 </Modal.Body>
