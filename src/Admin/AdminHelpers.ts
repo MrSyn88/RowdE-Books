@@ -81,11 +81,11 @@ export const editUser = async (user: User) => {
 // delete user from database
 export const deleteUser = async (user: User) => {
     await deleteDoc(doc(db, 'users', user.id))
-    .then(() => {
-        console.log('Document successfully deleted from database!')
-    }).catch((error) => {
-        console.error('Error deleting document: ', error)
-    })
+        .then(() => {
+            console.log('Document successfully deleted from database!')
+        }).catch((error) => {
+            console.error('Error deleting document: ', error)
+        })
     //window.location.reload();
     return alert(`${user.name} has been deleted from the database`)
 }
@@ -112,11 +112,11 @@ export const editDiscount = async (discount: Discount) => {
 // delete discount from database
 export const deleteDiscount = async (discount: Discount) => {
     await deleteDoc(doc(db, 'Discounts', discount.id as string))
-    .then(() => {
-        console.log('Document successfully deleted from database!')
-    }).catch((error) => {
-        console.error('Error deleting document: ', error)
-    })
+        .then(() => {
+            console.log('Document successfully deleted from database!')
+        }).catch((error) => {
+            console.error('Error deleting document: ', error)
+        })
     //window.location.reload();
     return alert(`${discount.code} has been deleted from the database`)
 }
@@ -135,3 +135,5 @@ export const addDiscount = async (discount: Discount) => {
     //window.location.reload();
     return alert(`'${discount.code}' has been added to the database`);
 }
+
+

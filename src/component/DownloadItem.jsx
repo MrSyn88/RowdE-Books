@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 
 export function DownloadItem({ isbn, quantity }) {
-    console.log(isbn, quantity)
+    // console.log(isbn, quantity)
     const { cartItems } = useShoppingCart();
 
     const item = cartItems.find((item) => item.book.isbn === isbn);

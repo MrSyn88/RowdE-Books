@@ -4,10 +4,52 @@ import Button from 'react-bootstrap/Button';
 import { useShoppingCart } from '../context/shoppingCartContext';
 import { DownloadItem } from '../component/DownloadItem';
 import Row from 'react-bootstrap/Row';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../firebase';
+import { useEffect } from 'react';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../firebase';
+
+
+const addSale = async (books, user) => {
+    let date = new Date()
+    let year = date.getFullYear()
+    let month = (1 + date.getMonth()).toString()
+    month = month.length > 1 ? month : '0' + month
+    let day = date.getDate().toString()
+    day = day.length > 1 ? day : '0' + day
+    let today = month + '/' + day + '/' + year
+
+    let total = 0
+    for(let i = 0; i < books.length; i++){
+        let tax = parseFloat(books[i].book.price) * 0.0825
+        total += parseFloat(books[i].book.price) + tax
+    }
+    await addDoc(collection(db, 'Order'), {
+        TotalPay: total.toFixed(2),
+        TotalItems: books.length,
+        UserID: user.uid,
+        orderDate: today,
+        userName: user.displayName
+    }).then(() => {
+        console.log('Document successfully written to database!');
+    }).catch((error) => {
+        console.error('Error writing document: ', error);
+    })
+}
+
 
 const Success = () => {
     const { cartItems } = useShoppingCart();
+    const [user] = useAuthState(auth);
 
+
+    useEffect(() => {
+        addSale(cartItems, user)
+    }, [])
+
+    
+    
     return (
         <Container>
             {cartItems.length === 0 ? (
