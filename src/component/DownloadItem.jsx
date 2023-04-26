@@ -4,37 +4,36 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 
-export function CheckoutItem({ isbn, quantity }){
+export function DownloadItem({ isbn, quantity }) {
     console.log(isbn, quantity)
-    const { removeFromCart, cartItems } = useShoppingCart();
+    const { cartItems } = useShoppingCart();
 
     const item = cartItems.find((item) => item.book.isbn === isbn);
-    if(!item){
+    if (!item) {
         return null;
     }
 
-    const { title, auth, imageN, price } = item.book;
-    const subtotal = price * quantity;
+    const { title, auth, imageN, pdf } = item.book;
 
-    const cartSubtotal = cartItems.reduce(
-        (acc, item) => acc + item.book.price * item.quantity,
-        0
-      );
-
-      return(
-            <Col className='mt-3 mb-3'>
-            <Card style={{ width: '18rem', height: 'auto' }}>               
+    return (
+        <Col className='mt-3 mb-3'>
+            <Card style={{ width: '18rem', height: 'auto' }}>
                 <Card.Img variant="top" style={{ width: '17.9rem', height: '20rem' }} src={imageN} />
                 <Card.Body>
                     <Card.Title >{title} </Card.Title>
                     <Card.Text className='m-3'>
                         {auth}
-                        <br></br>
-                        ${price} - x{quantity} 
                     </Card.Text>
-                    <Button variant="danger" onClick={() => removeFromCart(isbn)}>Remove</Button>
+                    <Button
+                        variant="primary"
+                        href={pdf}
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        Download
+                    </Button>
                 </Card.Body>
             </Card>
-            </Col>
-      );
+        </Col>
+    );
 }

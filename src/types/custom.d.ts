@@ -18,6 +18,7 @@ declare interface Book {
     price: string,
     title: string,
     priceKey: string,
+    pdf: string,
     sale: boolean
 }
 
