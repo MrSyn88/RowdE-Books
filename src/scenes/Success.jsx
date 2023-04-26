@@ -1,9 +1,12 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
 import { useShoppingCart } from '../context/shoppingCartContext';
 import { DownloadItem } from '../component/DownloadItem';
-import Row from 'react-bootstrap/Row';
+import {
+    Row,
+    Container,
+    Button,
+    Col
+} from "react-bootstrap";
 
 const Success = () => {
     const { cartItems } = useShoppingCart();
@@ -15,6 +18,11 @@ const Success = () => {
                     <h1 style={{ color: "#FFFFFF" }}>Your cart is empty!</h1>
                     <hr style={{ color: 'white' }} />
                     <Button variant="primary" href="/Books">Books</Button>
+                    <Row>
+                        <Col>
+                            <br></br>
+                        </Col>
+                    </Row>
                 </>
             ) : (
                 <div>
@@ -27,6 +35,11 @@ const Success = () => {
                             <DownloadItem key={book.isbn} isbn={book.isbn} quantity={quantity} /> // working cart screen
                         ))}
 
+                    </Row>
+                    <Row>
+                        <Col>
+                            <br></br>
+                        </Col>
                     </Row>
                 </div>
             )}

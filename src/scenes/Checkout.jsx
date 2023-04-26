@@ -1,11 +1,14 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Row';
-import Container from 'react-bootstrap/Container';
 import { useShoppingCart } from '../context/shoppingCartContext';
 import { CheckoutItem } from '../component/CheckoutItem';
 import { loadStripe } from '@stripe/stripe-js';
 import { useState } from 'react';
+import {
+    Col,
+    Row,
+    Container,
+    Button,
+} from "react-bootstrap";
 
 let stripePromise
 
@@ -80,6 +83,11 @@ const Checkout = () => {
                     <h1 style={{ color: "#FFFFFF" }}>Your cart is empty!</h1>
                     <hr style={{ color: 'white' }} />
                     <Button variant="primary" href="/Books">Books</Button>
+                    <Row>
+                        <Col>
+                            <br></br>
+                        </Col>
+                    </Row>
                 </>
             ) : (
                 <div>
@@ -94,22 +102,29 @@ const Checkout = () => {
                         ))}
 
                     </Row>
-                <hr style={{ color: 'white' }} />
-                    <div className='mt-3'>
-                        <h3 style={{ color: "#FFFFFF" }}>Subtotal: ${cartSubtotal.toFixed(2)}</h3>
-                        <h3 style={{ color: "#FFFFFF" }}>Tax: ${tax.toFixed(2)}</h3>
-                        <h3 style={{ color: "#FFFFFF" }}>Total: ${total.toFixed(2)}</h3>
+                    <hr style={{ color: 'white' }} />
+                    <Row>
+                        <div className='mt-3'>
+                            <h3 style={{ color: "#FFFFFF" }}>Subtotal: ${cartSubtotal.toFixed(2)}</h3>
+                            <h3 style={{ color: "#FFFFFF" }}>Tax: ${tax.toFixed(2)}</h3>
+                            <h3 style={{ color: "#FFFFFF" }}>Total: ${total.toFixed(2)}</h3>
 
-                        <Button
-                            className="ms-3 mt-1"
-                            style={{}}
-                            variant="primary"
-                            onClick={redirectToCheckout}
-                            disabled={stripeLoading}
-                        >
-                            {stripeLoading ? "Loading..." : "Pay Now"}
-                        </Button>
-                    </div>
+                            <Button
+                                className="ms-3 mt-1"
+                                style={{}}
+                                variant="primary"
+                                onClick={redirectToCheckout}
+                                disabled={stripeLoading}
+                            >
+                                {stripeLoading ? "Loading..." : "Pay Now"}
+                                </Button>
+                        </div>        
+                    </Row>
+                    <Row>
+                        <Col>
+                            <br></br>
+                        </Col>
+                    </Row>
                 </div>
             )}
         </Container>

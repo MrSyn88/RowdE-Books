@@ -1,9 +1,3 @@
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import { isAdmin, logout, signInWithGoogle } from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
@@ -12,8 +6,14 @@ import { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom'
 import { useShoppingCart } from '../context/shoppingCartContext';
 import logo from '../images/rowde-books-low-resolution-logo-white-on-transparent-background.png'
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import {
+  Container,
+  Button,
+  NavDropdown,
+  Navbar,
+  Nav,
+  Form,
+} from "react-bootstrap";
 
 
 export default function NavBar({ Link }) {

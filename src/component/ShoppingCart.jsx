@@ -1,7 +1,6 @@
-import { Offcanvas, Stack } from "react-bootstrap";
+import { Offcanvas, Stack, Button } from "react-bootstrap";
 import { useShoppingCart } from "../context/shoppingCartContext";
 import { CartItem } from "./CartItem";
-import Button from "react-bootstrap/Button";
 import { Navigate, Link } from 'react-router-dom';
 //import "./ShoppingCart.css"; 
 
