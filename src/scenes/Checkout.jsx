@@ -62,6 +62,7 @@ const Checkout = () => {
                     break;
                 } else {
                     setCodeExists(false);
+                    alert("Invalid code");
                 }
             }
         }
