@@ -7,7 +7,7 @@ import {
 } from "react-bootstrap";
 
 export function CheckoutItem({ isbn, quantity }){
-    console.log(isbn, quantity)
+ //   console.log(isbn, quantity)
     const { removeFromCart, cartItems } = useShoppingCart();
 
     const item = cartItems.find((item) => item.book.isbn === isbn);

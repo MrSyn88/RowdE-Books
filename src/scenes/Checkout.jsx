@@ -2,12 +2,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useShoppingCart } from '../context/shoppingCartContext';
 import { CheckoutItem } from '../component/CheckoutItem';
 import { loadStripe } from '@stripe/stripe-js';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase';
 import {
     Col,
     Row,
     Container,
     Button,
+    InputGroup,
+    Form,
 } from "react-bootstrap";
 
 let stripePromise
@@ -24,9 +28,49 @@ const getStripe = () => {
 
 const Checkout = () => {
 
+    // if code exists
+    const [codeExists, setCodeExists] = useState(false);
+    // user entered code
+    const [code, setCode] = useState("");
+    // codes from database
+    const [dbCodes, setDbCodes] = useState([]);
+    // discount amount
+    const [discount, setDiscount] = useState(1);
+
     const [stripeError, setStripeError] = useState(null);
     const [stripeLoading, setStripeLoading] = useState(false);
     const { cartItems } = useShoppingCart();
+
+
+    const fetchCodes = async () => {
+        await getDocs(collection(db, 'Discounts'))
+            .then((querySnapshot) => {
+                const data = querySnapshot.docs
+                    .map((doc) => ({ ...doc.data(), id: doc.id }))
+                setDbCodes(data)
+            })
+    }
+
+    const handleCodeInput = () => {
+        if (code.length === 0) {
+            setCodeExists(false);
+        } else {
+            for (let i = 0; i < dbCodes.length; i++) {
+                if (dbCodes[i].code === code) {
+                    setCodeExists(true);
+                    setDiscount(dbCodes[i].discount);
+                    break;
+                } else {
+                    setCodeExists(false);
+                }
+            }
+        }
+    }
+
+
+    useEffect(() => {
+        fetchCodes()
+    }, [])
 
     let items = [];
     cartItems.map((item, idx) => {
@@ -63,17 +107,19 @@ const Checkout = () => {
         setStripeLoading(false);
     }
 
-    cartItems.map(({ book, quantity }) => (
-        console.log(book, quantity)
-    ));
+//    cartItems.map(({ book, quantity }) => (
+//        console.log(book, quantity)
+//    ));
     const cartSubtotal = cartItems.reduce(
         (acc, item) => acc + item.book.price * item.quantity,
         0
     );
 
     const tax = cartSubtotal * 0.0825;
+    const discountAmount = cartSubtotal * (discount / 100);
     const total = cartSubtotal + tax;
-    
+    const totalAfterDiscount = total - discountAmount;
+
     if (stripeError) alert(stripeError);
 
     return (
@@ -107,7 +153,41 @@ const Checkout = () => {
                         <div className='mt-3'>
                             <h3 style={{ color: "#FFFFFF" }}>Subtotal: ${cartSubtotal.toFixed(2)}</h3>
                             <h3 style={{ color: "#FFFFFF" }}>Tax: ${tax.toFixed(2)}</h3>
+                {!codeExists ? (
                             <h3 style={{ color: "#FFFFFF" }}>Total: ${total.toFixed(2)}</h3>
+                ) : (
+                    <>
+                            <h3 style={{textDecoration: 'line-through', color: "#FFFFFF" }}>Total: ${total.toFixed(2)}</h3>
+                            <h3 style={{ color: "#FFFFFF" }}>New Total: ${totalAfterDiscount.toFixed(2)}</h3>
+                    </>
+                )}
+
+                            <div className='mt3'
+                                style={{
+                                    display: "block",
+                                    width: "55%",
+                                    marginLeft: "auto",
+                                    marginRight: "auto"
+                                }}>
+                                <InputGroup className="mb-2" >
+                                    <Form.Control
+                                        placeholder="Enter Discount Code"
+                                        aria-label="Enter Discount Code"
+                                        aria-describedby="basic-addon2"
+                                        onChange={(e) => {setCode(e.target.value)}}
+                                    />
+                                    <Button
+                                        variant="outline-secondary"
+                                        id="button-addon2"
+                                        onClick={() => {
+                                            handleCodeInput();
+                                        }}
+                                    >
+                                        Apply
+                                    </Button>
+                                </InputGroup>
+                            </div>
+
 
                             <Button
                                 className="ms-3 mt-1"
@@ -117,8 +197,8 @@ const Checkout = () => {
                                 disabled={stripeLoading}
                             >
                                 {stripeLoading ? "Loading..." : "Pay Now"}
-                                </Button>
-                        </div>        
+                            </Button>
+                        </div>
                     </Row>
                     <Row>
                         <Col>
