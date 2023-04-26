@@ -7,7 +7,7 @@ import {
     Button,
     Col
 } from "react-bootstrap";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
