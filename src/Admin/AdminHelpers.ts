@@ -15,6 +15,7 @@ export const editBook = async (book: Book) => {
         price: book.price,
         priceKey: book.priceKey,
         numP: book.numP,
+        pdf: book.pdf,
         pub: book.pub,
         title: book.title,
         sale: book.sale
@@ -33,6 +34,7 @@ export const addBook = async (book: Book) => {
         price: book.price,
         priceKey: book.priceKey,
         numP: book.numP,
+        pdf: book.pdf,
         pub: book.pub,
         title: book.title,
         sale: book.sale

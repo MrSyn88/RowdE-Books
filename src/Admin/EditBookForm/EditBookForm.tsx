@@ -14,6 +14,7 @@ const EditBookForm = (book: Book): JSX.Element => {
     const [imageN, setImageN] = useState<string>(book.imageN);
     const [sale, setSale] = useState<boolean>(book.sale);
     const [priceKey, setPriceKey] = useState<string>(book.priceKey);
+    const [pdf, setPdf] = useState<string>(book.pdf);
 
 
     const handleClose = () => setShow(false);
@@ -29,6 +30,7 @@ const EditBookForm = (book: Book): JSX.Element => {
         pub: pub,
         imageN: imageN,
         priceKey: priceKey,
+        pdf: pdf,
         sale: sale
     }
 
@@ -170,6 +172,22 @@ const EditBookForm = (book: Book): JSX.Element => {
                                         value={updatedBook.priceKey}
                                         onChange={e => {
                                             setPriceKey(e.target.value)
+                                        }}
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Form.Group className='mb-3' controlId='formBookPdf'>
+                                    <Form.Label style={{ color: 'white' }}>Book PDF Link</Form.Label>
+                                    <Form.Control
+                                        type='text'
+                                        placeholder='Enter Book PDF Link'
+                                        autoFocus
+                                        value={updatedBook.pdf}
+                                        onChange={e => {
+                                            setPdf(e.target.value)
                                         }}
                                     />
                                 </Form.Group>
