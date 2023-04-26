@@ -22,11 +22,14 @@ const DiscountForm = () => {
 
 
     const submitted = () => {
-        console.log(updatedDiscount, ' was added.')
-        addDiscount(updatedDiscount).catch((error) => {
-            console.log(error)
-        })
-        handleClose()
+        const didConfirm = confirm('Are you sure you want to add this discount?')
+        if (didConfirm) {
+            console.log(updatedDiscount, ' was added.')
+            addDiscount(updatedDiscount).catch((error) => {
+                console.log(error)
+            })
+            handleClose()
+        }
     }
 
     return (

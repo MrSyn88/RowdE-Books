@@ -23,19 +23,25 @@ const EditDiscountForm = (discount: Discount) => {
 
 
     const submitted = () => {
-        console.log(updatedDiscount, ' was edited.')
-        editDiscount(updatedDiscount).catch((error) => {
-            console.log(error)
-        })
-        handleClose()
+        const didConfirm = confirm('Are you sure you want to edit this discount?')
+        if (didConfirm) {
+            console.log(updatedDiscount, ' was edited.')
+            editDiscount(updatedDiscount).catch((error) => {
+                console.log(error)
+            })
+            handleClose()
+        }
     }
 
     const deleted = () => {
-        console.log(updatedDiscount, ' was deleted.')
-        deleteDiscount(discount).catch((error) => {
-            console.log(error)
-        })
-        handleClose()
+        const didConfirm = confirm('Are you sure you want to delete this discount?')
+        if (didConfirm) {
+            console.log(updatedDiscount, ' was deleted.')
+            deleteDiscount(discount).catch((error) => {
+                console.log(error)
+            })
+            handleClose()
+        }
     }
 
     return (
