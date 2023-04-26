@@ -7,14 +7,12 @@ import {
     Button,
     Col
 } from "react-bootstrap";
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '../firebase';
 import { useEffect } from 'react';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
 
-const addSale = async (books, user) => {
+const addSale = async (books) => {
     let date = new Date()
     let year = date.getFullYear()
     let month = (1 + date.getMonth()).toString()
@@ -31,9 +29,9 @@ const addSale = async (books, user) => {
     await addDoc(collection(db, 'Order'), {
         TotalPay: total.toFixed(2),
         TotalItems: books.length,
-        UserID: user.uid,
+        UserID: localStorage.getItem('uuid'),
         orderDate: today,
-        userName: user.displayName
+        userName: localStorage.getItem('name'),
     }).then(() => {
         console.log('Document successfully written to database!');
     }).catch((error) => {
@@ -44,11 +42,10 @@ const addSale = async (books, user) => {
 
 const Success = () => {
     const { cartItems } = useShoppingCart();
-    const [user] = useAuthState(auth);
 
 
     useEffect(() => {
-        addSale(cartItems, user)
+        addSale(cartItems)
     }, [])
 
     
