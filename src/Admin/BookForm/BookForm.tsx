@@ -25,6 +25,8 @@ const BookForm = (): JSX.Element => {
         numP: '',
         pub: '',
         imageN: '',
+        priceKey: '',
+        pdf: '',
         sale: sale
     }
 
@@ -104,6 +106,30 @@ const BookForm = (): JSX.Element => {
                                     <Form.Control type='text' placeholder='Enter Book Image' autoFocus
                                         onChange={e => {
                                             newBook.imageN = e.target.value
+                                        }}
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Form.Group className='mb-3' controlId='formBookPriceKey'>
+                                    <Form.Label style={{ color: 'white' }}>Book Price Key</Form.Label>
+                                    <Form.Control type='text' placeholder='Enter Book Price Key' autoFocus
+                                        onChange={e => {
+                                            newBook.priceKey = e.target.value
+                                        }}
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Form.Group className='mb-3' controlId='formBookPdf'>
+                                    <Form.Label style={{ color: 'white' }}>Book PDF Link</Form.Label>
+                                    <Form.Control type='text' placeholder='Enter Book PDF Link' autoFocus
+                                        onChange={e => {
+                                            newBook.pdf = e.target.value
                                         }}
                                     />
                                 </Form.Group>

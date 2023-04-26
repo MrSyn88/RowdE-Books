@@ -1,14 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import { useEffect, useState } from "react";
-import Container from 'react-bootstrap/Container';
-import Carousel from 'react-bootstrap/Carousel';
-import Popover from 'react-bootstrap/Popover';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Image from 'react-bootstrap/Image'
 import { db } from "../firebase";
 import book1 from '../images/bookPhoto-1.jpg'
 import book2 from '../images/bookPhoto-2.jpg'
@@ -20,6 +11,17 @@ import thirdSlide from '../images/carousel3.jpg'
 import wrapLogo from '../images/wrap-rowde-books-high-resolution-logo-color-on-transparent-background.png'
 import { collection, getDocs } from 'firebase/firestore';
 import { useShoppingCart } from '../context/shoppingCartContext';
+import {
+    Col,
+    Row,
+    Popover,
+    Card,
+    Container,
+    Button,
+    OverlayTrigger,
+    Image,
+    Carousel
+} from "react-bootstrap";
 
 const H1style = {
     color: '#F05A22'
@@ -204,33 +206,14 @@ const Home = () => {
                                         <OverlayTrigger trigger="focus" placement="top" overlay={popover(ebook)}>
                                             <Button variant="primary">Learn More</Button>
                                         </OverlayTrigger>
-                                        {quantity === 0 ? (
-                                            <Button className='m-3' style={{}} variant="primary" onClick={() => increaseCartQuantity(ebook.isbn, ebook) }>Add to Cart</Button>
-                                        ) : 
-                                        <div className='d-flex align-items-center flex-column' style={{gap:".5rem"}}>
-                                           
-                                            <div className='d-flex align-items-center justify-content-center' style={{gap:".5rem"}}>
-                                            <Button onClick={() => decreaseCartQuantity(ebook.isbn) }>-</Button>
-                                            <div className=''>
-                                            <span className="fs-3">{quantity}</span>
-                                                in cart
-                                                
-                                            </div>
-                                            <Button onClick={() => increaseCartQuantity(ebook.isbn, ebook)}>+</Button>
-                                            
-                                            </div>
-                                            <Button variant="danger" size="sm" onClick={() => removeFromCart(ebook.isbn) }>Remove</Button>
-                                            </div>
-                                            }
                                     </Carousel.Caption>
                                 </Carousel.Item>
                             );
                         })}
                     </Carousel>
-
-
                 </Col>
-            </Row><Row>
+            </Row>
+            <Row>
                 <Col>
                     <br></br>
                 </Col>

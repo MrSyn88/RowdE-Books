@@ -56,6 +56,7 @@ export const signInWithGoogle = async () => {
         }
         // save user id to local storage and catch any errors
         localStorage.setItem('uuid', user.uid)
+        localStorage.setItem('name', user.displayName)
 
     } catch (err) {
         console.error(err);

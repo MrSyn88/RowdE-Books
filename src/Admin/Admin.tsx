@@ -1,16 +1,18 @@
 import '../App.css'
 import { isAdmin, db } from '../firebase'
-import Container from 'react-bootstrap/Container'
 import { collection, getDocs } from "firebase/firestore"
 import { useEffect, useState } from 'react'
-import { Table } from 'react-bootstrap'
 import BookForm from './BookForm'
 import UserForm from './UserForm/UserForm'
 import EditBookForm from './EditBookForm'
 import EditDiscountForm from './EditDiscountForm'
 import DiscountForm from './DiscountForm'
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
-
+import {
+    Button,
+    Table,
+    Container
+} from 'react-bootstrap'
 
 
 const Admin = (): JSX.Element => {
@@ -35,22 +37,23 @@ const Admin = (): JSX.Element => {
     }
 
     const ordersSortedDate = [...orders].sort((a, b) => {
-      let aCompare = a.orderDate.split('/')
-      let bCompare = b.orderDate.split('/')
-      let aDate = new Date(parseInt(aCompare[2]), parseInt(aCompare[0]), parseInt(aCompare[1]))
-      let bDate = new Date(parseInt(bCompare[2]), parseInt(bCompare[0]), parseInt(bCompare[1]))
-      return aDate.getTime() - bDate.getTime()
+        let aCompare = a.orderDate.split('/')
+        let bCompare = b.orderDate.split('/')
+        let aDate = new Date(parseInt(aCompare[2]), parseInt(aCompare[0]), parseInt(aCompare[1]))
+        let bDate = new Date(parseInt(bCompare[2]), parseInt(bCompare[0]), parseInt(bCompare[1]))
+        return aDate.getTime() - bDate.getTime()
     })
 
     const setSortedDate = () => {
         setOrders(ordersSortedDate)
     }
 
-    const orderSortedPrice = [...orders].sort((a, b) =>
-        (a.TotalPay.localeCompare(b.TotalPay)))
+    const sortedPrice = [...orders].sort((a,b) => 
+        parseFloat(b.TotalPay) - parseFloat(a.TotalPay))
+
 
     const setSortedPrice = () => {
-        setOrders(orderSortedPrice)
+        setOrders(sortedPrice)
     }
 
     const fetchOrder = async () => {
@@ -90,6 +93,13 @@ const Admin = (): JSX.Element => {
             })
     }
 
+    const refresh = () => {
+        fetchBooks()
+        fetchUsers()
+        fetchDiscounts()
+        fetchOrder()
+    }
+
     useEffect(() => {
         fetchBooks()
         fetchUsers()
@@ -102,9 +112,7 @@ const Admin = (): JSX.Element => {
             if (value === true)
                 setUserAdmin(true)
         })
-    } else {
-    }
-
+    } 
 
     return (
         <Container>
@@ -113,7 +121,11 @@ const Admin = (): JSX.Element => {
                     <div>
                         <h1 style={{ color: 'white' }}>Admin Panel </h1>
                         <hr style={{ color: 'white' }} />
+                        <div className='float-end ms-2'>
+                            <Button variant="outline-light" onClick={refresh} >Refresh Tables</Button>
+                        </div>
                         <br /><br /><br /><br />
+
 
                         <h2 style={{ color: 'white' }}>Users</h2>
                         <hr style={{ color: 'white' }} />

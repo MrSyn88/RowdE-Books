@@ -4,22 +4,28 @@
 */
 
 import { useEffect, useState } from "react";
-import Container from "react-bootstrap/Container";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import Popover from 'react-bootstrap/Popover'
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import book1 from '../images/bookPhoto-1.jpg'
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { useShoppingCart } from "../context/shoppingCartContext";
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
-
+import stringSimilarity from "string-similarity";
+import {
+    Col,
+    Row,
+    Popover,
+    Card,
+    Container,
+    Button,
+    OverlayTrigger,
+} from "react-bootstrap";
 
 const Books = (): JSX.Element => {
     const [ebooks, setEbooks] = useState<Book[]>([]);
+    const [ebooksSecondary, setEbooksSecondary] = useState<Book[]>([]);
     const { getItemQuantity, increaseCartQuantity, decreaseCartQuantity, removeFromCart } = useShoppingCart() as any;
     const [selectedValue, setSelectedValue] = useState("");
+    const SIMILARITY_THRESHOLD = 0.55;
 
     const popover = (ebook: Book) => (
         <Popover id="popover-basic">
@@ -38,8 +44,8 @@ const Books = (): JSX.Element => {
                 const data = querySnapshot.docs
                     .map((doc) => ({ ...doc.data(), id: doc.id }))
                 setEbooks(data as Book[])
+                setEbooksSecondary(data as Book[]);
             })
-            console.log("Finished fetchBooks")
     }
 
     useEffect(() => {
@@ -58,21 +64,33 @@ const Books = (): JSX.Element => {
     const handleSelectChange = (choice: any) => {
       let sortedEbooks;
     
-      if (choice.target.value === "Title") {
+      if (choice.target.value === "TitleAZ") {
         // Sort by title from A-Z
         sortedEbooks = [...ebooks].sort((a, b) => a.title.toLowerCase().replace(/\s+/g, '').localeCompare(b.title.toLowerCase().replace(/\s+/g, '')));
         setEbooks(sortedEbooks);
-      } else if (choice.target.value === "Author") {
+      } else if (choice.target.value === "AuthorAZ") {
         // Sort by Author from A-Z
         sortedEbooks = [...ebooks].sort((a, b) => a.auth.toLowerCase().replace(/\s+/g, '').localeCompare(b.auth.toLowerCase().replace(/\s+/g, '')));
         setEbooks(sortedEbooks);
-      } else if (choice.target.value === "Price") {
+      } else if (choice.target.value === "PriceLH") {
         // Sort by Price Low to High
         sortedEbooks = [...ebooks].sort((a, b) =>  parseFloat(a.price) - parseFloat(b.price));
         setEbooks(sortedEbooks);
-      } else if (choice.target.value === "NoFilter"){
-        
-        sortedEbooks = [...ebooks];
+      } else if (choice.target.value === "TitleZA") {
+        // Sort by title from Z-A
+        sortedEbooks = [...ebooks].sort((a, b) => b.title.toLowerCase().replace(/\s+/g, '').localeCompare(a.title.toLowerCase().replace(/\s+/g, '')));
+        setEbooks(sortedEbooks);
+      } else if (choice.target.value === "AuthorZA") {
+        // Sort by Author from Z-A
+        sortedEbooks = [...ebooks].sort((a, b) => b.auth.toLowerCase().replace(/\s+/g, '').localeCompare(a.auth.toLowerCase().replace(/\s+/g, '')));
+        setEbooks(sortedEbooks);
+      } else if (choice.target.value === "PriceHL") {
+        // Sort by Price High to Low
+        sortedEbooks = [...ebooks].sort((a, b) =>  parseFloat(b.price) - parseFloat(a.price));
+        setEbooks(sortedEbooks);
+      }else if (choice.target.value === "NoFilter"){
+        // Removes Filter
+        sortedEbooks = [...ebooksSecondary];
         setEbooks(sortedEbooks);
       }
     };
@@ -85,7 +103,18 @@ const Books = (): JSX.Element => {
 
             filteredEbooks = [...ebooks].filter(ebook => {
                 const bookWords = [...ebook.auth.toLowerCase().replace(/"/g, "").split(" "), ...ebook.title.toLowerCase().replace(/"/g, "").split(" "),];
-                return bookWords.some(word => searchWords.includes(word));
+                if (searchWords.length === 1) {
+                    return bookWords.some(word => {
+                        const similarity = stringSimilarity.compareTwoStrings(word, searchWords[0]);
+                        return similarity >= SIMILARITY_THRESHOLD;
+                    });
+                } else {
+                    const matches = searchWords.filter(searchWord => bookWords.some(word => {
+                        const similarity = stringSimilarity.compareTwoStrings(word, searchWord);
+                        return similarity >= SIMILARITY_THRESHOLD;
+                    }));
+                    return matches.length >= 2;
+                }
             });
 
             sortedfilteredEbooks = [...filteredEbooks].sort((a, b) => {
@@ -95,11 +124,14 @@ const Books = (): JSX.Element => {
                 const bWords = bString.split(" ");
                 const aMatches = searchWords.filter(word => aWords.includes(word.toLowerCase())).length;
                 const bMatches = searchWords.filter(word => bWords.includes(word.toLowerCase())).length;
-                return bMatches - aMatches;
+                const aPartialMatches = searchWords.filter(word => aWords.some(aWord => aWord.startsWith(word.toLowerCase()))).length;
+                const bPartialMatches = searchWords.filter(word => bWords.some(bWord => bWord.startsWith(word.toLowerCase()))).length;
+                return (bMatches + bPartialMatches) - (aMatches + aPartialMatches);
             });
 
             window.localStorage.removeItem('searchbarSubmittedText');
             setEbooks(sortedfilteredEbooks);
+            setEbooksSecondary(sortedfilteredEbooks);
         } catch(error){
             console.error(error);
         }
@@ -115,11 +147,14 @@ const Books = (): JSX.Element => {
             <hr style={{color: 'white'}}/>
             
             <label style={{color: 'white', fontWeight: 'bold', marginRight: '10px', fontSize:"20px"}}>Sort-by: </label>
-            <select  className="me-3" style={{width:"120px", height: "30px", border:"1px solid #999", fontSize:"18px", color:"#FFFFFF", backgroundColor:"#282c34", borderRadius:"5px"}} onChange={handleSelectChange}>
+            <select  className="me-3" style={{width:"160px", height: "30px", border:"1px solid #999", fontSize:"18px", color:"#FFFFFF", backgroundColor:"#282c34", borderRadius:"5px"}} onChange={handleSelectChange}>
               <option value="NoFilter">No Filter</option>
-              <option value="Title">Title (A-Z)</option>
-              <option value="Author">Author (A-Z)</option>
-              <option value="Price">Price</option>
+              <option value="TitleAZ">Title (A-Z)</option>
+              <option value="TitleZA">Title (Z-A)</option>
+              <option value="AuthorAZ">Author (A-Z)</option>
+              <option value="AuthorZA">Author (Z-A)</option>
+              <option value="PriceLH">Price (Low-High)</option>
+              <option value="PriceHL">Price (High-Low)</option>
             </select>
             
             <br></br>
@@ -175,6 +210,11 @@ const Books = (): JSX.Element => {
                     </div>
                 ))}
             </div>
+            <Row>
+                <Col>
+                    <br></br>
+                </Col>
+            </Row>
         </Container>
     );
 };

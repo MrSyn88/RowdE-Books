@@ -1,7 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
+import {
+    Col,
+    Row,
+    Container,
+    Button,
+} from "react-bootstrap";
 
 const Cancelled = () => {
 
@@ -12,6 +16,11 @@ const Cancelled = () => {
             <Link to="/Home">
                 <Button variant="primary">Home</Button>
             </Link> 
+            <Row>
+                <Col>
+                    <br></br>
+                </Col>
+            </Row>
         </Container>
     )
 }

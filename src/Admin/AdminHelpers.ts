@@ -13,12 +13,14 @@ export const editBook = async (book: Book) => {
         imageN: book.imageN,
         isbn: book.isbn,
         price: book.price,
+        priceKey: book.priceKey,
         numP: book.numP,
+        pdf: book.pdf,
         pub: book.pub,
         title: book.title,
         sale: book.sale
     });
-    window.location.reload();
+    //window.location.reload();
     return alert(`${book.title} has been edited`);
 }
 
@@ -30,7 +32,9 @@ export const addBook = async (book: Book) => {
         imageN: book.imageN,
         isbn: book.isbn,
         price: book.price,
+        priceKey: book.priceKey,
         numP: book.numP,
+        pdf: book.pdf,
         pub: book.pub,
         title: book.title,
         sale: book.sale
@@ -39,7 +43,7 @@ export const addBook = async (book: Book) => {
     }).catch((error) => {
         console.error('Error writing document: ', error);
     });
-    window.location.reload();
+    //window.location.reload();
     return alert(`'${book.title}' has been added to the database`);
 }
 
@@ -51,7 +55,7 @@ export const deleteBook = async (book: Book) => {
         }).catch((error) => {
             console.error('Error deleting document: ', error)
         })
-    window.location.reload();
+    //window.location.reload();
     return alert(`${book.title} has been deleted from the database`)
 }
 
@@ -70,19 +74,19 @@ export const editUser = async (user: User) => {
         email: user.email,
         admin: user.admin
     });
-    window.location.reload();
+    //window.location.reload();
     return alert(`${user.name} has been edited`);
 }
 
 // delete user from database
 export const deleteUser = async (user: User) => {
     await deleteDoc(doc(db, 'users', user.id))
-    .then(() => {
-        console.log('Document successfully deleted from database!')
-    }).catch((error) => {
-        console.error('Error deleting document: ', error)
-    })
-    window.location.reload();
+        .then(() => {
+            console.log('Document successfully deleted from database!')
+        }).catch((error) => {
+            console.error('Error deleting document: ', error)
+        })
+    //window.location.reload();
     return alert(`${user.name} has been deleted from the database`)
 }
 
@@ -101,19 +105,19 @@ export const editDiscount = async (discount: Discount) => {
         discount: discount.discount,
         expire: discount.expire
     });
-    window.location.reload();
+    //window.location.reload();
     return alert(`${discount.code} has been edited`);
 }
 
 // delete discount from database
 export const deleteDiscount = async (discount: Discount) => {
     await deleteDoc(doc(db, 'Discounts', discount.id as string))
-    .then(() => {
-        console.log('Document successfully deleted from database!')
-    }).catch((error) => {
-        console.error('Error deleting document: ', error)
-    })
-    window.location.reload();
+        .then(() => {
+            console.log('Document successfully deleted from database!')
+        }).catch((error) => {
+            console.error('Error deleting document: ', error)
+        })
+    //window.location.reload();
     return alert(`${discount.code} has been deleted from the database`)
 }
 
@@ -128,6 +132,8 @@ export const addDiscount = async (discount: Discount) => {
     }).catch((error) => {
         console.error('Error writing document: ', error);
     });
-    window.location.reload();
+    //window.location.reload();
     return alert(`'${discount.code}' has been added to the database`);
 }
+
+

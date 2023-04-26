@@ -1,12 +1,13 @@
 import { useShoppingCart } from '../context/shoppingCartContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import {
+    Col,
+    Card,
+    Button,
+} from "react-bootstrap";
 
 export function CheckoutItem({ isbn, quantity }){
-    console.log(isbn, quantity)
+ //   console.log(isbn, quantity)
     const { removeFromCart, cartItems } = useShoppingCart();
 
     const item = cartItems.find((item) => item.book.isbn === isbn);
