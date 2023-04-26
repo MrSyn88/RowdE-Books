@@ -23,7 +23,6 @@ export function DownloadItem({ isbn, quantity }) {
                     <Card.Title >{title} </Card.Title>
                     <Card.Text className='m-3'>
                         {auth}
-                        {pdf}
                     </Card.Text>
                     <Button
                         variant="primary"
