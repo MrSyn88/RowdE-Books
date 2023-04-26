@@ -90,12 +90,16 @@ export function ShoppingCartProvider({ children }){
         })
     }
 
+    function clearCart(){
+        setCartItems([]);
+    }
+
     const cartQuantity = cartItems.reduce((quantity, item) => item.quantity + quantity, 0)
     const openCart = () => setIsOpen(true);
     const closeCart = () => setIsOpen(false);
 
 
-    return <ShoppingCartContext.Provider value={{getItemQuantity, increaseCartQuantity,decreaseCartQuantity, removeFromCart, openCart, closeCart, cartItems, cartQuantity}}>
+    return <ShoppingCartContext.Provider value={{clearCart, getItemQuantity, increaseCartQuantity,decreaseCartQuantity, removeFromCart, openCart, closeCart, cartItems, cartQuantity}}>
         {children}
         <ShoppingCart isOpen={isOpen}/>
     </ShoppingCartContext.Provider> 

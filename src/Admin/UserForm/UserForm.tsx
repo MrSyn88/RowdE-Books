@@ -21,23 +21,29 @@ const UserForm = (user: User) => {
         admin: admin,
         authProvider: user.authProvider,
         uid: user.uid
-        }
+    }
 
 
     const submitted = () => {
-        console.log(updatedUser.name, ' was edited.')
-        editUser(updatedUser).catch((error: Error) => {
-            console.log(error)
-        })
-        handleClose()
+        const didConfirm = confirm('Are you sure you want to edit this user?')
+        if (didConfirm) {
+            console.log(updatedUser.name, ' was edited.')
+            editUser(updatedUser).catch((error: Error) => {
+                console.log(error)
+            })
+            handleClose()
+        }
     }
 
     const deleted = () => {
-        console.log(updatedUser.name, ' was deleted.')
-        deleteUser(updatedUser).catch((error: Error) => {
-            console.log(error)
-        })
-        handleClose()
+        const didConfirm = confirm('Are you sure you want to delete this user?')
+        if (didConfirm) {
+            console.log(updatedUser.name, ' was deleted.')
+            deleteUser(updatedUser).catch((error: Error) => {
+                console.log(error)
+            })
+            handleClose()
+        }
     }
 
     return (

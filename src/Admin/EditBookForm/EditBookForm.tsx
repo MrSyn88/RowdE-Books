@@ -36,19 +36,25 @@ const EditBookForm = (book: Book): JSX.Element => {
 
 
     const submitted = () => {
-        console.log(updatedBook, ' was edited.')
-        editBook(updatedBook).catch((error) => {
-            console.log(error)
-        })
-        handleClose()
+        const didConfirm = confirm('Are you sure you want to edit this book?')
+        if (didConfirm) {
+            console.log(updatedBook, ' was edited.')
+            editBook(updatedBook).catch((error) => {
+                console.log(error)
+            })
+            handleClose()
+        }
     }
 
     const deleted = () => {
-        console.log(updatedBook.title, ' was deleted.')
-        deleteBook(updatedBook).catch((error) => {
-            console.log(error)
-        })
-        handleClose()
+        const didConfirm = confirm('Are you sure you want to delete this book?')
+        if (didConfirm) {
+            console.log(updatedBook.title, ' was deleted.')
+            deleteBook(updatedBook).catch((error) => {
+                console.log(error)
+            })
+            handleClose()
+        }
     }
 
 
