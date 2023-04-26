@@ -1,16 +1,18 @@
 import '../App.css'
 import { isAdmin, db } from '../firebase'
-import Container from 'react-bootstrap/Container'
 import { collection, getDocs } from "firebase/firestore"
 import { useEffect, useState } from 'react'
-import { Button, Table } from 'react-bootstrap'
 import BookForm from './BookForm'
 import UserForm from './UserForm/UserForm'
 import EditBookForm from './EditBookForm'
 import EditDiscountForm from './EditDiscountForm'
 import DiscountForm from './DiscountForm'
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
-
+import {
+    Button,
+    Table,
+    Container
+} from 'react-bootstrap'
 
 
 const Admin = (): JSX.Element => {

@@ -4,17 +4,21 @@
 */
 
 import { useEffect, useState } from "react";
-import Container from "react-bootstrap/Container";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import Popover from 'react-bootstrap/Popover'
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import book1 from '../images/bookPhoto-1.jpg'
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { useShoppingCart } from "../context/shoppingCartContext";
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
 import stringSimilarity from "string-similarity";
+import {
+    Col,
+    Row,
+    Popover,
+    Card,
+    Container,
+    Button,
+    OverlayTrigger,
+} from "react-bootstrap";
 
 const Books = (): JSX.Element => {
     const [ebooks, setEbooks] = useState<Book[]>([]);
@@ -206,6 +210,11 @@ const Books = (): JSX.Element => {
                     </div>
                 ))}
             </div>
+            <Row>
+                <Col>
+                    <br></br>
+                </Col>
+            </Row>
         </Container>
     );
 };

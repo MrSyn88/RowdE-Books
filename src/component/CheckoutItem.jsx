@@ -1,8 +1,10 @@
 import { useShoppingCart } from '../context/shoppingCartContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
+import {
+    Col,
+    Card,
+    Button,
+} from "react-bootstrap";
 
 export function CheckoutItem({ isbn, quantity }){
     console.log(isbn, quantity)
