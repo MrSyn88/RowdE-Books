@@ -4,6 +4,8 @@ import { CheckoutItem } from '../component/CheckoutItem';
 import { loadStripe } from '@stripe/stripe-js';
 import { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../firebase';
 import { db } from '../firebase';
 import {
     Col,
@@ -27,6 +29,7 @@ const getStripe = () => {
 }
 
 const Checkout = () => {
+    const [user] = useAuthState(auth);
 
     // if code exists
     const [codeExists, setCodeExists] = useState(false);
@@ -96,6 +99,12 @@ const Checkout = () => {
     }
 
     const redirectToCheckout = async () => {
+        // verify that user is logged in
+        if(!user) {
+            alert("You must be logged in to checkout!");
+            return;
+        }
+
         setStripeLoading(true);
         console.log("redirect to checkout");
 

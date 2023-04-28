@@ -12,7 +12,6 @@ const EditBookForm = (book: Book): JSX.Element => {
     const [numP, setNumP] = useState<string>(book.numP);
     const [pub, setPub] = useState<string>(book.pub);
     const [imageN, setImageN] = useState<string>(book.imageN);
-    const [sale, setSale] = useState<boolean>(book.sale);
     const [priceKey, setPriceKey] = useState<string>(book.priceKey);
     const [pdf, setPdf] = useState<string>(book.pdf);
 
@@ -30,12 +29,16 @@ const EditBookForm = (book: Book): JSX.Element => {
         pub: pub,
         imageN: imageN,
         priceKey: priceKey,
-        pdf: pdf,
-        sale: sale
+        pdf: pdf
     }
 
 
     const submitted = () => {
+        const nullValues = Object.values(updatedBook).filter((value) => value === '')
+        if (nullValues.length > 0) {
+            alert('Please fill out all fields.')
+            return
+        }
         const didConfirm = confirm('Are you sure you want to edit this book?')
         if (didConfirm) {
             console.log(updatedBook, ' was edited.')
@@ -196,19 +199,6 @@ const EditBookForm = (book: Book): JSX.Element => {
                                             setPdf(e.target.value)
                                         }}
                                     />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Form.Group className="" controlId="formBookSale">
-                                    <Form.Check
-                                        style={{ color: 'white' }}
-                                        type="switch"
-                                        label="On Sale?"
-                                        checked={updatedBook.sale}
-                                        onChange={() => { setSale(!updatedBook.sale) }}
-                                        isValid={updatedBook.sale} />
                                 </Form.Group>
                             </Col>
                         </Row>

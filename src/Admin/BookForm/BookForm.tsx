@@ -7,9 +7,13 @@ const BookForm = (): JSX.Element => {
     const [show, setShow] = useState<boolean>(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const [sale, setSale] = useState<boolean>(false);
 
     const submitted = () => {
+        const nullValues = Object.values(newBook).filter((value) => value === '')
+        if (nullValues.length > 0) {
+            alert('Please fill out all fields.')
+            return
+        }
         const didConfirm = confirm('Are you sure you want to create this book?')
         if (didConfirm) {
             console.log(newBook.title, ' was added.')
@@ -29,8 +33,7 @@ const BookForm = (): JSX.Element => {
         pub: '',
         imageN: '',
         priceKey: '',
-        pdf: '',
-        sale: sale
+        pdf: ''
     }
 
 
@@ -135,19 +138,6 @@ const BookForm = (): JSX.Element => {
                                             newBook.pdf = e.target.value
                                         }}
                                     />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Form.Group className="" controlId="formBookSale">
-                                    <Form.Check
-                                        style={{ color: 'white' }}
-                                        type="switch"
-                                        label="On Sale?"
-                                        checked={newBook.sale}
-                                        onChange={() => { setSale(!newBook.sale) }}
-                                        isValid={newBook.sale} />
                                 </Form.Group>
                             </Col>
                         </Row>

@@ -22,6 +22,11 @@ const DiscountForm = () => {
 
 
     const submitted = () => {
+        const nullValues = Object.values(updatedDiscount).filter((value) => value === '')
+        if (nullValues.length > 0) {
+            alert('Please fill out all fields.')
+            return
+        }
         const didConfirm = confirm('Are you sure you want to add this discount?')
         if (didConfirm) {
             console.log(updatedDiscount, ' was added.')

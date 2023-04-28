@@ -25,6 +25,11 @@ const UserForm = (user: User) => {
 
 
     const submitted = () => {
+        const nullValues = Object.values(updatedUser).filter((value) => value === '')
+        if (nullValues.length > 0) {
+            alert('Please fill out all fields.')
+            return
+        }
         const didConfirm = confirm('Are you sure you want to edit this user?')
         if (didConfirm) {
             console.log(updatedUser.name, ' was edited.')
