@@ -80,7 +80,7 @@ const Checkout = () => {
         let bookItem = {};
         //console.log(item.book.priceKey);
         bookItem.price = item.book.priceKey;
-        bookItem.quantity = 1;
+        bookItem.quantity = item.quantity;
         items[idx] = bookItem;
         //console.log(idx);
         //console.log(items);
@@ -90,7 +90,7 @@ const Checkout = () => {
         lineItems: items.map((item) => {
             return {
                 price: item.price,
-                quantity: 1,
+                quantity: item.quantity,
             };
         }),
         mode: "payment",

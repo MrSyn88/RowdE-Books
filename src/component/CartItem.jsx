@@ -32,7 +32,7 @@ export function CartItem({ isbn, quantity }) { //isbn shows as undefined so we n
                         {quantity > 1 && <span className="text-muted" style={{ fontSize: ".69rem" }}>{quantity}x</span>}
                     </div>
                 </div>
-                <div>Price: ${subtotal}</div>
+                <div>Price: ${subtotal.toFixed(2)}</div>
                 <div>
                 <Button className='m-2'variant="outline-danger" onClick={() => removeFromCart(isbn)}>Remove</Button>
         </div>
