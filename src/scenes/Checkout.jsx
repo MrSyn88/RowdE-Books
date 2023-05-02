@@ -125,9 +125,12 @@ const Checkout = () => {
     );
 
     const tax = cartSubtotal * 0.0825;
-    const discountAmount = cartSubtotal * (discount / 100);
     const total = cartSubtotal + tax;
+
+    const discountAmount = cartSubtotal * (discount / 100);
     const totalAfterDiscount = total - discountAmount;
+    const discountTax = totalAfterDiscount * 0.0825;
+    const discountTotal = total - discountAmount + discountTax;
 
     if (stripeError) alert(stripeError);
 
@@ -160,14 +163,18 @@ const Checkout = () => {
                     <hr style={{ color: 'white' }} />
                     <Row>
                         <div className='mt-3'>
+                {!codeExists ? (
+                    <>
                             <h3 style={{ color: "#FFFFFF" }}>Subtotal: ${cartSubtotal.toFixed(2)}</h3>
                             <h3 style={{ color: "#FFFFFF" }}>Tax: ${tax.toFixed(2)}</h3>
-                {!codeExists ? (
                             <h3 style={{ color: "#FFFFFF" }}>Total: ${total.toFixed(2)}</h3>
+                    </>
                 ) : (
                     <>
-                            <h3 style={{textDecoration: 'line-through', color: "#FFFFFF" }}>Total: ${total.toFixed(2)}</h3>
-                            <h3 style={{ color: "#FFFFFF" }}>New Total: ${totalAfterDiscount.toFixed(2)}</h3>
+                            <h3 style={{ textDecorationLine:"line-through", color: "#FFFFFF" }}>Subtotal: ${cartSubtotal.toFixed(2)}</h3>
+                            <h3 style={{ color: "#FFFFFF" }}>New Subtotal: ${totalAfterDiscount.toFixed(2)}</h3>
+                            <h3 style={{ color: "#FFFFFF" }}>Tax: ${discountTax.toFixed(2)}</h3>
+                            <h3 style={{ color: "#FFFFFF" }}>Total: ${discountTotal.toFixed(2)}</h3>
                     </>
                 )}
 
